@@ -1,4 +1,4 @@
-package com.project1.viewAdmin;
+package com.project1.view.admin;
 
 public class AdminHomepageView {
 

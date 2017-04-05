@@ -1,4 +1,4 @@
-package com.project1.viewUser;
+package com.project1.view.user;
 
 public class UserHomepageView {
 
