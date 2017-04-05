@@ -1,4 +1,4 @@
-package com.project1.view.user;
+package com.project1.view;
 
 public class FirstLoginView {
 
