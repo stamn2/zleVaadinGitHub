@@ -1,4 +1,4 @@
-package com.project1.zle;
+package view_GUI;
 
 import javax.servlet.annotation.WebServlet;
 
