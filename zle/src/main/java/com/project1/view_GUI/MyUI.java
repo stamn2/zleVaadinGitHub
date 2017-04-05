@@ -1,4 +1,4 @@
-package view_GUI;
+package com.project1.view_GUI;
 
 import javax.servlet.annotation.WebServlet;
 
