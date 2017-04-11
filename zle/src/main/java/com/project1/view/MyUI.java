@@ -2,15 +2,14 @@ package com.project1.view;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.project1.view.admin.EmployeeEditorView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -22,25 +21,18 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 public class MyUI extends UI {
 
-    @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4628885312461454476L;
 
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        System.out.println("hello rosalie");
-        
-        layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        
-        setContent(layout);
+	@Override
+    protected void init(VaadinRequest vaadinRequest) {
+    	getPage().setTitle("MainUI");
+    	// i create the navigator, add a view and change/navigate to it
+    	new Navigator(this, this);
+    	getNavigator().addView("", LoginView.class);
+		getNavigator().addView(EmployeeEditorView.NAME, EmployeeEditorView.class);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
