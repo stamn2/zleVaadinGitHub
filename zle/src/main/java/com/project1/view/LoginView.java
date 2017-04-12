@@ -64,6 +64,9 @@ public class LoginView extends CustomComponent implements View{
 
 		// Create login button
 		loginButton = new Button("Login");
+		loginButton.addClickListener( e -> {
+			getUI().getNavigator().navigateTo(FirstLoginView.NAME);
+		});
 
 		// Add both to a panel
 		fields = new VerticalLayout(titleLabel, image, userField, passwordField, loginButton);

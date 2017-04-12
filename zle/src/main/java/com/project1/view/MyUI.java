@@ -33,6 +33,7 @@ public class MyUI extends UI {
     	new Navigator(this, this);
     	getNavigator().addView("", LoginView.class);
 		getNavigator().addView(EmployeeEditorView.NAME, EmployeeEditorView.class);
+        getNavigator().addView(FirstLoginView.NAME, FirstLoginView.class);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
