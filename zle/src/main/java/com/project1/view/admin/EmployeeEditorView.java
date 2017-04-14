@@ -1,7 +1,9 @@
 package com.project1.view.admin;
 
+import com.project1.controller.LoginController;
 import com.project1.view.LoginView;
 import com.sun.prism.paint.Color;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -39,9 +41,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
         
         idField = new TextField("ID:");
         idField.setWidth("100%");
-        idField.setRequired(true);
-        idField.setInputPrompt("ID of the Employee");
-        idField.setInvalidAllowed(false);
+        idField.setReadOnly(true);
         
         firstName = new TextField("firstName:");
         firstName.setWidth("100%");
@@ -60,7 +60,8 @@ public class EmployeeEditorView extends CustomComponent implements View{
         street.setRequired(true);
         street.setInputPrompt("street of the Employee");
         street.setInvalidAllowed(false);
-        
+
+        //TODO: validate plz
         plz = new TextField("plz:");
         plz.setWidth("100%");
         plz.setRequired(true);
@@ -81,9 +82,13 @@ public class EmployeeEditorView extends CustomComponent implements View{
         email = new TextField("email:");
         email.setWidth("100%");
         email.setRequired(true);
+        //TODO : catch error?
+        email.addValidator(new EmailValidator(
+                "Must be a valid email!"));
         email.setInputPrompt("email of the Employee");
         email.setInvalidAllowed(false);
-        
+
+        //TODO: validate phone number
         tel = new TextField("tel:");
         tel.setWidth("100%");
         tel.setRequired(true);
@@ -91,6 +96,18 @@ public class EmployeeEditorView extends CustomComponent implements View{
         tel.setInvalidAllowed(false);
         
         save = new Button("SAVE");
+        save.addClickListener(e -> {
+                if(!firstName.isValid() || !lastName.isValid() || !street.isValid() || !plz.isValid() || !city.isValid()
+                        || !email.isValid() || !tel.isValid()){
+                    //TODO: show wich fields are not valid
+                    Notification.show("Form is not filled correctly");
+                    return;
+                }
+                else{
+                    LoginController.addUser(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
+                            plz.getValue(), city.getValue(), tel.getValue());
+                }
+        });
         
 		// Add both to a panel
 		fields = new VerticalLayout(titleLabel, idField, firstName, lastName, street, plzCity, email, tel, save);
