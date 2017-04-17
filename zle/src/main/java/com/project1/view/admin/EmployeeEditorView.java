@@ -1,8 +1,6 @@
 package com.project1.view.admin;
 
-import com.project1.controller.LoginController;
-import com.project1.view.LoginView;
-import com.sun.prism.paint.Color;
+import com.project1.controller.UserController;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -104,7 +102,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
                     return;
                 }
                 else{
-                    LoginController.addUser(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
+                    UserController.addUser(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
                             plz.getValue(), city.getValue(), tel.getValue());
                 }
         });
