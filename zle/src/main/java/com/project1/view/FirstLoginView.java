@@ -1,5 +1,6 @@
 package com.project1.view;
 
+import com.project1.view.admin.AdminHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -41,6 +42,9 @@ public class FirstLoginView extends CustomComponent implements View{
 
         // Create login button
         login = new Button("Login");
+        login.addClickListener( e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
 
         VerticalLayout fields = new VerticalLayout(titleLabel, oldPassword, newPassword1, newPassword2, login);
         fields.setSpacing(true);

@@ -5,7 +5,9 @@ import java.util.UUID;
 import javax.servlet.annotation.WebServlet;
 
 import com.project1.domain.User;
+import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
+import com.project1.view.admin.EmployeeOverView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -38,6 +40,8 @@ public class MyUI extends UI {
     	getNavigator().addView("", LoginView.class);
 		getNavigator().addView(EmployeeEditorView.NAME, EmployeeEditorView.class);
         getNavigator().addView(FirstLoginView.NAME, FirstLoginView.class);
+        getNavigator().addView(AdminHomepageView.NAME, AdminHomepageView.class);
+        getNavigator().addView(EmployeeOverView.NAME, EmployeeOverView.class);
         
         final UUID sessionID = UUID.randomUUID(); // sollte dann im LoginCtr gemacht/returnt werden
         User user  = new User("email", "firstN", "lastN", "street", "plz", "city", "0791111111");
