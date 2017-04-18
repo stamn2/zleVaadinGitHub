@@ -81,8 +81,8 @@ public class EmployeeEditorView extends CustomComponent implements View{
         email.setWidth("100%");
         email.setRequired(true);
         //TODO : catch error?
-        email.addValidator(new EmailValidator(
-                "Must be a valid email!"));
+            email.addValidator(new EmailValidator(
+                    "Must be a valid email!"));
         email.setInputPrompt("email of the Employee");
         email.setInvalidAllowed(false);
 
@@ -95,6 +95,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
         
         save = new Button("SAVE");
         save.addClickListener(e -> {
+        	
                 if(!firstName.isValid() || !lastName.isValid() || !street.isValid() || !plz.isValid() || !city.isValid()
                         || !email.isValid() || !tel.isValid()){
                     //TODO: show wich fields are not valid

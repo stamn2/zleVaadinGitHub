@@ -11,6 +11,7 @@ import com.project1.view.admin.EmployeeOverView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
@@ -43,13 +44,36 @@ public class MyUI extends UI {
         getNavigator().addView(AdminHomepageView.NAME, AdminHomepageView.class);
         getNavigator().addView(EmployeeOverView.NAME, EmployeeOverView.class);
         
-        final UUID sessionID = UUID.randomUUID(); // sollte dann im LoginCtr gemacht/returnt werden
-        User user  = new User("email", "firstN", "lastN", "street", "plz", "city", "0791111111");
         
-        getSession().setAttribute(sessionID.toString(), user);
+		getNavigator().addViewChangeListener(new ViewChangeListener() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3549061311437753168L;
+
+			@Override
+			public boolean beforeViewChange(ViewChangeEvent event) {
+				boolean isLoggedIn = getSession().getAttribute("user") != null;
+				boolean isLoginView = event.getNewView() instanceof LoginView;
+				if (!isLoggedIn && !isLoginView) {
+					getNavigator().navigateTo(LoginView.NAME);
+					return false;
+				} /*else if (isLoggedIn && isLoginView) {
+					getNavigator().navigateTo(???View???.NAME);
+					return false;
+				}*/
+				return true;
+			}
+
+			@Override
+			public void afterViewChange(ViewChangeEvent event) {
+
+			}
+		});
         
-        VaadinSession.getCurrent().getSession().setMaxInactiveInterval(300); // auto logout after 5min
+        VaadinSession.getCurrent().getSession().setMaxInactiveInterval(5); // auto logout after 5min
     }
+	
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)

@@ -65,6 +65,7 @@ public class LoginView extends CustomComponent implements View{
 		// Create login button
 		loginButton = new Button("Login");
 		loginButton.addClickListener( e -> {
+			getUI().getSession().setAttribute("user", userField.getValue());
 			getUI().getNavigator().navigateTo(FirstLoginView.NAME);
 		});
 
