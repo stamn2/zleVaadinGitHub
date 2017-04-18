@@ -20,7 +20,7 @@ public static void main(String[] args) {
     factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = factory.createEntityManager();
     // read the existing entries and write to console
-   /* Query q = em.createQuery("select t from Todo t");
+    Query q = em.createQuery("select t from Todo t");
     List<Todo> todoList = q.getResultList();
     for (Todo todo : todoList) {
         System.out.println(todo);
@@ -35,6 +35,6 @@ public static void main(String[] args) {
     em.persist(todo);
     em.getTransaction().commit();
 
-    em.close();*/
+    em.close();
 }
 }
