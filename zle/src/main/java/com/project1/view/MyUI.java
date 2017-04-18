@@ -1,7 +1,12 @@
 package com.project1.view;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.annotation.WebServlet;
 
 import com.project1.domain.User;
@@ -18,6 +23,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 
+
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
  * (or tab) or some part of a html page where a Vaadin application is embedded.
@@ -32,9 +38,11 @@ public class MyUI extends UI {
 	 * 
 	 */
 	private static final long serialVersionUID = -4628885312461454476L;
+	
 
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
+		
     	getPage().setTitle("MainUI");
     	// i create the navigator, add a view and change/navigate to it
     	new Navigator(this, this);
@@ -78,5 +86,6 @@ public class MyUI extends UI {
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
+    	
     }
 }
