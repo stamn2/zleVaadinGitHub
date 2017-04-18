@@ -1,6 +1,10 @@
 package com.project1.domain;
 
-public class User {
+import java.io.Serializable;
+import javax.persistence.Entity;
+
+@Entity
+public class User implements Serializable {
 
     private boolean active = true;
     private String email;
