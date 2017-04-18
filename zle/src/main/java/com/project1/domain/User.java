@@ -2,9 +2,13 @@ package com.project1.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class User implements Serializable {
+
+    @Id @GeneratedValue long id;
 
     private boolean active = true;
     private String email;
@@ -15,6 +19,10 @@ public class User implements Serializable {
     private String plz;
     private String city;
     private String tel;
+
+    public User(){
+
+    }
 
     public User(String email, String firstname, String lastname, String street, String plz, String city,String tel){
         this.email = email;
