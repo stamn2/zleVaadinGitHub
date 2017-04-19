@@ -27,20 +27,20 @@ public class ZLEEntityManager {
 		    em.getTransaction().begin();
 		    em.persist(e);
 		    em.getTransaction().commit();
-		    em.close();
+		  //  em.close();
 		}
 	}
 	
 	public Employee getEmployee(String email){
-		em.getTransaction().begin();
+		//em.getTransaction().begin();
 
 		Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = true");
 		try {
 			Employee employee = (Employee) q.getSingleResult();
-		    em.close();
+		   // em.close();
 			return employee;
 		} catch (NoResultException e) {
-		    em.close();
+		    //em.close();
 			return null; 
 		}
 
