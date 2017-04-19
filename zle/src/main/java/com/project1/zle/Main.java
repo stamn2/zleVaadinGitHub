@@ -9,15 +9,14 @@ import javax.persistence.Query;
 
 import com.project1.domain.Employee;
 
+
+
 public class Main {
 	
     private static final String PERSISTENCE_UNIT_NAME = "zleDB";
     private static EntityManagerFactory factory; 
     
 public static void main(String[] args) {
-	System.out.println("hello from worben");
-	System.out.println("hello, thank you for the mail!");
-	System.out.println("Test");
 	
 	factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = factory.createEntityManager();
@@ -36,6 +35,8 @@ public static void main(String[] args) {
 	}
 
     System.out.println("Size is: " + todoList.size());
+    
+
 
     em.close();
 
