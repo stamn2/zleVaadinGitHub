@@ -12,7 +12,7 @@ import com.project1.domain.Employee;
 public class Main {
 	
     private static final String PERSISTENCE_UNIT_NAME = "zleDB";
-    private static EntityManagerFactory factory;
+    private static EntityManagerFactory factory; 
     
 public static void main(String[] args) {
 	System.out.println("hello from worben");
