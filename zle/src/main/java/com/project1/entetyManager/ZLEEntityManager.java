@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -33,8 +34,13 @@ public class ZLEEntityManager {
 	public Employee getEmployee(String email){
 		em.getTransaction().begin();
 		Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = 'true'");
-	    Employee employee = (Employee) q.getSingleResult();
-	    em.close();
-		return employee;
+		try {
+			Employee employee = (Employee) q.getSingleResult();
+		    em.close();
+			return employee;
+		} catch (NoResultException e) {
+		    em.close();
+			return null;
+		}
 	}
 }

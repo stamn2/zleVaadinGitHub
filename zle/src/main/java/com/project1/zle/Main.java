@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -36,6 +37,16 @@ public static void main(String[] args) {
 
     System.out.println("Size is: " + todoList.size());
     
+    String email="email@mail.com";
+    
+	em.getTransaction().begin();
+	
+	Query q2 = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = 'true'");
+    try {
+    	Employee employee = (Employee) q2.getSingleResult();
+	} catch (NoResultException e) {
+		System.out.println("null");
+	}
 
 
     em.close();
