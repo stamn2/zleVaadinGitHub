@@ -1,5 +1,6 @@
 package com.project1.view;
 
+import com.project1.controller.LoginController;
 import com.project1.view.admin.EmployeeEditorView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -52,21 +53,33 @@ public class LoginView extends CustomComponent implements View{
 		userField.setRequired(true);
 		userField.setInputPrompt("Your username");
 		userField.setInvalidAllowed(false);
-		userField.setValue("beispiel@gmail.com");
 
 		// Create the password input field
 		passwordField = new PasswordField("Password:");
 		passwordField.setWidth("100%");
 		passwordField.setRequired(true);
-		passwordField.setValue("");
-		passwordField.setNullRepresentation("");
-		passwordField.setValue("123Hallo");
+		passwordField.setInputPrompt("Your password");
+		passwordField.setInvalidAllowed(false);
 
 		// Create login button
 		loginButton = new Button("Login");
 		loginButton.addClickListener( e -> {
-			getUI().getSession().setAttribute("user", userField.getValue());
-			getUI().getNavigator().navigateTo(FirstLoginView.NAME);
+			if(!userField.isValid() || !passwordField.isValid()){
+				Notification.show("Form is not filled correctly");
+				return;
+			}
+			else{
+				if(LoginController.login(userField.getValue(), passwordField.getValue())){
+					getUI().getSession().setAttribute("user", userField.getValue());
+					getUI().getNavigator().navigateTo(FirstLoginView.NAME);
+					return;
+				}
+				else{
+					Notification.show("Login was not successfull");
+					return;
+				}
+			}
+
 		});
 
 		// Add both to a panel

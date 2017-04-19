@@ -33,7 +33,8 @@ public class ZLEEntityManager {
 	
 	public Employee getEmployee(String email){
 		em.getTransaction().begin();
-		Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = 'true'");
+
+		Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = true");
 		try {
 			Employee employee = (Employee) q.getSingleResult();
 		    em.close();
@@ -42,5 +43,6 @@ public class ZLEEntityManager {
 		    em.close();
 			return null; 
 		}
+
 	}
 }
