@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class User implements Serializable {
+public class Employee implements Serializable {
 
     @Id 
     @GeneratedValue  private long id;
@@ -21,11 +21,11 @@ public class User implements Serializable {
     private String city;
     private String tel;
 
-    public User(){
+    public Employee(){
 
     }
 
-    public User(String email, String firstname, String lastname, String street, String plz, String city,String tel){
+    public Employee(String email, String firstname, String lastname, String street, String plz, String city,String tel){
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;

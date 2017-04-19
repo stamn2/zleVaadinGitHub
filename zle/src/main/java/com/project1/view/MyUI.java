@@ -9,7 +9,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.servlet.annotation.WebServlet;
 
-import com.project1.domain.User;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
 import com.project1.view.admin.EmployeeOverView;
