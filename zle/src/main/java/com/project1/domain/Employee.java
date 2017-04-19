@@ -13,7 +13,7 @@ public class Employee implements Serializable {
 
     private boolean active = true;
     private String email;
-    private String password;
+    private String password="";
     private String firstname;
     private String lastname;
     private String street;
