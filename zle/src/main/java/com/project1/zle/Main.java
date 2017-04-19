@@ -47,7 +47,7 @@ public static void main(String[] args) {
     em.getTransaction().begin();
     em.persist(user);
     em.getTransaction().commit();
-    em.close();
+
     		
     /*Query q = em.createQuery("select o from User o");
     List<User> todoList = q.getResultList();
@@ -55,6 +55,8 @@ public static void main(String[] args) {
         System.out.println(todo);
     }
     System.out.println("Size is: " + todoList.size());*/
+
+    em.close();
 
 }
 }
