@@ -22,21 +22,26 @@ public static void main(String[] args) {
 	factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = factory.createEntityManager();
     
-    Employee user = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+    Employee user = new Employee("eemail@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
     
     em.getTransaction().begin();
-    em.persist(user);
+    //em.persist(user);
     em.getTransaction().commit();
     
-    		
-    Query q = em.createQuery("select o from Employee o");
+    String email = "email@mail.com";
+    
+    Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = 'false'");
     List<Employee> todoList = q.getResultList();
     for (Employee todo : todoList) {
         System.out.println(todo);
     }
     System.out.println("Size is: " + todoList.size());
+    
 
-    em.close();
+    
+   System.out.println( em.contains(user));
+
+  //  em.close();
 
 }
 }
