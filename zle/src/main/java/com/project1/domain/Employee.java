@@ -39,4 +39,8 @@ public class Employee implements Serializable {
     public String generatePassword(){
         return "";
     }
+
+    public String hashPassword(){
+        return "";
+    }
 }

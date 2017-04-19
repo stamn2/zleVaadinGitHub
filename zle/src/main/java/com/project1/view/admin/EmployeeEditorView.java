@@ -103,7 +103,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
                     return;
                 }
                 else{
-                    UserController.addUser(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
+                    UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
                             plz.getValue(), city.getValue(), tel.getValue());
                 }
         });
