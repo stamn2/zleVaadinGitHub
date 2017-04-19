@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.project1.domain.Employee;
+import com.vaadin.sass.internal.tree.controldirective.EachDefNode;
 
 
 
@@ -24,7 +25,7 @@ public static void main(String[] args) {
     
     
     //clean DB-Table Employee
-    Query q = em.createQuery("select o from Employee o");
+    /*Query q = em.createQuery("select o from Employee o");
     List<Employee> todoList = q.getResultList();
     for (Employee todo : todoList) {
         System.out.println(todo);
@@ -48,7 +49,11 @@ public static void main(String[] args) {
 		System.out.println("null");
 	}
 
-
+    Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+    em.getTransaction().begin();
+    em.persist(emp);
+    em.getTransaction().commit();
+    */
     em.close();
 
 }
