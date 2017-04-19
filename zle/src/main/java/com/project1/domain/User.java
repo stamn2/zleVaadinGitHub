@@ -8,7 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class User implements Serializable {
 
-    @Id @GeneratedValue long id;
+    @Id 
+    @GeneratedValue  private long id;
 
     private boolean active = true;
     private String email;
