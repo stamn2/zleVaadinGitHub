@@ -40,7 +40,7 @@ public class ZLEEntityManager {
 			return employee;
 		} catch (NoResultException e) {
 		    em.close();
-			return null;
+			return null; 
 		}
 	}
 }

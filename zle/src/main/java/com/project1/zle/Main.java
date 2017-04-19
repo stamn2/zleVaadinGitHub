@@ -44,7 +44,7 @@ public static void main(String[] args) {
 	Query q2 = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = 'true'");
     try {
     	Employee employee = (Employee) q2.getSingleResult();
-	} catch (NoResultException e) {
+	} catch (NoResultException e) { 
 		System.out.println("null");
 	}
 
