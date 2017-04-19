@@ -40,7 +40,12 @@ public class Employee implements Serializable {
         return "";
     }
 
+    //TODO
     public String hashPassword(){
         return "";
+    }
+
+    public String getPassword(){
+        return password;
     }
 }

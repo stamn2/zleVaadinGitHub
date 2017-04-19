@@ -78,7 +78,7 @@ public class MyUI extends UI {
 			}
 		});
         
-        VaadinSession.getCurrent().getSession().setMaxInactiveInterval(5); // auto logout after 5min
+        VaadinSession.getCurrent().getSession().setMaxInactiveInterval(900); // auto logout after 15min
     }
 	
 
