@@ -9,7 +9,7 @@ public class LoginController {
 
     public static boolean login(String email, String password){
         Employee emp = zem.getEmployee(email);
-        if(password.equals(emp.getPassword())){ //TODO hashpassword
+        if(emp != null && password.equals(emp.getPassword())){ //TODO hashpassword
             return true;
         }
         return false;
