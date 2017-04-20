@@ -12,6 +12,8 @@ public class Employee implements Serializable {
     @GeneratedValue  private long id;
 
     private boolean active = true;
+    private boolean changePassword = true;
+    private boolean isAdmin = false;
     private String email;
     private String password="123";
     private String firstname;
