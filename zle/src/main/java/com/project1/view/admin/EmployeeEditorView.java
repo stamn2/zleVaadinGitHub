@@ -1,6 +1,7 @@
 package com.project1.view.admin;
 
 import com.project1.controller.UserController;
+import com.project1.view.LoginView;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -23,7 +24,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
 	
 	private TextField idField, firstName, lastName, street, plz, city, email, tel;
 	private Label titleLabel;
-	private Button save;
+	private Button save, logout;
 	private VerticalLayout fields;
 	private VerticalLayout viewLayout;
 
@@ -32,6 +33,13 @@ public class EmployeeEditorView extends CustomComponent implements View{
         Button button = new Button("change to Login-View");
         button.addClickListener( e -> {
         	getUI().getNavigator().navigateTo("");
+        });
+
+        logout = new Button("Logout");
+        logout.setWidth("15%");
+        logout.addClickListener( e -> {
+            getUI().getSession().setAttribute("user", null);
+            getUI().getNavigator().navigateTo(LoginView.NAME);
         });
         
         titleLabel = new Label("Zeit und Leistungserfassung - EmployeeEditor");
@@ -119,8 +127,9 @@ public class EmployeeEditorView extends CustomComponent implements View{
 		fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
 		// The view root layout
-		viewLayout = new VerticalLayout(fields);
+		viewLayout = new VerticalLayout(logout, fields);
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
+        viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         
         
         layout.addComponents(button,viewLayout);

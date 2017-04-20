@@ -42,7 +42,6 @@ public class AdminHomepageView extends CustomComponent implements View {
         logout.setWidth("15%");
         logout.addClickListener(e ->{
 			getUI().getSession().setAttribute("user", null);
-			getUI().getSession().close();
 			getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
