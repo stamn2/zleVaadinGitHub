@@ -27,7 +27,7 @@ public class Employee implements Serializable {
 
     }
 
-    public Employee(String email, String firstname, String lastname, String street, String plz, String city,String tel){
+    public Employee(String email, String firstname, String lastname, String street, String plz, String city,String tel, boolean isAdmin){
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -35,6 +35,7 @@ public class Employee implements Serializable {
         this.plz = plz;
         this.city = city;
         this.tel = tel;
+        this.isAdmin = isAdmin;
     }
 
     //TODO

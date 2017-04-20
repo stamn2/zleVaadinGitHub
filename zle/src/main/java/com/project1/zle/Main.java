@@ -50,7 +50,7 @@ public static void main(String[] args) {
 		System.out.println("null");
 	}*/
 
-    Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+    Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel", true);
     emp.setIsAdmin(true);
     em.getTransaction().begin();
     em.persist(emp);
