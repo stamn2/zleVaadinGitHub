@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
+import com.project1.controller.UserController;
 import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
@@ -96,10 +97,14 @@ public class MyUI extends UI {
         @Override
         protected void servletInitialized() throws ServletException {
         	super.servletInitialized();
-        	
+        	System.out.println("init done...");
     		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     	    em = factory.createEntityManager();
+    	    
             emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+            emp.setIsAdmin(true);
+            UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+            
             em.getTransaction().begin();
             em.persist(emp);
             em.getTransaction().commit();
