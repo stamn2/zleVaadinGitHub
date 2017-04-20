@@ -8,11 +8,11 @@ import java.util.List;
 public class UserController {
     private static ZLEEntityManager zem = new ZLEEntityManager();
 
-    public static boolean addEmployee(String email, String firstname, String lastname, String street, String plz, String city, String tel){
+    public static boolean addEmployee(String email, String firstname, String lastname, String street, String plz, String city, String tel, boolean isAdmin){
     	if(zem.getEmployee(email) != null){
             return false;
         }
-        Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel);
+        Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel, isAdmin);
         String password = emp.generatePassword(); //TODO
         zem.addEmployee(emp);
         return true;
