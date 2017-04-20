@@ -53,6 +53,7 @@ public class LoginView extends CustomComponent implements View{
 		userField = new TextField("User:");
 		userField.setWidth("100%");
 		userField.setRequired(true);
+		userField.setInputPrompt("Your username");
 		userField.setValue("user@mail.com");
 		userField.setInvalidAllowed(false);
 
@@ -60,13 +61,14 @@ public class LoginView extends CustomComponent implements View{
 		passwordField = new PasswordField("Password:");
 		passwordField.setWidth("100%");
 		passwordField.setRequired(true);
+        passwordField.setInputPrompt("Your password");
 		passwordField.setValue("123");
 		passwordField.setInvalidAllowed(false);
 
 		// Create login button
 		loginButton = new Button("Login");
 		loginButton.addClickListener( e -> {
-			try {
+			try { //TODO error is not catched
 				userField.addValidator(new EmailValidator("Invalid -> Pls enter a valid EMAIL!"));
 			} catch (Exception e2) {
 				Notification.show("Pls enter a valid EMAIL!");
@@ -77,16 +79,14 @@ public class LoginView extends CustomComponent implements View{
 				Notification.show("Form is not filled correctly");
 				return;
 			}
+			if(LoginController.login(userField.getValue(), passwordField.getValue())){
+				getUI().getSession().setAttribute("user", userField.getValue());
+				getUI().getNavigator().navigateTo(FirstLoginView.NAME);
+				return;
+			}
 			else{
-				if(LoginController.login(userField.getValue(), passwordField.getValue())){
-					getUI().getSession().setAttribute("user", userField.getValue());
-					getUI().getNavigator().navigateTo(FirstLoginView.NAME);
-					return;
-				}
-				else{
-					Notification.show("Login was not successfull");
-					return;
-				}
+				Notification.show("Login was not successfull");
+				return;
 			}
 
 		});
