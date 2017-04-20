@@ -7,6 +7,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -44,6 +45,9 @@ public class EmployeeEditorView extends CustomComponent implements View{
         
         titleLabel = new Label("Zeit und Leistungserfassung - EmployeeEditor");
         titleLabel.addStyleName("titles");
+        
+        CheckBox adminRight = new CheckBox("Admin-Right");
+        
         
         idField = new TextField("ID:");
         idField.setWidth("100%");
@@ -112,7 +116,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
                 }
                 else{
                     if(UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
-                            plz.getValue(), city.getValue(), tel.getValue())){
+                            plz.getValue(), city.getValue(), tel.getValue(), adminRight.getValue())){
                             getUI().getNavigator().navigateTo(EmployeeOverView.NAME);}
                     else{
                             Notification.show("An active employee with this email exists already!");
@@ -121,7 +125,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
         });
         
 		// Add both to a panel
-		fields = new VerticalLayout(titleLabel, idField, firstName, lastName, street, plzCity, email, tel, save);
+		fields = new VerticalLayout(titleLabel, adminRight, idField, firstName, lastName, street, plzCity, email, tel, save);
 		fields.setSpacing(true);
 		fields.setWidth("50%");
 		fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
