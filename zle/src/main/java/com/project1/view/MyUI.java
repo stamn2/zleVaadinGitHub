@@ -98,16 +98,8 @@ public class MyUI extends UI {
         protected void servletInitialized() throws ServletException {
         	super.servletInitialized();
         	System.out.println("init done...");
-    		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    	    em = factory.createEntityManager();
-    	    
-            emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
-            emp.setIsAdmin(true);
+
             UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
-            
-            em.getTransaction().begin();
-            em.persist(emp);
-            em.getTransaction().commit();
         }
     	
     }
