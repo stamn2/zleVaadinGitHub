@@ -1,5 +1,7 @@
 package com.project1.view.admin;
 
+import com.project1.view.FirstLoginView;
+import com.project1.view.LoginView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
@@ -35,8 +37,14 @@ public class AdminHomepageView extends CustomComponent implements View {
         manualEntry.setWidth("80%");
         history = new Button("History");
         history.setWidth("80%");
+        
         logout = new Button("Logout");
         logout.setWidth("15%");
+        logout.addClickListener(e ->{
+			getUI().getSession().setAttribute("user", null);
+			getUI().getSession().close();
+			getUI().getNavigator().navigateTo(LoginView.NAME);
+        });
 
         VerticalLayout adminButtons = new VerticalLayout(projects, clients, employees);
         adminButtons.setSpacing(true);

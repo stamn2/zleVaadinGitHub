@@ -1,7 +1,9 @@
 package com.project1.view;
 
 import com.project1.controller.LoginController;
+import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ThemeResource;
@@ -51,19 +53,26 @@ public class LoginView extends CustomComponent implements View{
 		userField = new TextField("User:");
 		userField.setWidth("100%");
 		userField.setRequired(true);
-		userField.setInputPrompt("Your username");
+		userField.setValue("user@mail.com");
 		userField.setInvalidAllowed(false);
 
 		// Create the password input field
 		passwordField = new PasswordField("Password:");
 		passwordField.setWidth("100%");
 		passwordField.setRequired(true);
-		passwordField.setInputPrompt("Your password");
+		passwordField.setValue("123");
 		passwordField.setInvalidAllowed(false);
 
 		// Create login button
 		loginButton = new Button("Login");
 		loginButton.addClickListener( e -> {
+			try {
+				userField.addValidator(new EmailValidator("Invalid -> Pls enter a valid EMAIL!"));
+			} catch (Exception e2) {
+				Notification.show("Pls enter a valid EMAIL!");
+				return;
+			}
+			
 			if(!userField.isValid() || !passwordField.isValid()){
 				Notification.show("Form is not filled correctly");
 				return;
@@ -101,6 +110,7 @@ public class LoginView extends CustomComponent implements View{
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
+		if(getUI().getSession().getAttribute("user")!=null) getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
 		Notification.show("enter the Login-View");
 		
 	}

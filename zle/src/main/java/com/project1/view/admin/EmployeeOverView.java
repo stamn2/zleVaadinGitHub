@@ -2,6 +2,7 @@ package com.project1.view.admin;
 
 import com.project1.controller.UserController;
 import com.project1.domain.Employee;
+import com.project1.view.LoginView;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -25,11 +26,16 @@ public class EmployeeOverView extends CustomComponent implements View {
 
         logout = new Button("Logout");
         logout.setWidth("15%");
+        logout.addClickListener(e ->{
+			getUI().getSession().setAttribute("user", null);
+			getUI().getNavigator().navigateTo(LoginView.NAME);
+        });
 
         List<Employee> employeeList = UserController.getActivesEmployees();
         BeanItemContainer<Employee> ds = new BeanItemContainer<Employee>(Employee.class, employeeList);
         employeesGrid = new Grid("Employees", ds);
         employeesGrid.setWidth("100%");
+
 
         VerticalLayout viewLayout = new VerticalLayout(logout, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
