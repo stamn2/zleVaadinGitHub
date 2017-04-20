@@ -1,6 +1,7 @@
 package com.project1.view;
 
 import com.project1.controller.LoginController;
+import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
 import com.vaadin.data.validator.EmailValidator;
@@ -73,16 +74,18 @@ public class LoginView extends CustomComponent implements View{
 				//Notification.show("Form is not filled correctly");
 				return;
 			}
-			if(LoginController.login(userField.getValue(), passwordField.getValue())){
-				getUI().getSession().setAttribute("user", userField.getValue());
-				getUI().getNavigator().navigateTo(FirstLoginView.NAME);
-				return;
-			}
-			else{
+			Employee emp = LoginController.login(userField.getValue(), passwordField.getValue());
+			if(emp == null){
 				Notification.show("Login was not successfull");
 				return;
 			}
-
+			getUI().getSession().setAttribute("user", emp);
+            if(emp.isChangePassword()){
+                getUI().getNavigator().navigateTo(FirstLoginView.NAME);
+            }
+            else{
+                getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            }
 		});
 
 		// Add both to a panel
