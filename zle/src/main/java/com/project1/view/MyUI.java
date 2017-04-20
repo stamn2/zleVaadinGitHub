@@ -99,7 +99,7 @@ public class MyUI extends UI {
         	super.servletInitialized();
         	System.out.println("init done...");
 
-            UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+            UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
         }
     	
     }
