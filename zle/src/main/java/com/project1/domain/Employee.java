@@ -56,6 +56,14 @@ public class Employee implements Serializable {
         return active;
     }
 
+    public boolean isChangePassword() {
+        return changePassword;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -86,5 +94,9 @@ public class Employee implements Serializable {
 
     public String getTel() {
         return tel;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

@@ -48,13 +48,14 @@ public static void main(String[] args) {
     	Employee employee = (Employee) q2.getSingleResult();
 	} catch (NoResultException e) { 
 		System.out.println("null");
-	}
+	}*/
 
     Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+    emp.setIsAdmin(true);
     em.getTransaction().begin();
     em.persist(emp);
     em.getTransaction().commit();
-    */
+
     em.close();
 
 }
