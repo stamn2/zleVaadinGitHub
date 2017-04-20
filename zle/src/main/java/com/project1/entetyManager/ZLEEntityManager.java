@@ -45,4 +45,10 @@ public class ZLEEntityManager {
 		}
 
 	}
+
+	public List<Employee> getActiveEmployees(){
+		Query q = em.createQuery("select o from Employee o where o.active = true");
+		List<Employee> employeeList = q.getResultList();
+		return employeeList;
+	}
 }

@@ -45,7 +45,44 @@ public class Employee implements Serializable {
         return "";
     }
 
+    //------------ GETTER AND SETTER ----------------------
+    public long getId() {
+        return id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getPassword(){
         return password;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getPlz() {
+        return plz;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getTel() {
+        return tel;
     }
 }

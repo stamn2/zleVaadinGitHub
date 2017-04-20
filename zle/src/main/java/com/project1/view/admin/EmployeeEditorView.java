@@ -103,8 +103,12 @@ public class EmployeeEditorView extends CustomComponent implements View{
                     return;
                 }
                 else{
-                    UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
-                            plz.getValue(), city.getValue(), tel.getValue());
+                    if(UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
+                            plz.getValue(), city.getValue(), tel.getValue())){
+                            getUI().getNavigator().navigateTo(EmployeeOverView.NAME);}
+                    else{
+                            Notification.show("An active employee with this email exists already!");
+                    }
                 }
         });
         
