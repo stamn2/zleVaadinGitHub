@@ -7,8 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
+import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
 import com.project1.view.admin.EmployeeOverView;
@@ -85,6 +87,23 @@ public class MyUI extends UI {
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
+
+        private static final String PERSISTENCE_UNIT_NAME = "zleDB";
+        private static EntityManagerFactory factory; 
+        private EntityManager em;
+        Employee emp;
+    	
+        @Override
+        protected void servletInitialized() throws ServletException {
+        	super.servletInitialized();
+        	
+    		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    	    em = factory.createEntityManager();
+            emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel");
+            em.getTransaction().begin();
+            em.persist(emp);
+            em.getTransaction().commit();
+        }
     	
     }
 }

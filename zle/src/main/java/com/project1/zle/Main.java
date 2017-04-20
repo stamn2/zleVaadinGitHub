@@ -22,6 +22,7 @@ public static void main(String[] args) {
 	
 	factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = factory.createEntityManager();
+   
     
     
     //clean DB-Table Employee

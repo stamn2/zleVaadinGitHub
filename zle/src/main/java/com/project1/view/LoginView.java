@@ -54,9 +54,8 @@ public class LoginView extends CustomComponent implements View{
 		userField.setWidth("100%");
 		userField.setRequired(true);
 		userField.setInputPrompt("Your username");
-		userField.setValue("user@mail.com");
+		//userField.setValue("user@mail.com");
 		userField.setInvalidAllowed(false);
-
 		// Create the password input field
 		passwordField = new PasswordField("Password:");
 		passwordField.setWidth("100%");
@@ -68,15 +67,10 @@ public class LoginView extends CustomComponent implements View{
 		// Create login button
 		loginButton = new Button("Login");
 		loginButton.addClickListener( e -> {
-			try { //TODO error is not catched
-				userField.addValidator(new EmailValidator("Invalid -> Pls enter a valid EMAIL!"));
-			} catch (Exception e2) {
-				Notification.show("Pls enter a valid EMAIL!");
-				return;
-			}
+
 			
 			if(!userField.isValid() || !passwordField.isValid()){
-				Notification.show("Form is not filled correctly");
+				//Notification.show("Form is not filled correctly");
 				return;
 			}
 			if(LoginController.login(userField.getValue(), passwordField.getValue())){
