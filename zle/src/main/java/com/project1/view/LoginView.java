@@ -54,7 +54,7 @@ public class LoginView extends CustomComponent implements View{
 		userField.setWidth("100%");
 		userField.setRequired(true);
 		userField.setInputPrompt("Your username");
-		//userField.setValue("user@mail.com");
+		userField.setValue("email@mail.com");
 		userField.setInvalidAllowed(false);
 		// Create the password input field
 		passwordField = new PasswordField("Password:");
