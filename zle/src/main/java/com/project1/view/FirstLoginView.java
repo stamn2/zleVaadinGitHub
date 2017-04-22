@@ -1,5 +1,6 @@
 package com.project1.view;
 
+import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -43,6 +44,8 @@ public class FirstLoginView extends CustomComponent implements View{
         // Create login button
         login = new Button("Login");
         login.addClickListener( e -> {
+        	Employee emp = (Employee) getUI().getSession().getAttribute("user");
+        	emp.hashPassword(newPassword1.getValue());
             getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
         });
 

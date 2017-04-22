@@ -20,8 +20,8 @@ public class Main {
     
 public static void main(String[] args) {
 	
-	factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = factory.createEntityManager();
+	//factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    //EntityManager em = factory.createEntityManager();
    
     
     
@@ -50,13 +50,21 @@ public static void main(String[] args) {
 		System.out.println("null");
 	}*/
 
-    Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel", true);
+  /*  Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel", true);
     emp.setIsAdmin(true);
     em.getTransaction().begin();
     em.persist(emp);
     em.getTransaction().commit();
 
-    em.close();
+    em.close();*/
+    String stronger_salt = BCrypt.gensalt(12); //default-Value for the seed is 10 -> 12 is more secure!
+	String hashedPw = BCrypt.hashpw("123hallo", stronger_salt); 
+	
+	if (BCrypt.checkpw("123Hallo", hashedPw))
+	    System.out.println("It matches");
+	else
+	    System.out.println("It does not match");
+
 
 }
 }

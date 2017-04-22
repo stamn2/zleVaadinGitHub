@@ -1,9 +1,12 @@
 package com.project1.domain;
 
+
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import com.project1.zle.BCrypt;
 
 @Entity
 public class Employee implements Serializable {
@@ -44,7 +47,9 @@ public class Employee implements Serializable {
     }
 
     //TODO
-    public String hashPassword(){
+    public String hashPassword(String password){
+    	String stronger_salt = BCrypt.gensalt(12);
+    	this.password= BCrypt.hashpw(password, stronger_salt); 
         return "";
     }
 
@@ -100,4 +105,8 @@ public class Employee implements Serializable {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+	public boolean checkPassword(String password) {
+		return BCrypt.checkpw(password, this.password);
+	}
 }
