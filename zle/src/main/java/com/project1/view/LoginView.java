@@ -4,6 +4,7 @@ import com.project1.controller.LoginController;
 import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -84,7 +85,12 @@ public class LoginView extends CustomComponent implements View{
                 getUI().getNavigator().navigateTo(FirstLoginView.NAME);
             }
             else{
-                getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+				if(emp.isAdmin()){
+					getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+				}
+                else{
+					getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+				}
             }
 		});
 

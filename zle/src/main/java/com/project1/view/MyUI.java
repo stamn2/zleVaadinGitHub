@@ -15,6 +15,7 @@ import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.admin.EmployeeEditorView;
 import com.project1.view.admin.EmployeeOverView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -52,6 +53,7 @@ public class MyUI extends UI {
 		getNavigator().addView(EmployeeEditorView.NAME, EmployeeEditorView.class);
         getNavigator().addView(FirstLoginView.NAME, FirstLoginView.class);
         getNavigator().addView(AdminHomepageView.NAME, AdminHomepageView.class);
+		getNavigator().addView(UserHomepageView.NAME, UserHomepageView.class);
         getNavigator().addView(EmployeeOverView.NAME, EmployeeOverView.class);
         
         
