@@ -13,7 +13,8 @@ public class UserController {
             return false;
         }
         Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel, isAdmin);
-        String password = emp.generatePassword(); //TODO
+        String password = emp.generatePassword();
+        System.out.println(password);
         zem.addEmployee(emp);
         return true;
     }

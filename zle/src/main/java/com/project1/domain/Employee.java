@@ -2,23 +2,33 @@ package com.project1.domain;
 
 
 import java.io.Serializable;
+import java.security.SecureRandom;
+import java.util.Random;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+
 import com.project1.zle.BCrypt;
+
 
 @Entity
 public class Employee implements Serializable {
 
-    @Id 
+	private static final String VALID_PW_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; //+ !@#$%^&*()-_=+{}[]|:;<>?,./
+    private static final int DEFAULT_PASSWORD_LENGTH = 12;
+    private static final Random RANDOM = new SecureRandom();
+
+
+	@Id 
     @GeneratedValue  private long id;
 
     private boolean active = true;
     private boolean changePassword = true;
     private boolean isAdmin = false;
     private String email;
-    private String password="123";
+    private String password;
     private String firstname;
     private String lastname;
     private String street;
@@ -39,18 +49,26 @@ public class Employee implements Serializable {
         this.city = city;
         this.tel = tel;
         this.isAdmin = isAdmin;
+        password = generatePassword();
     }
 
     //TODO
     public String generatePassword(){
-        return "";
+        StringBuilder pw = new StringBuilder();
+    	for (int i=0; i<DEFAULT_PASSWORD_LENGTH; i++) {                        
+            int index = (int)(RANDOM.nextInt(VALID_PW_CHARS.length()));
+            pw.append(VALID_PW_CHARS.charAt(index));
+            System.out.println(i);
+    }
+    	String hashedPw = hashPassword(pw.toString()); //-> not used here, stored directly in DB
+        return pw.toString();
     }
 
     //TODO
     public String hashPassword(String password){
     	String stronger_salt = BCrypt.gensalt(12);
     	this.password= BCrypt.hashpw(password, stronger_salt); 
-        return "";
+        return password;
     }
 
     //------------ GETTER AND SETTER ----------------------
