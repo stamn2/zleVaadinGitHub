@@ -25,6 +25,7 @@ public class LoginController {
         }
         emp.setPassword(newPassword);
         emp.setChangePassword(false);
+        
         //TODO persistence
         zem.persistEmployee(emp);
         return true;
