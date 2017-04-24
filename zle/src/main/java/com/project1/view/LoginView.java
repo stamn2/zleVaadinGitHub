@@ -38,14 +38,6 @@ public class LoginView extends CustomComponent implements View{
 	private VerticalLayout viewLayout;
 
 	public LoginView(){
-        final VerticalLayout layout = new VerticalLayout();
-        Button button = new Button("change to EmpEditor-View");
-        button.addClickListener( e -> {
-        	getUI().getNavigator().navigateTo(EmployeeEditorView.NAME);
-        });
-        
-        
-
 		titleLabel = new Label("Zeit und Leistungserfassung - Login");
 		titleLabel.addStyleName("titles");
 		image = new Image(null, new ThemeResource("images/login.jpg"));
@@ -102,13 +94,11 @@ public class LoginView extends CustomComponent implements View{
 
 		// The view root layout
 		viewLayout = new VerticalLayout(fields);
+		viewLayout.setMargin(true);
+		viewLayout.setSpacing(true);
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-        
-        
-        layout.addComponents(button,viewLayout);
-        layout.setMargin(true);
-        layout.setSpacing(true);  
-        setCompositionRoot(layout);
+
+        setCompositionRoot(viewLayout);
 	}
 	
 	@Override
