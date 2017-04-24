@@ -1,7 +1,9 @@
 package com.project1.view;
 
+import com.project1.controller.LoginController;
 import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -23,30 +25,49 @@ public class FirstLoginView extends CustomComponent implements View{
         oldPassword = new PasswordField("Old password:");
         oldPassword.setWidth("100%");
         oldPassword.setRequired(true);
-        oldPassword.setValue("");
-        oldPassword.setNullRepresentation("");
+        oldPassword.setInputPrompt("Old password");
+        oldPassword.setInvalidAllowed(false);
 
         //TODO : check password security
         // Create the first new password input field
         newPassword1 = new PasswordField("New password:");
         newPassword1.setWidth("100%");
         newPassword1.setRequired(true);
-        newPassword1.setValue("");
-        newPassword1.setNullRepresentation("");
+        newPassword1.setInputPrompt("New Password");
+        newPassword1.setInvalidAllowed(false);
 
         // Create the second new password input field
-        newPassword2 = new PasswordField("Confirme new password:");
+        newPassword2 = new PasswordField("new password:");
         newPassword2.setWidth("100%");
         newPassword2.setRequired(true);
-        newPassword2.setValue("");
-        newPassword2.setNullRepresentation("");
+        newPassword2.setInputPrompt("new password");
+        newPassword2.setInvalidAllowed(false);
 
         // Create login button
         login = new Button("Login");
         login.addClickListener( e -> {
+            if(!oldPassword.isValid() || !newPassword1.isValid() || !newPassword2.isValid()){
+                //TODO: show wich fields are not valid
+                Notification.show("Form is not filled correctly");
+                return;
+            }
+            if(!newPassword1.getValue().equals(newPassword2.getValue())){
+                Notification.show("The new password is not repeated correctly");
+                return;
+            }
         	Employee emp = (Employee) getUI().getSession().getAttribute("user");
-        	emp.changePassword(newPassword1.getValue());
-            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            if(LoginController.changePassword(emp, oldPassword.getValue(), newPassword1.getValue())){
+                if(emp.isAdmin()){
+                    getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+                }
+                else{
+                    getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+                }
+            }
+            else{
+                Notification.show("Your old password is false!");
+            }
+
         });
 
         VerticalLayout fields = new VerticalLayout(titleLabel, oldPassword, newPassword1, newPassword2, login);

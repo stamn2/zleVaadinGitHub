@@ -22,7 +22,7 @@ public class ZLEEntityManager {
 	    em = factory.createEntityManager();
 	}
 
-	public void addEmployee(Employee e){
+	public void persistEmployee(Employee e){
 		if(e!=null){
 		    em.getTransaction().begin();
 		    em.persist(e);

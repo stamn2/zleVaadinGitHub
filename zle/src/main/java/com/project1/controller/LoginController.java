@@ -15,4 +15,15 @@ public class LoginController {
         return null;
     }
 
+    public static boolean changePassword(Employee emp,String oldPassword, String newPassword){
+        if(login(emp.getEmail(), oldPassword) == null){
+            return false;
+        }
+        emp.changePassword(newPassword);
+        emp.setChangePassword(false);
+        //TODO persistence
+        zem.persistEmployee(emp);
+        return true;
+    }
+
 }

@@ -120,6 +120,10 @@ public class Employee implements Serializable {
         return tel;
     }
 
+    public void setChangePassword(boolean changePassword) {
+        this.changePassword = changePassword;
+    }
+
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }

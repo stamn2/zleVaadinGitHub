@@ -15,7 +15,7 @@ public class UserController {
         Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel, isAdmin);
         String password = emp.generatePassword();
         System.out.println(password);
-        zem.addEmployee(emp);
+        zem.persistEmployee(emp);
         return true;
     }
     
