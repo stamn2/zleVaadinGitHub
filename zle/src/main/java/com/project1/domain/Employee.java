@@ -56,7 +56,6 @@ public class Employee implements Serializable {
     	for (int i=0; i<DEFAULT_PASSWORD_LENGTH; i++) {                        
             int index = (int)(RANDOM.nextInt(VALID_PW_CHARS.length()));
             pw.append(VALID_PW_CHARS.charAt(index));
-            System.out.println(i);
     }
     	changePassword(pw.toString());
         return pw.toString();
