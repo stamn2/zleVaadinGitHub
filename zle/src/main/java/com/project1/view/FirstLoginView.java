@@ -45,7 +45,7 @@ public class FirstLoginView extends CustomComponent implements View{
         login = new Button("Login");
         login.addClickListener( e -> {
         	Employee emp = (Employee) getUI().getSession().getAttribute("user");
-        	emp.hashPassword(newPassword1.getValue());
+        	emp.changePassword(newPassword1.getValue());
             getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
         });
 

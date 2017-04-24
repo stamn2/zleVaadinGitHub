@@ -49,10 +49,8 @@ public class Employee implements Serializable {
         this.city = city;
         this.tel = tel;
         this.isAdmin = isAdmin;
-        password = generatePassword();
     }
 
-    //TODO
     public String generatePassword(){
         StringBuilder pw = new StringBuilder();
     	for (int i=0; i<DEFAULT_PASSWORD_LENGTH; i++) {                        
@@ -60,15 +58,17 @@ public class Employee implements Serializable {
             pw.append(VALID_PW_CHARS.charAt(index));
             System.out.println(i);
     }
-    	String hashedPw = hashPassword(pw.toString()); //-> not used here, stored directly in DB
+    	changePassword(pw.toString());
         return pw.toString();
     }
 
-    //TODO
-    public String hashPassword(String password){
+    public void changePassword(String password){
     	String stronger_salt = BCrypt.gensalt(12);
-    	this.password= BCrypt.hashpw(password, stronger_salt); 
-        return password;
+    	this.password= BCrypt.hashpw(password, stronger_salt);
+    }
+
+    public boolean checkPassword(String password) {
+        return BCrypt.checkpw(password, this.password);
     }
 
     //------------ GETTER AND SETTER ----------------------
@@ -123,8 +123,4 @@ public class Employee implements Serializable {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-
-	public boolean checkPassword(String password) {
-		return BCrypt.checkpw(password, this.password);
-	}
 }
