@@ -57,13 +57,8 @@ public class Employee implements Serializable {
             int index = (int)(RANDOM.nextInt(VALID_PW_CHARS.length()));
             pw.append(VALID_PW_CHARS.charAt(index));
     }
-    	changePassword(pw.toString());
+    	setPassword(pw.toString());
         return pw.toString();
-    }
-
-    public void changePassword(String password){
-    	String stronger_salt = BCrypt.gensalt(12);
-    	this.password= BCrypt.hashpw(password, stronger_salt);
     }
 
     public boolean checkPassword(String password) {
@@ -125,5 +120,10 @@ public class Employee implements Serializable {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public void setPassword(String password){
+        String stronger_salt = BCrypt.gensalt(12);
+        this.password= BCrypt.hashpw(password, stronger_salt);
     }
 }

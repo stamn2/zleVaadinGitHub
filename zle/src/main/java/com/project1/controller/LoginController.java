@@ -19,7 +19,7 @@ public class LoginController {
         if(login(emp.getEmail(), oldPassword) == null){
             return false;
         }
-        emp.changePassword(newPassword);
+        emp.setPassword(newPassword);
         emp.setChangePassword(false);
         //TODO persistence
         zem.persistEmployee(emp);
