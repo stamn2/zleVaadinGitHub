@@ -57,7 +57,9 @@ public class FirstLoginView extends CustomComponent implements View{
             }
         	Employee emp = (Employee) getUI().getSession().getAttribute("user");
             if(LoginController.changePassword(emp, oldPassword.getValue(), newPassword1.getValue())){
-                if(emp.isAdmin()){
+                emp = LoginController.getEmployee(emp.getEmail());
+            	getUI().getSession().setAttribute("user", emp);
+            	if(emp.isAdmin()){
                     getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
                 }
                 else{

@@ -8,11 +8,15 @@ public class LoginController {
     private static ZLEEntityManager zem = new ZLEEntityManager();
 
     public static Employee login(String email, String password){
-        Employee emp = zem.getEmployee(email);
+        Employee emp = getEmployee(email);
         if(emp != null && emp.checkPassword(password)){
             return emp;
         }
         return null;
+    }
+    
+    public static Employee getEmployee(String email){
+    	return zem.getEmployee(email);
     }
 
     public static boolean changePassword(Employee emp,String oldPassword, String newPassword){
