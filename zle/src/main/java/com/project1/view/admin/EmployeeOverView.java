@@ -16,6 +16,9 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     private final Button addEmployee, logout;
     private final Grid employeesGrid;
+    
+    List<Employee> employeeList;
+    BeanItemContainer<Employee> ds;
 
     public EmployeeOverView(){
         addEmployee = new Button("Add Employee");
@@ -31,8 +34,8 @@ public class EmployeeOverView extends CustomComponent implements View {
 			getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-        List<Employee> employeeList = UserController.getActivesEmployees();
-        BeanItemContainer<Employee> ds = new BeanItemContainer<Employee>(Employee.class, employeeList);
+        //List<Employee> employeeList = UserController.getActivesEmployees();
+       // BeanItemContainer<Employee> ds = new BeanItemContainer<Employee>(Employee.class, employeeList);
         employeesGrid = new Grid("Employees", ds);
         employeesGrid.setWidth("100%");
 
@@ -47,6 +50,8 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+    	employeeList = UserController.getActivesEmployees();
+        ds = new BeanItemContainer<Employee>(Employee.class, employeeList);
         Notification.show("enter the employee overview");
     }
 
