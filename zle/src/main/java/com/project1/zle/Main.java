@@ -27,17 +27,17 @@ public static void main(String[] args) {
     
     //clean DB-Table Employee
     /*Query q = em.createQuery("select o from Employee o");
-    List<Employee> todoList = q.getResultList();
-    for (Employee todo : todoList) {
-        System.out.println(todo);
+    List<Employee> empList = q.getResultList();
+    for (Employee emp : empList) {
+        System.out.println(emp);
     }
-    for (Employee employee : todoList) {
+    for (Employee employee : empList) {
     	em.getTransaction().begin();
         em.remove(employee);
         em.getTransaction().commit();
 	}
 
-    System.out.println("Size is: " + todoList.size());
+    System.out.println("Size is: " + empList.size());
     
     String email="email@mail.com";
     
