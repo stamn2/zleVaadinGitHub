@@ -21,7 +21,7 @@ public class UserController {
         try {
             sendAccountCreatedEmail(email, password);
         } catch (MessagingException e) {
-            //TODO make something with mail exception
+            //TODO make something with exception?
             e.printStackTrace();
         }
         return true;

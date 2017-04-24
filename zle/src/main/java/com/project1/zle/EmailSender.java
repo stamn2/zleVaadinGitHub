@@ -50,6 +50,7 @@ public class EmailSender {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.ssl.trust", host);
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.user", user);
 		props.put("mail.smtp.password", password);
