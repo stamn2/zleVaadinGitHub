@@ -86,10 +86,6 @@ public class Employee implements Serializable {
         return email;
     }
 
-    public String getPassword(){
-        return password;
-    }
-
     public String getFirstname() {
         return firstname;
     }
