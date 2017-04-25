@@ -9,7 +9,7 @@ import com.project1.domain.Employee;
 
 public class EmployeeTest {
 	
-	Employee emp;
+	Employee emp; 
 	
 	@Before
 	public void setUp(){
