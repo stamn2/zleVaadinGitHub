@@ -4,6 +4,7 @@ import com.project1.controller.LoginController;
 import com.project1.domain.Employee;
 import com.project1.view.admin.AdminHomepageView;
 import com.project1.view.user.UserHomepageView;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -28,13 +29,15 @@ public class FirstLoginView extends CustomComponent implements View{
         oldPassword.setInputPrompt("Old password");
         oldPassword.setInvalidAllowed(false);
 
-        //TODO : check password security
         // Create the first new password input field
         newPassword1 = new PasswordField("New password:");
         newPassword1.setWidth("100%");
         newPassword1.setRequired(true);
         newPassword1.setInputPrompt("New Password");
         newPassword1.setInvalidAllowed(false);
+        //TODO : catch error ?
+        newPassword1.addValidator(new RegexpValidator("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$",
+                "Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet and 1 Number"));
 
         // Create the second new password input field
         newPassword2 = new PasswordField("new password:");
@@ -47,8 +50,12 @@ public class FirstLoginView extends CustomComponent implements View{
         login = new Button("Login");
         login.addClickListener( e -> {
             if(!oldPassword.isValid() || !newPassword1.isValid() || !newPassword2.isValid()){
-                //TODO: show wich fields are not valid
-                Notification.show("Form is not filled correctly");
+                if(!newPassword1.isValid()){
+                    Notification.show("Your new password must have minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet and 1 Number");
+                }
+                else{
+                    Notification.show("Form is not filled correctly");
+                }
                 return;
             }
             if(!newPassword1.getValue().equals(newPassword2.getValue())){
