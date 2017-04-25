@@ -3,10 +3,14 @@ package com.project1.view.admin;
 import com.project1.controller.UserController;
 import com.project1.domain.Employee;
 import com.project1.view.LoginView;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.ButtonRenderer;
 
 import java.util.List;
 
@@ -35,10 +39,33 @@ public class EmployeeOverView extends CustomComponent implements View {
         });
 
         List<Employee> employeeList = UserController.getActivesEmployees();
-        BeanItemContainer<Employee> ds = new BeanItemContainer<Employee>(Employee.class, employeeList);
-        employeesGrid = new Grid("Employees", ds);
-        employeesGrid.setWidth("100%");
+        BeanItemContainer<Employee> ds = new BeanItemContainer<>(Employee.class, employeeList);
+        // Generate button caption column
+        GeneratedPropertyContainer gpc =
+                new GeneratedPropertyContainer(ds);
+        gpc.removeContainerProperty("password");
+        gpc.removeContainerProperty("active");
+        gpc.addGeneratedProperty("generate Password",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Gen. Password"; // The caption
+                    }
 
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
+
+
+        employeesGrid = new Grid("Employees", gpc);
+        employeesGrid.setWidth("100%");
+        employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword");
+        employeesGrid.getColumn("generate Password")
+                .setRenderer(new ButtonRenderer(e -> // Java 8
+                        System.out.println(e.getItemId()))); //TODO : generate new password
 
         VerticalLayout viewLayout = new VerticalLayout(logout, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
