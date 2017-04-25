@@ -28,24 +28,21 @@ public class ZLEEntityManager {
 	}
 	
 	public void persistEmployee(Employee e){
-		if(e!=null){
+		if (e == null)
+			throw new IllegalArgumentException("Employee is null");
 		    em.getTransaction().begin();
 		    em.persist(e);
 		    em.getTransaction().commit();
-		  //  em.close();
-		}
 	}
 	
 	public Employee getEmployee(String email){
-		//em.getTransaction().begin();
-
+		if (email == null)
+			throw new IllegalArgumentException("email is null");
 		Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = true");
 		try {
 			Employee employee = (Employee) q.getSingleResult();
-		   // em.close();
 			return employee;
 		} catch (NoResultException e) {
-		    //em.close();
 			return null; 
 		}
 

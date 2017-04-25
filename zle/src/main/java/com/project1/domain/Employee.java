@@ -121,6 +121,10 @@ public class Employee implements Serializable {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+    
+    public void setIsActive(boolean isActive){
+    	this.active = isActive;
+    }
 
     public void setPassword(String password){
         String stronger_salt = BCrypt.gensalt(12);
