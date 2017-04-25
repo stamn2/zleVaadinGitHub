@@ -44,13 +44,13 @@ public class ZLEEntityManagerTest {
 		assertEquals(em.getEmployee("email@mail.com"), emp);
 	}
 	
-	@Test
-	public void nullPersist() throws IllegalArgumentException{
+	@Test(expected = IllegalArgumentException.class)
+	public void nullPersist() throws Exception{
 		em.persistEmployee(null);
 	}
 	
-	@Test
-	public void getEmployeeWithNull() throws IllegalArgumentException{
+	@Test(expected = IllegalArgumentException.class)
+	public void getEmployeeWithNull() throws Exception{
 		em.getEmployee(null);
 	}
 	
@@ -67,5 +67,28 @@ public class ZLEEntityManagerTest {
 		assertTrue(activeEmployees.size()==1);
 		assertEquals(activeEmployees.get(0), emp);
 	}
-
+	
+	@Test
+	public void getAllEmployees(){
+		em.persistEmployee(emp);
+		em.persistEmployee(emp2);
+		List<Employee> allEmployees = em.getAllEmployees();
+		assertTrue(allEmployees.size()==2);	
+		assertEquals(allEmployees.get(0), emp);
+		assertEquals(allEmployees.get(1), emp2);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void removeNull() throws Exception{
+		em.removeElement(null);
+	}
+	
+	@Test
+	public void removeObject(){
+		em.persistEmployee(emp);
+		em.startTransaction();
+		em.removeElement(emp);
+		List<Employee> allEmployees = em.getAllEmployees();
+		assertTrue(allEmployees.size()==0);
+	}
 }
