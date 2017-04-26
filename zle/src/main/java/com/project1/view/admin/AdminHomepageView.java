@@ -17,6 +17,9 @@ public class AdminHomepageView extends CustomComponent implements View {
         projects.setWidth("80%");
         clients = new Button("Clients");
         clients.setWidth("80%");
+        clients.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ClientOverView.NAME);
+        });
         employees = new Button("Employees");
         employees.setWidth("80%");
         employees.addClickListener(e -> {
