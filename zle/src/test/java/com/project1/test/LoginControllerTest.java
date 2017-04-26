@@ -23,7 +23,7 @@ public class LoginControllerTest {
 
 	@Before
 	public void setUp(){
-		emp = em.getEmployee("test@mail.com");
+		//emp = em.getEmployee("test@mail.com");
 		pw = emp.generatePassword();
 		em.persistObject(emp);
 	}
@@ -31,7 +31,7 @@ public class LoginControllerTest {
 	@After
 	public void clearDB(){
 		emp = em.getEmployee("test@mail.com");
-		//em.removeElement(emp);
+		em.removeElement(emp);
 	}
 	
 	@Test
@@ -59,14 +59,14 @@ public class LoginControllerTest {
 		assertNull(LoginController.getEmployee("wrong@mail.com"));
 	} 
 	
-	/*@Test
+	@Test
 	public void changePassword() {
 		emp = em.getEmployee("test@mail.com");
 		System.out.println(emp);
 		//LoginController.changePassword(emp, pw, "newPassword");
 		assertTrue(LoginController.changePassword(emp, pw, "newPassword"));
 		assertEquals(emp.getId(),LoginController.login("test@mail.com", "newPassword").getId());
-	} */
+	} 
 	
 	@Test
 	public void changePasswordWithWrongPassword() {	
