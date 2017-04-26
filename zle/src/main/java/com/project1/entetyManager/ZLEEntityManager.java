@@ -30,7 +30,7 @@ public class ZLEEntityManager {
 	public void persistObject(Object o){
 		if (o == null)
 			throw new IllegalArgumentException("Employee is null");
-		    em.getTransaction().begin();
+		    startTransaction();
 		    em.persist(o);
 		    em.getTransaction().commit();
 	}
@@ -68,6 +68,7 @@ public class ZLEEntityManager {
 	public void removeElement(Object o) {
 		if (o == null)
 			throw new IllegalArgumentException("object is null");
+		startTransaction();
 		em.remove(o);
 		em.getTransaction().commit();
 	}

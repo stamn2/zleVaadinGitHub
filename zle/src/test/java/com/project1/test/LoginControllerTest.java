@@ -12,18 +12,18 @@ import com.project1.entetyManager.ZLEEntityManager;
 
 public class LoginControllerTest {
 	
-	ZLEEntityManager em;
-	static final String PERSISTENCE_UNIT_NAME = "zleDB";
+	ZLEEntityManager em = new ZLEEntityManager();
 	Employee emp;
 	String pw;
 	
 	public LoginControllerTest() {
-		em = new ZLEEntityManager(PERSISTENCE_UNIT_NAME);
 		emp = new Employee("test@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		em.persistObject(emp);
 	}
 
 	@Before
 	public void setUp(){
+		emp = em.getEmployee("test@mail.com");
 		pw = emp.generatePassword();
 		em.persistObject(emp);
 	}
@@ -31,7 +31,7 @@ public class LoginControllerTest {
 	@After
 	public void clearDB(){
 		emp = em.getEmployee("test@mail.com");
-		em.removeElement(emp);
+		//em.removeElement(emp);
 	}
 	
 	@Test

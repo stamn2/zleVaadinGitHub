@@ -4,11 +4,18 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class UserControllerTest {
+import com.project1.controller.UserController;
+import com.project1.entetyManager.ZLEEntityManager;
 
+public class UserControllerTest {
+	private static ZLEEntityManager zem = new ZLEEntityManager();
+	
 	@Test
-	public void test() {
-		assertTrue(true);
+	public void addEmployee() {
+		UserController.addEmployee("test@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		System.out.println(zem.getEmployee("test@mail.com").getId());
+		
+		zem.removeElement(zem.getEmployee("test@mail.com"));
 	}
  
 }
