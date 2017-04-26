@@ -29,10 +29,10 @@ public class ZLEEntityManager {
 	
 	public void persistObject(Object o){
 		if (o == null)
-			throw new IllegalArgumentException("Employee is null");
-		    em.getTransaction().begin();
-		    em.persist(o);
-		    em.getTransaction().commit();
+			throw new IllegalArgumentException("Object is null");
+		em.getTransaction().begin();
+		em.persist(o);
+		em.getTransaction().commit();
 	}
 	
 	public Employee getEmployee(String email){
