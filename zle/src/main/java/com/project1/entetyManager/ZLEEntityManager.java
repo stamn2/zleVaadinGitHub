@@ -27,11 +27,11 @@ public class ZLEEntityManager {
 	    em = factory.createEntityManager();
 	}
 	
-	public void persistEmployee(Employee e){
-		if (e == null)
+	public void persistObject(Object o){
+		if (o == null)
 			throw new IllegalArgumentException("Employee is null");
 		    em.getTransaction().begin();
-		    em.persist(e);
+		    em.persist(o);
 		    em.getTransaction().commit();
 	}
 	

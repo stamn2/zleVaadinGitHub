@@ -25,7 +25,7 @@ public class LoginControllerTest {
 	@Before
 	public void setUp(){
 		pw = emp.generatePassword();
-		em.persistEmployee(emp);
+		em.persistObject(emp);
 	}
 	
 	@After

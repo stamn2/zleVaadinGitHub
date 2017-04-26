@@ -28,7 +28,7 @@ public class LoginController {
         emp.setChangePassword(false);
         
         System.out.println(emp);
-        zem.persistEmployee(emp);
+        zem.persistObject(emp);
         return true;
     }
 

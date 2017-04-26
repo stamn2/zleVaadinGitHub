@@ -12,7 +12,7 @@ public class ProjectController {
 
     public static void addClient(String companyName, String firstname, String lastname, String street, String plz, String city, String email, String tel){
         Client client = new Client(companyName, firstname, lastname, street, plz, city, email, tel);
-        //zem.persist(client); TODO persist client
+        zem.persistObject(client);
     }
 
     public static List<Client> getClients(){

@@ -17,7 +17,7 @@ public class UserController {
         Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel, isAdmin);
         String password = emp.generatePassword();
         System.out.println(password);
-        zem.persistEmployee(emp);
+        zem.persistObject(emp);
         try {
             sendAccountCreatedEmail(email, password);
         } catch (MessagingException e) {

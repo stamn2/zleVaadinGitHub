@@ -39,13 +39,13 @@ public class ZLEEntityManagerTest {
 	
 	@Test
 	public void persistEmployee() {
-		em.persistEmployee(emp);
+		em.persistObject(emp);
 		assertEquals(em.getEmployee("email@mail.com"), emp);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nullPersist() throws Exception{
-		em.persistEmployee(null);
+		em.persistObject(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -60,8 +60,8 @@ public class ZLEEntityManagerTest {
 	
 	@Test
 	public void getActiveEmployees(){
-		em.persistEmployee(emp);
-		em.persistEmployee(emp2);
+		em.persistObject(emp);
+		em.persistObject(emp2);
 		List<Employee> activeEmployees = em.getActiveEmployees();
 		assertTrue(activeEmployees.size()==1);
 		assertEquals(activeEmployees.get(0), emp);
@@ -69,8 +69,8 @@ public class ZLEEntityManagerTest {
 	
 	@Test
 	public void getAllEmployees(){
-		em.persistEmployee(emp);
-		em.persistEmployee(emp2);
+		em.persistObject(emp);
+		em.persistObject(emp2);
 		List<Employee> allEmployees = em.getAllEmployees();
 		assertTrue(allEmployees.size()==2);	
 		assertEquals(allEmployees.get(0), emp);
@@ -84,7 +84,7 @@ public class ZLEEntityManagerTest {
 	
 	@Test
 	public void removeObject(){
-		em.persistEmployee(emp);
+		em.persistObject(emp);
 		em.startTransaction();
 		em.removeElement(emp);
 		List<Employee> allEmployees = em.getAllEmployees();
