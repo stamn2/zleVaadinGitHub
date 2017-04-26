@@ -6,6 +6,7 @@ import com.project1.entetyManager.ZLEEntityManager;
 public class LoginController {
 
     private static ZLEEntityManager zem = new ZLEEntityManager();
+    
 
     public static Employee login(String email, String password){
         Employee emp = getEmployee(email);
@@ -26,7 +27,7 @@ public class LoginController {
         emp.setPassword(newPassword);
         emp.setChangePassword(false);
         
-        //TODO persistence
+        System.out.println(emp);
         zem.persistEmployee(emp);
         return true;
     }
