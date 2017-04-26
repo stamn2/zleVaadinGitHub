@@ -22,7 +22,8 @@ public class UserController {
             sendAccountCreatedEmail(email, password);
         } catch (MessagingException e) {
             //TODO make something with exception?
-            e.printStackTrace();
+            //e.printStackTrace();
+        	System.out.println("Error: Email not send!");
         }
         return true;
     }

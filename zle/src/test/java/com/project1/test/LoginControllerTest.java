@@ -30,10 +30,8 @@ public class LoginControllerTest {
 	
 	@After
 	public void clearDB(){
-		em.getAllEmployees().forEach(e->{
-			em.startTransaction();
-			em.removeElement(e);
-		});
+		emp = em.getEmployee("test@mail.com");
+		em.removeElement(emp);
 	}
 	
 	@Test
