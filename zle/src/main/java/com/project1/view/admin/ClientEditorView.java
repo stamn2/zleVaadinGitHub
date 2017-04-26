@@ -31,10 +31,10 @@ public class ClientEditorView extends CustomComponent implements View  {
         idField.setWidth("100%");
         idField.setReadOnly(true);
 
-        companyName = new TextField("firstName:");
+        companyName = new TextField("company name:");
         companyName.setWidth("100%");
         companyName.setRequired(true);
-        companyName.setInputPrompt("firstName of the client");
+        companyName.setInputPrompt("company name of the client");
         companyName.setInvalidAllowed(false);
 
         firstname = new TextField("firstName:");

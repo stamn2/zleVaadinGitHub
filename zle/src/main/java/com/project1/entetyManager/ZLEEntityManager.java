@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import com.project1.domain.Client;
 import com.project1.domain.Employee;
 
 
@@ -59,6 +60,12 @@ public class ZLEEntityManager {
 		Query q = em.createQuery("select o from Employee o");
 		List<Employee> employeeList = q.getResultList();
 		return employeeList;
+	}
+
+	public List<Client> getClients(){
+		Query q = em.createQuery("select o from Client o");
+		List<Client> clientList = q.getResultList();
+		return clientList;
 	}
 	
 	public void startTransaction(){

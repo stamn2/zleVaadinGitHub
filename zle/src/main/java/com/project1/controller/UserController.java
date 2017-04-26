@@ -18,13 +18,11 @@ public class UserController {
         String password = emp.generatePassword();
         System.out.println(password);
         zem.persistObject(emp);
-        try {
+        /*try { TODO : uncomment the lines to send email for final version
             sendAccountCreatedEmail(email, password);
         } catch (MessagingException e) {
-            //TODO make something with exception?
-            //e.printStackTrace();
         	System.out.println("Error: Email not send!");
-        }
+        }*/
         return true;
     }
     

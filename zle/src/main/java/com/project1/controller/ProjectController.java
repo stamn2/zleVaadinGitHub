@@ -16,8 +16,7 @@ public class ProjectController {
     }
 
     public static List<Client> getClients(){
-        //return zem.getClients(); TODO
-        return new ArrayList<>();
+        return zem.getClients();
     }
 
 }
