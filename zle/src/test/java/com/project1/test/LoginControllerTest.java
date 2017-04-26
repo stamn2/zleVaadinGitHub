@@ -61,9 +61,6 @@ public class LoginControllerTest {
 	
 	@Test
 	public void changePassword() {
-		emp = em.getEmployee("test@mail.com");
-		//LoginController.changePassword(emp, pw, "newPassword");
-		//em.getEmployee("test@mail.com").setPassword("newPassword");
 		String newPw = "newPassword";
 		assertTrue(LoginController.changePassword(em.getEmployee("test@mail.com"), pw, newPw));
 		assertEquals(em.getEmployee("test@mail.com").getId(),LoginController.login("test@mail.com", "newPassword").getId());
