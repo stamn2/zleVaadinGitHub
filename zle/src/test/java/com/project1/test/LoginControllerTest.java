@@ -36,7 +36,7 @@ public class LoginControllerTest {
 	
 	@Test
 	public void login() {
-		assertEquals(LoginController.login("test@mail.com", pw).getEmail(), emp.getEmail());
+		assertEquals(LoginController.login("test@mail.com", pw).getId(), emp.getId());
 	}
 	
 	@Test
@@ -62,10 +62,11 @@ public class LoginControllerTest {
 	@Test
 	public void changePassword() {
 		emp = em.getEmployee("test@mail.com");
-		System.out.println(emp);
 		//LoginController.changePassword(emp, pw, "newPassword");
-		assertTrue(LoginController.changePassword(emp, pw, "newPassword"));
-		assertEquals(emp.getId(),LoginController.login("test@mail.com", "newPassword").getId());
+		//em.getEmployee("test@mail.com").setPassword("newPassword");
+		String newPw = "newPassword";
+		assertTrue(LoginController.changePassword(em.getEmployee("test@mail.com"), pw, newPw));
+		assertEquals(em.getEmployee("test@mail.com").getId(),LoginController.login("test@mail.com", "newPassword").getId());
 	} 
 	
 	@Test

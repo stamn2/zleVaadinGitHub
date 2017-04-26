@@ -24,11 +24,10 @@ public class LoginController {
         if(login(emp.getEmail(), oldPassword) == null){
             return false;
         }
-        emp.setPassword(newPassword);
-        emp.setChangePassword(false);
+        zem.getEmployee(emp.getEmail()).setPassword(newPassword);
+        zem.getEmployee(emp.getEmail()).setChangePassword(false);
         
-        System.out.println(emp);
-        zem.persistObject(emp);
+        zem.persistObject(zem.getEmployee(emp.getEmail()));
         return true;
     }
 
