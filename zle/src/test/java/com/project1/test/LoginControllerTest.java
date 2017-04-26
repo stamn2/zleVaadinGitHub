@@ -9,6 +9,6 @@ public class LoginControllerTest {
 	@Test
 	public void test() {
 		assertTrue(true);
-	}
+	} 
 
 }

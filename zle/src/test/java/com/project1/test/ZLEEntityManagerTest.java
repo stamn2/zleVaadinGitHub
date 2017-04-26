@@ -76,7 +76,7 @@ public class ZLEEntityManagerTest {
 		assertEquals(allEmployees.get(0), emp);
 		assertEquals(allEmployees.get(1), emp2);
 	}
-	
+	 
 	@Test(expected = IllegalArgumentException.class)
 	public void removeNull() throws Exception{
 		em.removeElement(null);

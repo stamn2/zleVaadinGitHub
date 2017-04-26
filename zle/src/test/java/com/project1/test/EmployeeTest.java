@@ -14,7 +14,7 @@ public class EmployeeTest {
 	@Before
 	public void setUp(){
 		emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
-	}
+	} 
 
 	@Test
 	public void generatePassword() {
