@@ -43,6 +43,7 @@ public class ZLEEntityManager {
 		Query q = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = true");
 		try {
 			Employee employee = (Employee) q.getSingleResult();
+			em.refresh(employee);
 			return employee;
 		} catch (NoResultException e) {
 			return null; 
@@ -53,18 +54,27 @@ public class ZLEEntityManager {
 	public List<Employee> getActiveEmployees(){
 		Query q = em.createQuery("select o from Employee o where o.active = true");
 		List<Employee> employeeList = q.getResultList();
+		for(Employee e : employeeList) {
+			em.refresh(e);
+		}
 		return employeeList;
 	}
 	
 	public List<Employee> getAllEmployees(){
 		Query q = em.createQuery("select o from Employee o");
 		List<Employee> employeeList = q.getResultList();
+		for(Employee e : employeeList) {
+			em.refresh(e);
+		}
 		return employeeList;
 	}
 
 	public List<Client> getClients(){
 		Query q = em.createQuery("select o from Client o");
 		List<Client> clientList = q.getResultList();
+		for(Client c : clientList) {
+			em.refresh(c);
+		}
 		return clientList;
 	}
 	
@@ -72,7 +82,21 @@ public class ZLEEntityManager {
 		if (!em.getTransaction().isActive())
 			em.getTransaction().begin();
 	}
-	
+
+	//TODO check function
+	public void endTransaction(){
+		if(em.getTransaction().isActive()) {
+			em.getTransaction().commit();
+		}
+	}
+
+	//TODO check function
+	public Object findObject(Class c, Long id){
+		Object o = em.find(c, id);
+		em.refresh(o);
+		return o;
+	}
+
 	public void removeElement(Object o) {
 		if (o == null)
 			throw new IllegalArgumentException("object is null");
