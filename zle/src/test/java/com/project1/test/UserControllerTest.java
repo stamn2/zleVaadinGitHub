@@ -34,7 +34,7 @@ public class UserControllerTest {
 	public void getActiveEmployees() {
 		UserController.addEmployee("test@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
 		assertEquals("test@mail.com",zem.getActiveEmployees().get(0).getEmail());
-		
+		assertTrue(zem.getActiveEmployees().size()==1);
 	}
  
 }
