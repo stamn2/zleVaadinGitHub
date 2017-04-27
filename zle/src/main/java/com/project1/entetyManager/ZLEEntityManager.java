@@ -83,14 +83,14 @@ public class ZLEEntityManager {
 			em.getTransaction().begin();
 	}
 
-	//TODO check function
+	
 	public void endTransaction(){
 		if(em.getTransaction().isActive()) {
 			em.getTransaction().commit();
 		}
 	}
 
-	//TODO check function
+	
 	public Object findObject(Class c, Long id){
 		Object o = em.find(c, id);
 		em.refresh(o);
