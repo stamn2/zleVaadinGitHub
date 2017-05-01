@@ -1,7 +1,9 @@
 package com.project1.view.admin;
 
+import com.project1.domain.Employee;
 import com.project1.view.FirstLoginView;
 import com.project1.view.LoginView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
@@ -73,7 +75,9 @@ public class AdminHomepageView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        Notification.show("enter the homepage view");
+        if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+            getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+        }
     }
 
 }

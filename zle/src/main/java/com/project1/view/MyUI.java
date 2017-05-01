@@ -70,10 +70,15 @@ public class MyUI extends UI {
 				if (!isLoggedIn && !isLoginView) {
 					getNavigator().navigateTo(LoginView.NAME);
 					return false;
-				} /*else if (isLoggedIn && isLoginView) {
-					getNavigator().navigateTo(???View???.NAME);
+				}else if (isLoggedIn && isLoginView) {
+                    if(((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+                        getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+                    }
+                    else{
+                        getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+                    }
 					return false;
-				}*/
+				}
 				return true;
 			}
 

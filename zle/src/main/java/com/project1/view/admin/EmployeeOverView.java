@@ -3,6 +3,7 @@ package com.project1.view.admin;
 import com.project1.controller.UserController;
 import com.project1.domain.Employee;
 import com.project1.view.LoginView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
@@ -77,8 +78,9 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-    	//TODO -> BIC.refresh()
-        Notification.show("enter the employee overview");
+        if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+            getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+        }
     }
 
 }

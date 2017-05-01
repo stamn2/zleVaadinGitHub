@@ -103,9 +103,7 @@ public class LoginView extends CustomComponent implements View{
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		if(getUI().getSession().getAttribute("user")!=null) getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
-		Notification.show("enter the Login-View");
-		
+		Notification.show("enter Login-View");
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.project1.view.admin;
 
 import com.project1.controller.UserController;
+import com.project1.domain.Employee;
 import com.project1.view.LoginView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -144,8 +146,9 @@ public class EmployeeEditorView extends CustomComponent implements View{
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("enter the Emp-Editor");
-		
+        if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+            getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+        }
 	}
 
 
