@@ -2,6 +2,7 @@ package com.project1.controller;
 
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
 import com.project1.entetyManager.ZLEEntityManager;
 
 import java.util.ArrayList;
@@ -17,6 +18,14 @@ public class ProjectController {
 
     public static List<Client> getClients(){
         return zem.getClients();
+    }
+
+    public static List<Project> getProjects(){
+        return new ArrayList<>(); //TODO
+    }
+
+    public static void addProject(String name, Client client){
+        //TODO
     }
 
 }

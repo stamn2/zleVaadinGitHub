@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.project1.controller.UserController;
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
 import com.project1.view.admin.*;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.annotations.Theme;
@@ -55,6 +56,8 @@ public class MyUI extends UI {
         getNavigator().addView(EmployeeOverView.NAME, EmployeeOverView.class);
 		getNavigator().addView(ClientOverView.NAME, ClientOverView.class);
 		getNavigator().addView(ClientEditorView.NAME, ClientEditorView.class);
+		getNavigator().addView(ProjectOverView.NAME, ProjectOverView.class);
+		getNavigator().addView(ProjectEditorView.NAME, ProjectEditorView.class);
         
         
 		getNavigator().addViewChangeListener(new ViewChangeListener() {
