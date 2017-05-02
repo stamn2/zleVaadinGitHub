@@ -46,7 +46,7 @@ public class ProjectEditorView extends CustomComponent implements View {
         client.setContainerDataSource(ds);
         client.setItemCaptionPropertyId("companyName");//TODO : show firstname and lastname
 
-        save = new Button("SAVE");
+        save = new Button("ADD");
         save.addClickListener(e -> {
             if(!name.isValid() || !client.isValid()){
                 //TODO: show wich fields are not valid

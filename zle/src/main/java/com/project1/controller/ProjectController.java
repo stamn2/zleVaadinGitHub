@@ -29,4 +29,9 @@ public class ProjectController {
         zem.persistObject(project);
     }
 
+	public static List<Employee> getEmployees() {
+		// TODO Auto-generated method stub
+		return UserController.getActivesEmployees(); //instead of return null, to avoid nullpinterException :)
+	}
+
 }
