@@ -15,4 +15,29 @@ public class Project {
 
     @ManyToOne
     private Client client;
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getClient() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getNumbOfEmp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -58,6 +58,7 @@ public class MyUI extends UI {
 		getNavigator().addView(ClientEditorView.NAME, ClientEditorView.class);
 		getNavigator().addView(ProjectOverView.NAME, ProjectOverView.class);
 		getNavigator().addView(ProjectEditorView.NAME, ProjectEditorView.class);
+		getNavigator().addView(ProjectDetailView.NAME, ProjectDetailView.class);
         
         
 		getNavigator().addViewChangeListener(new ViewChangeListener() {
