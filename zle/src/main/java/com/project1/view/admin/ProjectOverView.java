@@ -14,6 +14,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ProjectOverView extends CustomComponent implements View {
@@ -25,16 +26,10 @@ public class ProjectOverView extends CustomComponent implements View {
 
 	public static final String NAME = "projectOverview";
 
-    private final Button addProject, logout, link;
+    private final Button addProject, logout;
     private final Grid projectsGrid;
 
     public ProjectOverView(){
-        link = new Button("link");
-        link.setWidth("15%");
-        link.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectDetailView.NAME);
-        });
-    	
         addProject = new Button("Add Project");
         addProject.setWidth("15%");
         addProject.addClickListener(e -> {
@@ -49,8 +44,16 @@ public class ProjectOverView extends CustomComponent implements View {
 
         List<Project> projectList = ProjectController.getProjects();
         BeanItemContainer<Project> ds = new BeanItemContainer<>(Project.class, projectList);
+        ds.addNestedContainerBean("client");
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
+        gpc.removeContainerProperty("active");
+        gpc.removeContainerProperty("client.id");
+        gpc.removeContainerProperty("client.street");
+        gpc.removeContainerProperty("client.plz");
+        gpc.removeContainerProperty("client.city");
+        gpc.removeContainerProperty("client.email");
+        gpc.removeContainerProperty("client.tel");
         gpc.addGeneratedProperty("show",
                 new PropertyValueGenerator<String>() {
                     @Override
@@ -72,7 +75,7 @@ public class ProjectOverView extends CustomComponent implements View {
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                         showProject(e.getItemId()))); //TODO edit object
 
-        VerticalLayout viewLayout = new VerticalLayout(link, logout, addProject, projectsGrid);
+        VerticalLayout viewLayout = new VerticalLayout(logout, addProject, projectsGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
