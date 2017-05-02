@@ -1,7 +1,9 @@
 package com.project1.view.admin;
 
+import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.view.LoginView;
+import com.project1.view.user.UserHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -27,33 +29,34 @@ public class ProjectDetailView extends CustomComponent implements View{
 	 private Project project;
 	 
 	public ProjectDetailView() {
+		//TODO correct all navigateTo
         employees = new Button("Employees");
         employees.setWidth("80%");
         employees.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
+            //getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
         });
 		
         history = new Button("History");
         history.setWidth("80%");
         history.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+           // getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
         cost = new Button("Cost");
         cost.setWidth("80%");
         cost.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ClientOverView.NAME);
+            //getUI().getNavigator().navigateTo(ClientOverView.NAME);
         });
         
         editProject = new Button("Edit Project");
         editProject.setWidth("80%");
         editProject.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ClientOverView.NAME);
+           //getUI().getNavigator().navigateTo(ClientOverView.NAME);
         });
         
         endProject = new Button("End Project");
         endProject.setWidth("80%");
         endProject.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ClientOverView.NAME);
+           // getUI().getNavigator().navigateTo(ClientOverView.NAME);
         });
 
         
@@ -71,6 +74,7 @@ public class ProjectDetailView extends CustomComponent implements View{
 			getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
         
+        //TODO make buttons-alignment correct -.-
         HorizontalLayout topLayer = new HorizontalLayout(back, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
@@ -82,12 +86,12 @@ public class ProjectDetailView extends CustomComponent implements View{
         adminButtons.setWidth("100%");
         adminButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         
-        Label projectName = new Label();
+        Label projectName = new Label();//TODO real projectName
         //projectName.setValue(project.getName());
         projectName.setValue("ProjectX");
         projectName.setHeight("2em");
         
-        TextArea infoText = new TextArea();
+        TextArea infoText = new TextArea(); //TODO real values of the project
         /*infoText.setValue("State: "+project.getState()+"\n"+
         		"Client: "+project.getClient()+"\n"+
         		"# of Employees: "+project.getNumbOfEmp()+"\n"+
@@ -109,15 +113,16 @@ public class ProjectDetailView extends CustomComponent implements View{
         VerticalLayout viewLayout = new VerticalLayout(topLayer, homeLayout);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
-        //viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         setCompositionRoot(viewLayout);
 		
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
-		
+		 if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+	            getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+		 }
 	}
 
 }
