@@ -79,7 +79,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
-        topLayer.setComponentAlignment(back, Alignment.TOP_RIGHT);
+        topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         
         VerticalLayout adminButtons = new VerticalLayout(employees,history,cost,editProject,endProject);
         adminButtons.setSpacing(true);
@@ -98,8 +98,9 @@ public class ProjectDetailView extends CustomComponent implements View{
         		"Cost: "+project.getCost()); */
         infoText.setValue("infoText");
         infoText.setReadOnly(true);
+        infoText.setWidth("100%");
         
-        
+       
         VerticalLayout projectInfo = new VerticalLayout(projectName, infoText);
         projectInfo.setSpacing(true);
         projectInfo.setWidth("100%");
