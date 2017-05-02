@@ -5,11 +5,14 @@ import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.ButtonRenderer;
 
 import java.util.List;
 
@@ -48,10 +51,26 @@ public class ProjectOverView extends CustomComponent implements View {
         BeanItemContainer<Project> ds = new BeanItemContainer<>(Project.class, projectList);
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
+        gpc.addGeneratedProperty("show",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Show"; // The caption
+                    }
+
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
 
 
-        projectsGrid = new Grid("Projects", gpc);
+        projectsGrid = new Grid("Projects", gpc); //TODO show client correctly
         projectsGrid.setWidth("100%");
+        projectsGrid.getColumn("show")
+                .setRenderer(new ButtonRenderer(e -> // Java 8
+                        showProject(e.getItemId()))); //TODO edit object
 
         VerticalLayout viewLayout = new VerticalLayout(link, logout, addProject, projectsGrid);
         viewLayout.setMargin(true);
@@ -59,6 +78,11 @@ public class ProjectOverView extends CustomComponent implements View {
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         setCompositionRoot(viewLayout);
+    }
+
+    private void showProject(Object e){
+        Project p = (Project)e;
+        getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/"+ p.getId());
     }
 
     @Override

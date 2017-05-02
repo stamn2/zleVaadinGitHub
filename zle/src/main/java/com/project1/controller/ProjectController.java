@@ -30,8 +30,12 @@ public class ProjectController {
     }
 
 	public static List<Employee> getEmployees() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub //TODO use UserController???
 		return UserController.getActivesEmployees(); //instead of return null, to avoid nullpinterException :)
 	}
+
+    public static Project getProject(long id){
+        return (Project)zem.findObject(Project.class, id);
+    }
 
 }
