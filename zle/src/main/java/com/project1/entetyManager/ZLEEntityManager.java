@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
 
 
 public class ZLEEntityManager {
@@ -76,6 +77,15 @@ public class ZLEEntityManager {
 			em.refresh(c);
 		}
 		return clientList;
+	}
+
+	public List<Project> getActivePojects(){
+		Query q = em.createQuery("select o from Project o where o.active = true");
+		List<Project> projectList = q.getResultList();
+		for(Project p : projectList) {
+			em.refresh(p);
+		}
+		return projectList;
 	}
 	
 	public void startTransaction(){

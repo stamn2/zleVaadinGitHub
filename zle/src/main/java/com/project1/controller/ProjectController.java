@@ -21,11 +21,12 @@ public class ProjectController {
     }
 
     public static List<Project> getProjects(){
-        return new ArrayList<>(); //TODO
+        return zem.getActivePojects();
     }
 
     public static void addProject(String name, Client client){
-        //TODO
+        Project project = new Project(name, client);
+        zem.persistObject(project);
     }
 
 }

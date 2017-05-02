@@ -11,33 +11,46 @@ public class Project {
     @GeneratedValue private long id;
 
     private String name;
-    private boolean active;
+    private boolean active = true;
 
     @ManyToOne
     private Client client;
 
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Project(){
 
-	public String getState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
 
-	public String getClient() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Project(String name, Client client){
+        this.name = name;
+        this.client = client;
+    }
 
-	public String getCost() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public String getNumbOfEmp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getCost() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getNumbOfEmp() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    //------------ GETTER AND SETTER ----------------------
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public Client getClient() {
+        return client;
+    }
 }

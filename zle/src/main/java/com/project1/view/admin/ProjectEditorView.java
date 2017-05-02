@@ -1,12 +1,16 @@
 package com.project1.view.admin;
 
 import com.project1.controller.ProjectController;
+import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+
+import java.util.List;
 
 public class ProjectEditorView extends CustomComponent implements View {
 
@@ -26,33 +30,36 @@ public class ProjectEditorView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-        name = new TextField("company name:");
+        name = new TextField("project name:");
         name.setWidth("100%");
         name.setRequired(true);
-        name.setInputPrompt("company name of the client");
+        name.setInputPrompt("name of the project");
         name.setInvalidAllowed(false);
+
+        List<Client> clientList = ProjectController.getClients();
+        BeanItemContainer<Client> ds = new BeanItemContainer<>(Client.class, clientList);
 
         client = new ComboBox("Client: ");
         client.setWidth("100%");
         client.setRequired(true);
         client.setInvalidAllowed(false);
-        client.addItem(ProjectController.getClients()); //TODO : choose client
+        client.setContainerDataSource(ds);
+        client.setItemCaptionPropertyId("companyName");//TODO : show firstname and lastname
 
         save = new Button("SAVE");
         save.addClickListener(e -> {
-            if(!name.isValid()){
+            if(!name.isValid() || !client.isValid()){
                 //TODO: show wich fields are not valid
                 Notification.show("Form is not filled correctly");
             }
             else{
-                //TODO
-                //ProjectController.addClient(name.getValue(), client);
-                //getUI().getNavigator().navigateTo(ProjectDetailView.NAME);
+                ProjectController.addProject(name.getValue(), (Client)client.getValue());
+                //getUI().getNavigator().navigateTo(ProjectDetailView.NAME); //TODO
             }
         });
 
         // Add both to a panel
-        fields = new VerticalLayout(name, client);
+        fields = new VerticalLayout(name, client, save);
         fields.setSpacing(true);
         fields.setWidth("50%");
         fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
