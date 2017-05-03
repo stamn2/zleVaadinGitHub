@@ -3,6 +3,7 @@ package com.project1.view.admin;
 import com.project1.controller.ProjectController;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.util.BeanItemContainer;
@@ -53,8 +54,8 @@ public class ProjectEditorView extends CustomComponent implements View {
                 Notification.show("Form is not filled correctly");
             }
             else{
-                ProjectController.addProject(name.getValue(), (Client)client.getValue());
-                //getUI().getNavigator().navigateTo(ProjectDetailView.NAME); //TODO
+                Project p = ProjectController.addProject(name.getValue(), (Client)client.getValue());
+                getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/"+ p.getId());
             }
         });
 

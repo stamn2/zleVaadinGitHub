@@ -24,9 +24,10 @@ public class ProjectController {
         return zem.getActivePojects();
     }
 
-    public static void addProject(String name, Client client){
+    public static Project addProject(String name, Client client){
         Project project = new Project(name, client);
         zem.persistObject(project);
+        return project;
     }
 
 	public static List<Employee> getEmployees() {
