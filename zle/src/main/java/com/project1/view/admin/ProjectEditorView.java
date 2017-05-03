@@ -19,18 +19,32 @@ public class ProjectEditorView extends CustomComponent implements View {
 
     private TextField name;
     private ComboBox client;
-    private Button save, logout;
+    private Button save, logout, back;
     private VerticalLayout fields;
     private VerticalLayout viewLayout;
 
     public ProjectEditorView(){
         logout = new Button("Logout");
         logout.setWidth("15%");
-        logout.addClickListener( e -> {
+        logout.addClickListener(e ->{
             getUI().getSession().setAttribute("user", null);
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
+
+        back = new Button("Back");
+        back.setWidth("15%");
+        back.addClickListener(e ->{
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+        });
+
+        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        topLayer.setSpacing(true);
+        topLayer.setWidth("100%");
+        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
+        
+        
         name = new TextField("project name:");
         name.setWidth("100%");
         name.setRequired(true);
@@ -66,11 +80,10 @@ public class ProjectEditorView extends CustomComponent implements View {
         fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         // The view root layout
-        viewLayout = new VerticalLayout(logout, fields);
+        viewLayout = new VerticalLayout(topLayer, fields);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-        viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         setCompositionRoot(viewLayout);
 

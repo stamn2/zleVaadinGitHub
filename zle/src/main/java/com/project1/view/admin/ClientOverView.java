@@ -17,7 +17,7 @@ public class ClientOverView extends CustomComponent implements View {
 
     public static final String NAME = "clientOverview";
 
-    private final Button addClient, logout;
+    private final Button addClient, logout, back;
     private final Grid clientsGrid;
 
     public ClientOverView(){
@@ -34,6 +34,19 @@ public class ClientOverView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
+
+        back = new Button("Back");
+        back.setWidth("15%");
+        back.addClickListener(e ->{
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        topLayer.setSpacing(true);
+        topLayer.setWidth("100%");
+        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
+
         List<Client> clientList = ProjectController.getClients();
         BeanItemContainer<Client> ds = new BeanItemContainer<>(Client.class, clientList);
         // Generate button caption column
@@ -43,11 +56,10 @@ public class ClientOverView extends CustomComponent implements View {
         clientsGrid = new Grid("Clients", gpc);
         clientsGrid.setWidth("100%");
 
-        VerticalLayout viewLayout = new VerticalLayout(logout, addClient, clientsGrid);
+        VerticalLayout viewLayout = new VerticalLayout(topLayer, addClient, clientsGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         setCompositionRoot(viewLayout);
     }
 

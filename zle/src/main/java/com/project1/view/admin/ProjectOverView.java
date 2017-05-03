@@ -26,7 +26,7 @@ public class ProjectOverView extends CustomComponent implements View {
 
 	public static final String NAME = "projectOverview";
 
-    private final Button addProject, logout;
+    private final Button addProject, logout, back;
     private final Grid projectsGrid;
 
     public ProjectOverView(){
@@ -39,8 +39,22 @@ public class ProjectOverView extends CustomComponent implements View {
         logout = new Button("Logout");
         logout.setWidth("15%");
         logout.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(ProjectEditorView.NAME);
+            getUI().getSession().setAttribute("user", null);
+            getUI().getNavigator().navigateTo(LoginView.NAME);
         });
+
+
+        back = new Button("Back");
+        back.setWidth("15%");
+        back.addClickListener(e ->{
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        topLayer.setSpacing(true);
+        topLayer.setWidth("100%");
+        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         List<Project> projectList = ProjectController.getProjects();
         BeanItemContainer<Project> ds = new BeanItemContainer<>(Project.class, projectList);
@@ -75,11 +89,10 @@ public class ProjectOverView extends CustomComponent implements View {
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                         showProject(e.getItemId()))); //TODO edit object
 
-        VerticalLayout viewLayout = new VerticalLayout(logout, addProject, projectsGrid);
+        VerticalLayout viewLayout = new VerticalLayout(topLayer, addProject, projectsGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         setCompositionRoot(viewLayout);
     }
 

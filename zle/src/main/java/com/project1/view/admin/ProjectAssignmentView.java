@@ -56,9 +56,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         
         back = new Button("Back");
         back.setWidth("15%");
-        back.addClickListener(e ->{
-			getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-        });
+
         
         topLayer = new HorizontalLayout(back, logout);
         topLayer.setSpacing(true);
@@ -129,6 +127,10 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        gpc.removeContainerProperty("employee.changePassword");
 	        gpc.removeContainerProperty("employee.firstname");
 	        gpc.removeContainerProperty("employee.lastname");
+	        
+	        back.addClickListener(e ->{
+				getUI().getNavigator().navigateTo(ProjectDetailView.NAME+ "/"+ project.getId());
+	        });
 
 
 	        projectsGrid = new Grid("Projects", gpc);

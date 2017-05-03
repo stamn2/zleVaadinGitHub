@@ -19,7 +19,7 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     public static final String NAME = "employeeOverview";
 
-    private final Button addEmployee, logout;
+    private final Button addEmployee, logout, back;
     private final Grid employeesGrid;
     
     //List<Employee> employeeList;
@@ -35,9 +35,22 @@ public class EmployeeOverView extends CustomComponent implements View {
         logout = new Button("Logout");
         logout.setWidth("15%");
         logout.addClickListener(e ->{
-			getUI().getSession().setAttribute("user", null);
-			getUI().getNavigator().navigateTo(LoginView.NAME);
+            getUI().getSession().setAttribute("user", null);
+            getUI().getNavigator().navigateTo(LoginView.NAME);
         });
+
+
+        back = new Button("Back");
+        back.setWidth("15%");
+        back.addClickListener(e ->{
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        topLayer.setSpacing(true);
+        topLayer.setWidth("100%");
+        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         List<Employee> employeeList = UserController.getActivesEmployees();
         BeanItemContainer<Employee> ds = new BeanItemContainer<>(Employee.class, employeeList);
@@ -68,11 +81,10 @@ public class EmployeeOverView extends CustomComponent implements View {
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                         System.out.println(e.getItemId()))); //TODO : generate new password
 
-        VerticalLayout viewLayout = new VerticalLayout(logout, addEmployee, employeesGrid);
+        VerticalLayout viewLayout = new VerticalLayout(topLayer, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         setCompositionRoot(viewLayout);
     }
 
