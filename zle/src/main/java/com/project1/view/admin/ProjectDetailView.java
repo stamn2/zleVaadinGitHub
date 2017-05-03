@@ -37,10 +37,8 @@ public class ProjectDetailView extends CustomComponent implements View{
         //TODO correct all navigateTo
         employees = new Button("Employees");
         employees.setWidth("80%");
-        employees.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME);
-        });
-
+        
+        
         history = new Button("History");
         history.setWidth("80%");
         history.addClickListener(e -> {

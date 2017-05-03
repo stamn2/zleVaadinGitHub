@@ -89,7 +89,7 @@ public class ZLEEntityManager {
 	}
 	
 	public List<ProjectCommitment> getProjectCommitment(long id){
-		Query q = em.createQuery("select o from ProjectCommitment o where o.project ="+id);
+		Query q = em.createQuery("select o from ProjectCommitment o where o.project.id ="+id);
 		List<ProjectCommitment> projectCommitmenttList = q.getResultList();
 		for(ProjectCommitment p : projectCommitmenttList) {
 			em.refresh(p);
