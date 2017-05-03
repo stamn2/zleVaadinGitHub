@@ -37,11 +37,6 @@ public class ProjectController {
         return projectCommitment;
     }
 
-	public static List<Employee> getEmployees() {
-		// TODO Auto-generated method stub //TODO use UserController???
-		return UserController.getActivesEmployees(); //instead of return null, to avoid nullpinterException :)
-	}
-
     public static Project getProject(long id){
         return (Project)zem.findObject(Project.class, id);
     }
@@ -50,8 +45,8 @@ public class ProjectController {
         return (ProjectCommitment)zem.findObject(ProjectCommitment.class, id);
     }
     
-    public static List<ProjectCommitment> getProjectCommitmentList(long id){
-        return (List<ProjectCommitment>)zem.getProjectCommitment(id);
+    public static List<ProjectCommitment> getProjectCommitmentList(long idProject){
+        return zem.getProjectCommitmentWithProject(idProject);
     }
 
 }

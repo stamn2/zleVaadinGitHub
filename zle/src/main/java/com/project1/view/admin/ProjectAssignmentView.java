@@ -70,7 +70,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         hourlyRate.setInvalidAllowed(false);
 
 
-        List<Employee> AllEmpsList = ProjectController.getEmployees();
+        List<Employee> AllEmpsList = UserController.getActivesEmployees();
 	    BeanItemContainer<Employee> dsEmp = new BeanItemContainer<>(Employee.class, AllEmpsList);	        
 
         employee = new ComboBox("Employee: ");
