@@ -1,9 +1,12 @@
 package com.project1.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class ProjectCommitment {
@@ -18,6 +21,9 @@ public class ProjectCommitment {
     
     @ManyToOne
     private Employee employee;
+    
+    @OneToMany
+    private List<Activity> activity;
     
     public ProjectCommitment(){
     }
@@ -62,6 +68,10 @@ public class ProjectCommitment {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public List<Activity> getActivityList() {
+		return activity;
 	}
     
     
