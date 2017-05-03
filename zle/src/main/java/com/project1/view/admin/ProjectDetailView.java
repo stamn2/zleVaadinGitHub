@@ -29,6 +29,9 @@ public class ProjectDetailView extends CustomComponent implements View{
     private final Button cost, history, employees, editProject, endProject;
     private final Button logout, back;
     private Project project;
+    private Label projectName;
+    private TextArea infoText;
+    private VerticalLayout viewLayout;
 
     public ProjectDetailView() {
         //TODO correct all navigateTo
@@ -87,11 +90,11 @@ public class ProjectDetailView extends CustomComponent implements View{
         adminButtons.setWidth("100%");
         adminButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        Label projectName = new Label();
+        projectName = new Label();
         //projectName.setValue(project.getName()); //TODO problem constructor is done before enter
         projectName.setHeight("2em");
 
-        TextArea infoText = new TextArea();
+        infoText = new TextArea();
         /*Client c = project.getClient(); //TODO problem constructor is done befor enter
         infoText.setValue("State: " + project.isActive() + "\n" +
                         "Client: " + c.getCompanyName() + "\n" +
@@ -104,7 +107,7 @@ public class ProjectDetailView extends CustomComponent implements View{
                         "Cost: "
                 );*/
         infoText.setValue("infoText");
-        infoText.setReadOnly(true);
+        infoText.setHeight("100%"); //TODO setHeight correctly!
         infoText.setWidth("100%");
 
 
@@ -118,11 +121,11 @@ public class ProjectDetailView extends CustomComponent implements View{
         homeLayout.setWidth("100%");
         homeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        VerticalLayout viewLayout = new VerticalLayout(topLayer, homeLayout);
+        viewLayout = new VerticalLayout(topLayer, homeLayout);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        setCompositionRoot(viewLayout);
+        //setCompositionRoot(viewLayout);
 
     }
 
@@ -132,6 +135,20 @@ public class ProjectDetailView extends CustomComponent implements View{
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
         }
         project = ProjectController.getProject(Long.parseLong(event.getParameters())); //TODO check id
+        projectName.setValue(project.getName());
+        Client c = project.getClient(); //TODO problem constructor is done befor enter
+        infoText.setValue("State: " + project.isActive() + "\n" +
+                        "Client: " + c.getCompanyName() + "\n" +
+                        c.getFirstname() + " " + c.getLastname() + "\n"+
+                        c.getStreet() + "\n"+
+                        c.getPlz() + " " + c.getCity() + "\n"+
+                        c.getEmail() + "\n"+
+                        c.getTel() + "\n" +
+                        "# of Employees: " + "\n" +
+                        "Cost: "
+                );
+        infoText.setReadOnly(true);
+        setCompositionRoot(viewLayout);
     }
 
 }
