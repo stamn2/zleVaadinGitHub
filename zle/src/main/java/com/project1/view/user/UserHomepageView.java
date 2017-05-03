@@ -1,5 +1,6 @@
 package com.project1.view.user;
 
+import com.project1.view.ActivityRecordView;
 import com.project1.view.LoginView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -23,6 +24,9 @@ public class UserHomepageView extends CustomComponent implements View {
 
         manualEntry = new Button("Manual Entry");
         manualEntry.setWidth("70%");
+        manualEntry.addClickListener( e ->{
+            getUI().getNavigator().navigateTo(ActivityRecordView.NAME);
+        });
         history = new Button("History");
         history.setWidth("70%");
 

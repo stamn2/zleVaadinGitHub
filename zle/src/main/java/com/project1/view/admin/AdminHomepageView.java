@@ -1,6 +1,7 @@
 package com.project1.view.admin;
 
 import com.project1.domain.Employee;
+import com.project1.view.ActivityRecordView;
 import com.project1.view.FirstLoginView;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
@@ -43,6 +44,9 @@ public class AdminHomepageView extends CustomComponent implements View {
 
         manualEntry = new Button("Manual Entry");
         manualEntry.setWidth("80%");
+        manualEntry.addClickListener( e ->{
+            getUI().getNavigator().navigateTo(ActivityRecordView.NAME);
+        });
         history = new Button("History");
         history.setWidth("80%");
         

@@ -60,6 +60,7 @@ public class MyUI extends UI {
 		getNavigator().addView(ProjectEditorView.NAME, ProjectEditorView.class);
 		getNavigator().addView(ProjectDetailView.NAME, ProjectDetailView.class);
 		getNavigator().addView(ProjectAssignmentView.NAME, ProjectAssignmentView.class);
+		getNavigator().addView(ActivityRecordView.NAME, ActivityRecordView.class);
         
         
 		getNavigator().addViewChangeListener(new ViewChangeListener() {
