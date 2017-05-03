@@ -1,11 +1,14 @@
 package com.project1.view.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.project1.controller.ProjectController;
 import com.project1.controller.UserController;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
+import com.project1.domain.ProjectCommitment;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.util.BeanItemContainer;
@@ -34,9 +37,11 @@ public class ProjectAssignmentView extends CustomComponent implements View{
     private TextField hourlyRate;
     private ComboBox employee;
     private Button save, logout, back;
-    private HorizontalLayout fields;
+    private HorizontalLayout fields,topLayer;
     private VerticalLayout viewLayout;
-    private final Grid projectsGrid;
+    private Grid projectsGrid;
+    private Project project;
+    private List<ProjectCommitment> projectCommitment;
     
 	public ProjectAssignmentView() {
 		
@@ -54,7 +59,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 			getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
         
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        topLayer = new HorizontalLayout(back, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
@@ -65,52 +70,32 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         hourlyRate.setRequired(true);
         hourlyRate.setInvalidAllowed(false);
 
-        List<Employee> empList = UserController.getActivesEmployees();
-        BeanItemContainer<Employee> dsEmp = new BeanItemContainer<>(Employee.class, empList);
+
+        List<Employee> AllEmpsList = ProjectController.getEmployees();
+	    BeanItemContainer<Employee> dsEmp = new BeanItemContainer<>(Employee.class, AllEmpsList);	        
 
         employee = new ComboBox("Employee: ");
         employee.setWidth("100%");
         employee.setRequired(true);
         employee.setInvalidAllowed(false);
         employee.setContainerDataSource(dsEmp);
-        employee.setItemCaptionPropertyId("email");//TODO : show firstname and lastname
+        employee.setItemCaptionPropertyId("email");
 
         save = new Button("ADD");
         save.addClickListener(e -> {
             if(!hourlyRate.isValid() || !employee.isValid()){
-                //TODO: show wich fields are not valid
+                //TODO: IF EMPLOYEE ALREADY ASSIGNET!
                 Notification.show("Form is not filled correctly");
             }
             else{
-               //TODO replace-> ProjectController.addProject(hourlyRate.getValue(), (Client)employee.getValue());
-                //getUI().getNavigator().navigateTo(ProjectDetailView.NAME); //TODO
+               ProjectController.addProjectCommitment(project, (Employee)employee.getValue(), Double.valueOf(hourlyRate.getValue()).doubleValue());
             }
         });
-        
-        List<Employee> empsList = ProjectController.getEmployees();
-        BeanItemContainer<Employee> dsEmps = new BeanItemContainer<>(Employee.class, empsList);
-        // Generate button caption column
-        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(dsEmps);
-
-
-        projectsGrid = new Grid("Projects", gpc);
-        projectsGrid.setWidth("100%");
-
-        // Add both to a panel
-        
-        
+              
         fields = new HorizontalLayout(employee, hourlyRate, save);
         fields.setSpacing(true);
         fields.setWidth("50%");
         fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-
-        // The view root layout
-        viewLayout = new VerticalLayout(topLayer, fields, projectsGrid);
-        viewLayout.setMargin(true);
-        viewLayout.setSpacing(true);
-        viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-
-        setCompositionRoot(viewLayout);
 	}
 
 	@Override
@@ -118,6 +103,28 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 		 if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
 	            getUI().getNavigator().navigateTo(UserHomepageView.NAME);
 		 }
+		 project = ProjectController.getProject(Long.parseLong(event.getParameters())); //TODO check id
+		 projectCommitment = ProjectController.getProjectCommitmentList(project.getId());
+		 
+	        List<Employee> empList = new ArrayList<>();
+	        projectCommitment.forEach(e->{
+	        	empList.add(e.getEmployee());
+	        });
+	        
+	        BeanItemContainer<Employee> dsEmps = new BeanItemContainer<>(Employee.class, empList);
+	        // Generate button caption column
+	        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(dsEmps);
+
+
+	        projectsGrid = new Grid("Projects", gpc);
+	        projectsGrid.setWidth("100%");
+		 
+	        // The view root layout
+	        viewLayout = new VerticalLayout(topLayer, fields, projectsGrid);
+	        viewLayout.setMargin(true);
+	        viewLayout.setSpacing(true);
+	        viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
+	        setCompositionRoot(viewLayout);
 	}
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
+import com.project1.domain.ProjectCommitment;
 
 
 public class ZLEEntityManager {
@@ -49,7 +50,6 @@ public class ZLEEntityManager {
 		} catch (NoResultException e) {
 			return null; 
 		}
-
 	}
 
 	public List<Employee> getActiveEmployees(){
@@ -86,6 +86,15 @@ public class ZLEEntityManager {
 			em.refresh(p);
 		}
 		return projectList;
+	}
+	
+	public List<ProjectCommitment> getProjectCommitment(long id){
+		Query q = em.createQuery("select o from ProjectCommitment o where o.project ="+id);
+		List<ProjectCommitment> projectCommitmenttList = q.getResultList();
+		for(ProjectCommitment p : projectCommitmenttList) {
+			em.refresh(p);
+		}
+		return projectCommitmenttList;
 	}
 	
 	public void startTransaction(){

@@ -3,6 +3,7 @@ package com.project1.controller;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
+import com.project1.domain.ProjectCommitment;
 import com.project1.entetyManager.ZLEEntityManager;
 
 import java.util.ArrayList;
@@ -29,6 +30,12 @@ public class ProjectController {
         zem.persistObject(project);
         return project;
     }
+    
+    public static ProjectCommitment addProjectCommitment(Project project, Employee employee, double hourlyRate){
+    	ProjectCommitment projectCommitment = new ProjectCommitment(project, employee, hourlyRate);
+        zem.persistObject(projectCommitment);
+        return projectCommitment;
+    }
 
 	public static List<Employee> getEmployees() {
 		// TODO Auto-generated method stub //TODO use UserController???
@@ -37,6 +44,14 @@ public class ProjectController {
 
     public static Project getProject(long id){
         return (Project)zem.findObject(Project.class, id);
+    }
+    
+    public static ProjectCommitment getProjectCommitment(long id){
+        return (ProjectCommitment)zem.findObject(ProjectCommitment.class, id);
+    }
+    
+    public static List<ProjectCommitment> getProjectCommitmentList(long id){
+        return (List<ProjectCommitment>)zem.getProjectCommitment(id);
     }
 
 }

@@ -149,6 +149,10 @@ public class ProjectDetailView extends CustomComponent implements View{
                 );
         infoText.setReadOnly(true);
         setCompositionRoot(viewLayout);
+        
+        employees.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
+        });
     }
 
 }
