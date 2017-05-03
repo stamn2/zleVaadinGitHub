@@ -8,6 +8,7 @@
                 <class>com.project1.domain.Employee</class>
                 <class>com.project1.domain.Project</class>
                 <class>com.project1.domain.ProjectCommitment</class>
+                <class>com.project1.domain.Activity</class>
 
  <properties>
   <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
