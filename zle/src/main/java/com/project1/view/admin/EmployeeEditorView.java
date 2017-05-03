@@ -33,10 +33,6 @@ public class EmployeeEditorView extends CustomComponent implements View{
 
 	public EmployeeEditorView(){
         final VerticalLayout layout = new VerticalLayout();
-        Button button = new Button("change to Login-View");
-        button.addClickListener( e -> {
-        	getUI().getNavigator().navigateTo("");
-        });
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -150,7 +146,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
         
         
-        layout.addComponents(button,viewLayout);
+        layout.addComponents(viewLayout);
         layout.setMargin(true);
         layout.setSpacing(true);
         setCompositionRoot(layout);
