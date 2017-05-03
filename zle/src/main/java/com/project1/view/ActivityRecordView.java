@@ -1,6 +1,7 @@
 package com.project1.view;
 
 import com.project1.controller.ProjectController;
+import com.project1.controller.RecordController;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.ProjectCommitment;
@@ -24,6 +25,7 @@ public class ActivityRecordView extends CustomComponent implements View {
     private DateField dateBegin, dateEnd;
     private ComboBox project;
     private TextArea comment;
+    private VerticalLayout viewLayout;
 
     public ActivityRecordView(){
         logout = new Button("Logout");
@@ -65,17 +67,12 @@ public class ActivityRecordView extends CustomComponent implements View {
         dateEnd.setInvalidAllowed(false);
         dateEnd.setResolution(Resolution.SECOND);
 
-        //TODO
-        /*List<ProjectCommitment> projectList =
-        BeanItemContainer<ProjectCommitment> ds = new BeanItemContainer<>(ProjectCommitment.class, projectList);*/
+
 
         project = new ComboBox("Project: ");
         project.setWidth("100%");
         project.setRequired(true);
         project.setInvalidAllowed(false);
-        //TODO
-        /*project.setContainerDataSource(ds);
-        project.setItemCaptionPropertyId("project.name");*/
 
         comment = new TextArea("Comment :");
         comment.setWidth("100%");
@@ -88,18 +85,23 @@ public class ActivityRecordView extends CustomComponent implements View {
         fields.setWidth("50%");
         fields.setComponentAlignment(commit, Alignment.MIDDLE_CENTER);
 
-        VerticalLayout viewLayout = new VerticalLayout(topLayer, fields);
+        viewLayout = new VerticalLayout(topLayer, fields);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-
-        setCompositionRoot(viewLayout);
 
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        long idEmployee = ((Employee)getUI().getSession().getAttribute("user")).getId();
+        List<ProjectCommitment> projectList = RecordController.getProjectCommitmentListFromEmployee(idEmployee);
+        BeanItemContainer<ProjectCommitment> ds = new BeanItemContainer<>(ProjectCommitment.class, projectList);
+        ds.addNestedContainerBean("project");
+        project.setContainerDataSource(ds);
+        project.setItemCaptionPropertyId("project.name");
 
+        setCompositionRoot(viewLayout);
     }
 
 

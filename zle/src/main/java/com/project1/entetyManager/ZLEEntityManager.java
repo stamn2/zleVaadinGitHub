@@ -87,9 +87,9 @@ public class ZLEEntityManager {
 		}
 		return projectList;
 	}
-	
+
 	public List<ProjectCommitment> getProjectCommitmentWithProject(long idProject){
-		Query q = em.createQuery("select o from ProjectCommitment o where o.project.id ="+idProject);
+		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.project.id ="+idProject);
 		List<ProjectCommitment> projectCommitmenttList = q.getResultList();
 		for(ProjectCommitment p : projectCommitmenttList) {
 			em.refresh(p);
@@ -98,7 +98,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<ProjectCommitment> getProjectCommitmentWithEmployee(long idEmployee){
-		Query q = em.createQuery("select o from ProjectCommitment o where o.employee.id ="+idEmployee);
+		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.employee.id ="+idEmployee);
 		List<ProjectCommitment> projectCommitmenttList = q.getResultList();
 		for(ProjectCommitment p : projectCommitmenttList) {
 			em.refresh(p);
