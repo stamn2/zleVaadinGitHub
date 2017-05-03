@@ -55,7 +55,7 @@ public class LoginView extends CustomComponent implements View{
 		passwordField.setWidth("100%");
 		passwordField.setRequired(true);
         passwordField.setInputPrompt("Your password");
-		passwordField.setValue("123");
+		passwordField.setValue("1234Hallo");
 		passwordField.setInvalidAllowed(false);
 
 		// Create login button

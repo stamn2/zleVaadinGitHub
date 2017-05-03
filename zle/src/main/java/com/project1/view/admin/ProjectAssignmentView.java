@@ -15,6 +15,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -89,6 +90,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
             }
             else{
                ProjectController.addProjectCommitment(project, (Employee)employee.getValue(), Double.valueOf(hourlyRate.getValue()).doubleValue());
+               Page.getCurrent().reload();
             }
         });
               
@@ -111,12 +113,26 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        	empList.add(e.getEmployee());
 	        });
 	        
-	        BeanItemContainer<Employee> dsEmps = new BeanItemContainer<>(Employee.class, empList);
+	        BeanItemContainer<ProjectCommitment> dsEmps = new BeanItemContainer<>(ProjectCommitment.class, projectCommitment);
+	        dsEmps.addNestedContainerBean("employee");
 	        // Generate button caption column
 	        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(dsEmps);
+	        gpc.removeContainerProperty("project");
+	        gpc.removeContainerProperty("active");
+	        gpc.removeContainerProperty("employee.id");
+	        gpc.removeContainerProperty("employee.street");
+	        gpc.removeContainerProperty("employee.plz");
+	        gpc.removeContainerProperty("employee.city");
+	        gpc.removeContainerProperty("employee.tel");
+	        gpc.removeContainerProperty("employee.active");
+	        gpc.removeContainerProperty("employee.admin");
+	        gpc.removeContainerProperty("employee.changePassword");
+	        gpc.removeContainerProperty("employee.firstname");
+	        gpc.removeContainerProperty("employee.lastname");
 
 
 	        projectsGrid = new Grid("Projects", gpc);
+	        projectsGrid.setColumnOrder("id", "employee.email", "hourlyRate");
 	        projectsGrid.setWidth("100%");
 		 
 	        // The view root layout
