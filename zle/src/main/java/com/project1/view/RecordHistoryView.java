@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.derby.iapi.services.io.ArrayUtil;
+
 public class RecordHistoryView extends CustomComponent implements View {
 
     /**
@@ -73,19 +75,15 @@ public class RecordHistoryView extends CustomComponent implements View {
     	projectCommitmentList = RecordController.getProjectCommitmentListFromEmployee(((Employee)getUI().getSession().getAttribute("user")).getId());
     	activityList = new ArrayList<>();
     	projectCommitmentList.forEach(e->{
-    		activityList = (List<Activity>)ArrayUtils.addAll(activityList,e.getActivityList());
+    		e.getActivitiesList().forEach(event->{
+    			activityList.add(event);
+    		});
     	});
-        BeanItemContainer<ProjectCommitment> ds = new BeanItemContainer<>(ProjectCommitment.class, projectCommitmentList);
-        ds.addNestedContainerBean("client");
+    	
+        BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("active");
-        gpc.removeContainerProperty("client.id");
-        gpc.removeContainerProperty("client.street");
-        gpc.removeContainerProperty("client.plz");
-        gpc.removeContainerProperty("client.city");
-        gpc.removeContainerProperty("client.email");
-        gpc.removeContainerProperty("client.tel");
         gpc.addGeneratedProperty("edit",
                 new PropertyValueGenerator<String>() {
                     @Override
@@ -103,7 +101,7 @@ public class RecordHistoryView extends CustomComponent implements View {
 
         projectsGrid = new Grid("Projects", gpc); //TODO show client correctly
         projectsGrid.setWidth("100%");
-        projectsGrid.getColumn("show")
+        projectsGrid.getColumn("edit")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                         showProject(e.getItemId()))); //TODO edit object
 
