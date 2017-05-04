@@ -74,11 +74,9 @@ public class RecordHistoryView extends CustomComponent implements View {
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     	projectCommitmentList = RecordController.getProjectCommitmentListFromEmployee(((Employee)getUI().getSession().getAttribute("user")).getId());
     	activityList = new ArrayList<>();
-    	projectCommitmentList.forEach(e->{
-    		e.getActivitiesList().forEach(event->{
-    			activityList.add(event);
-    		});
-    	});
+    	for(ProjectCommitment pc : projectCommitmentList){
+            activityList.addAll(pc.getActivitiesList());
+        }
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         // Generate button caption column
@@ -103,7 +101,7 @@ public class RecordHistoryView extends CustomComponent implements View {
         projectsGrid.setWidth("100%");
         projectsGrid.getColumn("edit")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
-                        showProject(e.getItemId()))); //TODO edit object
+                        showProject(e.getItemId()))); //TODO edit object : need the whole projectCommitment if we want to change the project!
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, projectsGrid);
         viewLayout.setMargin(true);
