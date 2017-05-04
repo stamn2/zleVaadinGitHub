@@ -1,5 +1,6 @@
 package com.project1.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ public class ProjectCommitment {
     private Employee employee;
     
     @OneToMany
-    private List<Activity> activity;
+    private List<Activity> activities = new ArrayList<>();
     
     public ProjectCommitment(){
     }
@@ -33,6 +34,10 @@ public class ProjectCommitment {
     	this.employee=employee;
     	this.hourlyRate = hourlyRate;
     }
+	
+	public void addActivity(Activity activity){
+		activities.add(activity);
+	}
 
 	public long getId() {
 		return id;
@@ -70,8 +75,8 @@ public class ProjectCommitment {
 		this.employee = employee;
 	}
 
-	public List<Activity> getActivityList() {
-		return activity;
+	public List<Activity> getActivitiesList() {
+		return activities;
 	}
     
     

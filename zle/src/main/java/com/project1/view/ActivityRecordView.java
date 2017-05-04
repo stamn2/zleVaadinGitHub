@@ -77,8 +77,17 @@ public class ActivityRecordView extends CustomComponent implements View {
         comment = new TextArea("Comment :");
         comment.setWidth("100%");
 
-        commit = new Button("Commit"); //TODO
+        commit = new Button("Commit"); //TODO check if begin date is after end date
         commit.setWidth("70%");
+        commit.addClickListener(e -> {
+
+            if (!dateBegin.isValid() || !dateEnd.isValid() || !project.isValid()) {
+                //TODO: show wich fields are not valid
+                Notification.show("Form is not filled correctly");
+            } else {
+                RecordController.addActivity(dateBegin.getValue(), dateEnd.getValue(),(ProjectCommitment) project.getValue() , comment.getValue());
+            }
+        });
 
         VerticalLayout fields = new VerticalLayout(dateBegin, dateEnd, project, comment, commit);
         fields.setSpacing(true);

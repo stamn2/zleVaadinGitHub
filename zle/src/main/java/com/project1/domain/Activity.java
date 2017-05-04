@@ -10,10 +10,40 @@ public class Activity {
     @GeneratedValue
     private long id;
 
-    private boolean active;
+    private boolean active = true;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date begin;
+    private Date beginDate;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date end;
+    private Date endDate;
     private String comment;
+
+    public Activity(){
+
+    }
+
+    public Activity(Date begin, Date end, String comment){
+        this.beginDate = begin;
+        this.endDate = end;
+        this.comment = comment;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public Date getBeginDate() {
+        return beginDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public String getComment() {
+        return comment;
+    }
 }
