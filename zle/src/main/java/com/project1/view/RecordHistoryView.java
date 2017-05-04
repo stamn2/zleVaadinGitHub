@@ -82,8 +82,6 @@ public class RecordHistoryView extends CustomComponent implements View {
     	System.out.println(activityList.size());
     	System.out.println(projectCommitmentList.size());
     	
-    	activityList=projectCommitmentList.get(0).getActivitiesList();
-    	System.out.println(activityList.size());
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         // Generate button caption column
@@ -103,9 +101,10 @@ public class RecordHistoryView extends CustomComponent implements View {
                     }
                 });
 
-
         projectsGrid = new Grid("Projects", gpc); //TODO show client correctly
+        projectsGrid.setColumnOrder("id","beginDate","endDate","comment","edit");
         projectsGrid.setWidth("100%");
+        projectsGrid.getColumn("comment").setExpandRatio(1);
         projectsGrid.getColumn("edit")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                         showProject(e.getItemId()))); //TODO edit object : need the whole projectCommitment if we want to change the project!

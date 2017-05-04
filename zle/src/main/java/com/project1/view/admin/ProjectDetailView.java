@@ -105,8 +105,9 @@ public class ProjectDetailView extends CustomComponent implements View{
                         "Cost: "
                 );*/
         infoText.setValue("infoText");
-        infoText.setHeight("100%"); //TODO setHeight correctly!
+        infoText.setHeight("250px"); //TODO setHeight correctly!
         infoText.setWidth("100%");
+        
 
 
         VerticalLayout projectInfo = new VerticalLayout(projectName, infoText);

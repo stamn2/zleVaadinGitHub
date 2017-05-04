@@ -117,6 +117,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(dsEmps);
 	        gpc.removeContainerProperty("project");
 	        gpc.removeContainerProperty("active");
+	        gpc.removeContainerProperty("activities");
 	        gpc.removeContainerProperty("employee.id");
 	        gpc.removeContainerProperty("employee.street");
 	        gpc.removeContainerProperty("employee.plz");
