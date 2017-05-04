@@ -74,13 +74,10 @@ public class RecordHistoryView extends CustomComponent implements View {
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
     	projectCommitmentList = RecordController.getProjectCommitmentListFromEmployee(((Employee)getUI().getSession().getAttribute("user")).getId());
     	activityList = new ArrayList<>();
-    	projectCommitmentList.forEach(e->{
-    		System.out.println("added");
-    		e.getActivitiesList().forEach(event->{
-    			activityList.add(event);
-    			System.out.println("added2");
-    		});
-    	});
+
+    	for(ProjectCommitment pc : projectCommitmentList){
+            activityList.addAll(pc.getActivitiesList());
+        }
     	
     	System.out.println(activityList.size());
     	System.out.println(projectCommitmentList.size());
@@ -111,7 +108,7 @@ public class RecordHistoryView extends CustomComponent implements View {
         projectsGrid.setWidth("100%");
         projectsGrid.getColumn("edit")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
-                        showProject(e.getItemId()))); //TODO edit object
+                        showProject(e.getItemId()))); //TODO edit object : need the whole projectCommitment if we want to change the project!
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, projectsGrid);
         viewLayout.setMargin(true);
