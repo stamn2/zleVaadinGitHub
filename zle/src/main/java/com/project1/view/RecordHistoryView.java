@@ -66,7 +66,7 @@ public class RecordHistoryView extends CustomComponent implements View {
     }
 
     private void showProject(Object e){
-        Project p = (Project)e;
+        Activity p = (Activity)e;
         getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ p.getId()); //TODO get&fill with values of THIS activity
     }
 
