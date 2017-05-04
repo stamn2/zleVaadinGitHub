@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import com.project1.domain.Activity;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
@@ -105,6 +106,7 @@ public class ZLEEntityManager {
 		}
 		return projectCommitmenttList;
 	}
+	
 	
 	public void startTransaction(){
 		if (!em.getTransaction().isActive())
