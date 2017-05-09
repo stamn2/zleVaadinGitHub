@@ -99,7 +99,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<Activity> getActivitiesFromEmployee(long idEmployee){
-		Query q = em.createQuery("select a from Activity a join ProjectCommitment pc where a.active = true AND pc.active=true");
+		Query q = em.createQuery("select a from Activity a join ProjectCommitment pc ON a.projectCommitment.id = pc.id where a.active = true AND pc.active=true AND pc.employee.id ="+idEmployee);
 		List<Activity> activityList = q.getResultList();
 		for(Activity a : activityList) {
 			em.refresh(a);
