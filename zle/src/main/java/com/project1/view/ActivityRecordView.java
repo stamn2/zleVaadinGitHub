@@ -26,7 +26,7 @@ public class ActivityRecordView extends CustomComponent implements View {
     private VerticalLayout viewLayout;
 
     private Activity activity;
-    private ProjectCommitment projectCommitment;
+    private boolean newActivity = true;
     
     public ActivityRecordView(){
         logout = new Button("Logout");
@@ -85,10 +85,15 @@ public class ActivityRecordView extends CustomComponent implements View {
             if (!dateBegin.isValid() || !dateEnd.isValid() || !project.isValid()) {
                 //TODO: show wich fields are not valid
                 Notification.show("Form is not filled correctly");
-            } else {
-                RecordController.addActivity(dateBegin.getValue(), dateEnd.getValue(), comment.getValue(), (ProjectCommitment) project.getValue());
-                //TODO change view
+                return;
             }
+            if(newActivity){
+                RecordController.addActivity(dateBegin.getValue(), dateEnd.getValue(), comment.getValue(), (ProjectCommitment) project.getValue());
+            }
+            else{
+                RecordController.updateActivity(activity, dateBegin.getValue(), dateEnd.getValue(), comment.getValue(), (ProjectCommitment) project.getValue());
+            }
+            getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
         });
 
         VerticalLayout fields = new VerticalLayout(dateBegin, dateEnd, project, comment, commit);
@@ -115,13 +120,12 @@ public class ActivityRecordView extends CustomComponent implements View {
         if(!event.getParameters().equals("")){
             activity = RecordController.getActivity(Long.parseLong(event.getParameters())); //TODO check param
 
-            //TODO in ZLEEntityManager, correct query!
-            //projectCommitment = RecordController.getProjectCommitmentWithActivity(activity.getId());
-            //project.setValue(projectCommitment.getProject());
-
             dateBegin.setValue(activity.getBeginDate());
             dateEnd.setValue(activity.getEndDate());
+            project.setValue(activity.getProjectCommitment());
             comment.setValue(activity.getComment());
+
+            newActivity = false;
         }
 
         setCompositionRoot(viewLayout);

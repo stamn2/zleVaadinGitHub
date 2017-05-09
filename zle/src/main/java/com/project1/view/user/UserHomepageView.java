@@ -2,6 +2,7 @@ package com.project1.view.user;
 
 import com.project1.view.ActivityRecordView;
 import com.project1.view.LoginView;
+import com.project1.view.RecordHistoryView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
@@ -29,6 +30,9 @@ public class UserHomepageView extends CustomComponent implements View {
         });
         history = new Button("History");
         history.setWidth("70%");
+        history.addClickListener( e ->{
+            getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
+        });
 
         logout = new Button("Logout");
         logout.setWidth("15%");

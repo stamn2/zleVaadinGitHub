@@ -26,5 +26,14 @@ public class RecordController {
     public static List<Activity> getActivitiesFromEmployee(long idEmployee){
         return zem.getActivitiesFromEmployee(idEmployee);
     }
+
+    public static void updateActivity(Activity activity, Date dateBegin, Date dateEnd, String comment, ProjectCommitment project){
+        zem.startTransaction();
+        activity.setBeginDate(dateBegin);
+        activity.setEndDate(dateEnd);
+        activity.setComment(comment);
+        activity.setProjectCommitment(project);
+        zem.endTransaction();
+    }
 	
 }

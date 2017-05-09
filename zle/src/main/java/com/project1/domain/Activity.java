@@ -30,6 +30,8 @@ public class Activity {
         this.projectCommitment = projectCommitment;
     }
 
+    //------------ GETTER AND SETTER ----------------------
+
     public long getId() {
         return id;
     }
@@ -52,5 +54,21 @@ public class Activity {
 
     public ProjectCommitment getProjectCommitment() {
         return projectCommitment;
+    }
+
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setProjectCommitment(ProjectCommitment projectCommitment) {
+        this.projectCommitment = projectCommitment;
     }
 }
