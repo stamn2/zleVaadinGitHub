@@ -140,7 +140,8 @@ public class ZLEEntityManager {
 		return o;
 	}
 	
-	public void refresh(Long id){
+	public void refresh(Class c, Long id){
+		Object o = em.find(c, id);
 		em.refresh(id);
 	}
 

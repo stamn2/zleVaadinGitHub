@@ -49,7 +49,7 @@ public class UserController {
         zem.startTransaction();
         emp.hashAndSetPassword(newPassword);
         emp.setChangePassword(true);
-        zem.refresh(emp.getId());
+        zem.refresh(Employee.class,emp.getId());
         zem.endTransaction();
     }
 }
