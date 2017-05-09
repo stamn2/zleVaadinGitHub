@@ -35,5 +35,9 @@ public class RecordController {
         activity.setProjectCommitment(project);
         zem.endTransaction();
     }
+
+    public static void removeActivity(Activity activity){
+        zem.removeElement(activity);
+    }
 	
 }

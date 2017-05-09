@@ -35,9 +35,9 @@ public class RecordHistoryView extends CustomComponent implements View {
 
     private final Button logout, back;
     private Grid projectsGrid;
-    private List<ProjectCommitment> projectCommitmentList;
     private HorizontalLayout topLayer;
-    private List<Activity> activityList;
+
+    private GeneratedPropertyContainer gpc;
     
 
     public RecordHistoryView(){
@@ -65,18 +65,24 @@ public class RecordHistoryView extends CustomComponent implements View {
         
     }
 
-    private void showProject(Object e){
+    private void showActivity(Object e){
         Activity p = (Activity)e;
-        getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ p.getId()); //TODO get&fill with values of THIS activity
+        getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ p.getId());
+    }
+
+    private void removeActivity(Object e){
+        Activity activity = (Activity)e;
+        RecordController.removeActivity(activity);
+        gpc.removeItem(activity);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-    	activityList = RecordController.getActivitiesFromEmployee(((Employee)getUI().getSession().getAttribute("user")).getId());
+    	List<Activity> activityList = RecordController.getActivitiesFromEmployee(((Employee) getUI().getSession().getAttribute("user")).getId());
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         // Generate button caption column
-        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
+        gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("active");
         gpc.removeContainerProperty("projectCommitment");
         gpc.addGeneratedProperty("edit",
@@ -92,6 +98,19 @@ public class RecordHistoryView extends CustomComponent implements View {
                         return String.class;
                     }
                 });
+        gpc.addGeneratedProperty("remove",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Remove"; // The caption
+                    }
+
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
 
         projectsGrid = new Grid("Projects", gpc); //TODO show client correctly
         projectsGrid.setColumnOrder("id","beginDate","endDate","comment","edit");
@@ -99,7 +118,10 @@ public class RecordHistoryView extends CustomComponent implements View {
         projectsGrid.getColumn("comment").setExpandRatio(1);
         projectsGrid.getColumn("edit")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
-                        showProject(e.getItemId()))); //TODO edit object : need the whole projectCommitment if we want to change the project!
+                        showActivity(e.getItemId())));
+        projectsGrid.getColumn("remove")
+                .setRenderer(new ButtonRenderer(e -> // Java 8
+                        removeActivity(e.getItemId())));
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, projectsGrid);
         viewLayout.setMargin(true);
