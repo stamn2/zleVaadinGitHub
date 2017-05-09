@@ -31,15 +31,6 @@ public class ZLEEntityManager {
 	    em = factory.createEntityManager();
 	}
 	
-	public void persistObject(Object o){
-		if (o == null)
-			throw new IllegalArgumentException("Object is null");
-		    startTransaction();
-		    em.persist(o);
-		    em.getTransaction().commit();
-
-	}
-	
 	public Employee getEmployee(String email){
 		if (email == null)
 			throw new IllegalArgumentException("email is null");
@@ -120,6 +111,15 @@ public class ZLEEntityManager {
 			em.refresh(activity);
 		return activity;
 	}
+
+	public void persistObject(Object o){
+		if (o == null)
+			throw new IllegalArgumentException("Object is null");
+		startTransaction();
+		em.persist(o);
+		em.getTransaction().commit();
+
+	}
 	
 	public void startTransaction(){
 		if (!em.getTransaction().isActive())
@@ -138,11 +138,6 @@ public class ZLEEntityManager {
 		Object o = em.find(c, id);
 		em.refresh(o);
 		return o;
-	}
-	
-	public void refresh(Class c, Long id){
-		Object o = em.find(c, id);
-		em.refresh(id);
 	}
 
 	public void removeElement(Object o) {
