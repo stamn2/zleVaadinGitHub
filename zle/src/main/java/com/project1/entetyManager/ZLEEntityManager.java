@@ -139,6 +139,10 @@ public class ZLEEntityManager {
 		em.refresh(o);
 		return o;
 	}
+	
+	public void refresh(Long id){
+		em.refresh(id);
+	}
 
 	public void removeElement(Object o) {
 		if (o == null)

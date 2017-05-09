@@ -1,5 +1,6 @@
 package com.project1.view.admin;
 
+import com.project1.controller.LoginController;
 import com.project1.controller.UserController;
 import com.project1.domain.Employee;
 import com.project1.view.LoginView;
@@ -14,6 +15,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
 import java.util.List;
+
+import org.apache.derby.tools.sysinfo;
 
 public class EmployeeOverView extends CustomComponent implements View {
 
@@ -89,8 +92,9 @@ public class EmployeeOverView extends CustomComponent implements View {
     }
 
     public void generatePassword(Employee employeeId) {
-    	System.out.println(employeeId.generatePassword());
-    	employeeId.setChangePassword(true);
+    	String newPw = employeeId.generatePassword();
+    	System.out.println(newPw);
+    	UserController.saveGeneratedPassword(employeeId, newPw);
     	}
 
 	@Override

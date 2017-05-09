@@ -43,4 +43,13 @@ public class UserController {
         new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
                 messageText);
     }
+    
+    public static void saveGeneratedPassword(Employee emp, String newPassword){
+        emp = (Employee)zem.findObject(Employee.class, emp.getId());
+        zem.startTransaction();
+        emp.hashAndSetPassword(newPassword);
+        emp.setChangePassword(true);
+        zem.refresh(emp.getId());
+        zem.endTransaction();
+    }
 }
