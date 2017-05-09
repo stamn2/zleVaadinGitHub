@@ -44,12 +44,12 @@ public class UserController {
                 messageText);
     }
     
-    public static void saveGeneratedPassword(Employee emp, String newPassword){
+    public static void generatedNewPassword(Employee emp){
         emp = (Employee)zem.findObject(Employee.class, emp.getId());
         zem.startTransaction();
-        emp.hashAndSetPassword(newPassword);
+        String newPw = emp.generatePassword();
+        System.out.println(newPw);
         emp.setChangePassword(true);
-        zem.refresh(Employee.class,emp.getId());
         zem.endTransaction();
     }
 }

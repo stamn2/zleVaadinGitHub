@@ -11,6 +11,7 @@ import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
@@ -82,7 +83,7 @@ public class EmployeeOverView extends CustomComponent implements View {
         employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword");
         employeesGrid.getColumn("generate Password")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
-                	generatePassword((Employee)e.getItemId()))); //TODO : generate new password
+                	generatePassword((Employee)e.getItemId())));
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
@@ -91,10 +92,9 @@ public class EmployeeOverView extends CustomComponent implements View {
         setCompositionRoot(viewLayout);
     }
 
-    public void generatePassword(Employee employeeId) {
-    	String newPw = employeeId.generatePassword();
-    	System.out.println(newPw);
-    	UserController.saveGeneratedPassword(employeeId, newPw);
+    public void generatePassword(Employee employee) {
+    	UserController.generatedNewPassword(employee);
+        Page.getCurrent().reload();
     	}
 
 	@Override
