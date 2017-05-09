@@ -86,7 +86,8 @@ public class ActivityRecordView extends CustomComponent implements View {
                 //TODO: show wich fields are not valid
                 Notification.show("Form is not filled correctly");
             } else {
-                RecordController.addActivity(dateBegin.getValue(), dateEnd.getValue(),(ProjectCommitment) project.getValue() , comment.getValue());
+                RecordController.addActivity(dateBegin.getValue(), dateEnd.getValue(), comment.getValue(), (ProjectCommitment) project.getValue());
+                //TODO change view
             }
         });
 

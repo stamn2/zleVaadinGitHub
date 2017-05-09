@@ -16,15 +16,18 @@ public class Activity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     private String comment;
+    @ManyToOne
+    ProjectCommitment projectCommitment;
 
     public Activity(){
 
     }
 
-    public Activity(Date begin, Date end, String comment){
+    public Activity(Date begin, Date end, String comment, ProjectCommitment projectCommitment){
         this.beginDate = begin;
         this.endDate = end;
         this.comment = comment;
+        this.projectCommitment = projectCommitment;
     }
 
     public long getId() {
@@ -45,5 +48,9 @@ public class Activity {
 
     public String getComment() {
         return comment;
+    }
+
+    public ProjectCommitment getProjectCommitment() {
+        return projectCommitment;
     }
 }

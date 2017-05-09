@@ -14,20 +14,17 @@ public class RecordController {
         return zem.getProjectCommitmentWithEmployee(idEmployee);
     }
 
-    public static void addActivity(Date dateBegin, Date dateEnd, ProjectCommitment project, String comment){
-        Activity activity = new Activity(dateBegin, dateEnd, comment);
+    public static void addActivity(Date dateBegin, Date dateEnd, String comment, ProjectCommitment project){
+        Activity activity = new Activity(dateBegin, dateEnd, comment, project);
         zem.persistObject(activity);
-        zem.startTransaction();
-        project.addActivity(activity);
-        zem.endTransaction();
     }
 
 	public static Activity getActivity(long activityId) {
 		return zem.getActivity(activityId);
 	}
 
-    public static ProjectCommitment getProjectCommitmentWithActivity(long id){
-        return zem.getProjectCommitmentWithActivity(id);
+    public static List<Activity> getActivitiesFromEmployee(long idEmployee){
+        return zem.getActivitiesFromEmployee(idEmployee);
     }
 	
 }

@@ -72,18 +72,13 @@ public class RecordHistoryView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-    	projectCommitmentList = RecordController.getProjectCommitmentListFromEmployee(((Employee)getUI().getSession().getAttribute("user")).getId());
-    	activityList = new ArrayList<>();
-
-    	for(ProjectCommitment pc : projectCommitmentList){
-            activityList.addAll(pc.getActivitiesList());
-        }
-    	
+    	activityList = RecordController.getActivitiesFromEmployee(((Employee)getUI().getSession().getAttribute("user")).getId());
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("active");
+        gpc.removeContainerProperty("projectCommitment");
         gpc.addGeneratedProperty("edit",
                 new PropertyValueGenerator<String>() {
                     @Override

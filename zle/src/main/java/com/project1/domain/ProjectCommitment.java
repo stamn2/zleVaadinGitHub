@@ -23,9 +23,6 @@ public class ProjectCommitment {
     @ManyToOne
     private Employee employee;
     
-    @OneToMany
-    private List<Activity> activities = new ArrayList<>();
-    
     public ProjectCommitment(){
     }
     
@@ -34,10 +31,6 @@ public class ProjectCommitment {
     	this.employee=employee;
     	this.hourlyRate = hourlyRate;
     }
-	
-	public void addActivity(Activity activity){
-		activities.add(activity);
-	}
 
 	public long getId() {
 		return id;
@@ -73,10 +66,6 @@ public class ProjectCommitment {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
-	}
-
-	public List<Activity> getActivitiesList() {
-		return activities;
 	}
     
     
