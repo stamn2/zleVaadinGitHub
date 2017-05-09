@@ -14,9 +14,9 @@ public class UserHomepageView extends CustomComponent implements View {
 
     public UserHomepageView(){
         start = new Button("Start");
-        start.setWidth("70%");
+        start.setWidth("100%");
         stop = new Button("Stop");
-        stop.setWidth("70%");
+        stop.setWidth("100%");
         stop.setVisible(false);
         start.addClickListener( e -> {
             start.setVisible(false);
@@ -24,12 +24,12 @@ public class UserHomepageView extends CustomComponent implements View {
         });
 
         manualEntry = new Button("Manual Entry");
-        manualEntry.setWidth("70%");
+        manualEntry.setWidth("100%");
         manualEntry.addClickListener( e ->{
             getUI().getNavigator().navigateTo(ActivityRecordView.NAME);
         });
         history = new Button("History");
-        history.setWidth("70%");
+        history.setWidth("100%");
         history.addClickListener( e ->{
             getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
         });
@@ -41,10 +41,15 @@ public class UserHomepageView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-        VerticalLayout viewLayout = new VerticalLayout(logout, start, stop, manualEntry, history);
+        VerticalLayout menu = new VerticalLayout(start, stop, manualEntry, history);
+        menu.setSpacing(true);
+        menu.setWidth("60%");
+        menu.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
+        VerticalLayout viewLayout = new VerticalLayout(logout, menu);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
-        viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        viewLayout.setComponentAlignment(menu, Alignment.MIDDLE_CENTER);
         viewLayout.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         setCompositionRoot(viewLayout);
     }
