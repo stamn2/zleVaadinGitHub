@@ -25,5 +25,9 @@ public class RecordController {
 	public static Activity getActivity(long activityId) {
 		return zem.getActivity(activityId);
 	}
+
+    public static ProjectCommitment getProjectCommitmentWithActivity(long id){
+        return zem.getProjectCommitmentWithActivity(id);
+    }
 	
 }

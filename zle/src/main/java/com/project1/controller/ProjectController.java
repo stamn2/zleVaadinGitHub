@@ -45,10 +45,6 @@ public class ProjectController {
         return (ProjectCommitment)zem.findObject(ProjectCommitment.class, id);
     }
     
-    public static ProjectCommitment getProjectCommitmentWithActivity(long id){
-        return (ProjectCommitment)zem.getProjectCommitmentWithActivity(id);
-    }
-    
     public static List<ProjectCommitment> getProjectCommitmentList(long idProject){
         return zem.getProjectCommitmentWithProject(idProject);
     }

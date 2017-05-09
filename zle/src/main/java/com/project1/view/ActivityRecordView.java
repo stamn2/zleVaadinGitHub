@@ -1,13 +1,10 @@
 package com.project1.view;
 
-import com.project1.controller.ProjectController;
 import com.project1.controller.RecordController;
 import com.project1.domain.Activity;
-import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.ProjectCommitment;
 import com.project1.view.admin.AdminHomepageView;
-import com.project1.view.admin.ProjectOverView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
@@ -27,6 +24,7 @@ public class ActivityRecordView extends CustomComponent implements View {
     private ComboBox project;
     private TextArea comment;
     private VerticalLayout viewLayout;
+
     private Activity activity;
     private ProjectCommitment projectCommitment;
     
@@ -113,16 +111,17 @@ public class ActivityRecordView extends CustomComponent implements View {
         project.setContainerDataSource(ds);
         project.setItemCaptionPropertyId("project.name");
         
-        activity = RecordController.getActivity(Long.parseLong(event.getParameters()));
-        
-        //TODO in ZLEEntityManager, correct query!
-        //projectCommitment = ProjectController.getProjectCommitmentWithActivity(activity.getId());
-        //project.setValue(projectCommitment.getProject());
-        
-        dateBegin.setValue(activity.getBeginDate());
-        dateEnd.setValue(activity.getEndDate());
-        comment.setValue(activity.getComment());
+        if(!event.getParameters().equals("")){
+            activity = RecordController.getActivity(Long.parseLong(event.getParameters())); //TODO check param
 
+            //TODO in ZLEEntityManager, correct query!
+            //projectCommitment = RecordController.getProjectCommitmentWithActivity(activity.getId());
+            //project.setValue(projectCommitment.getProject());
+
+            dateBegin.setValue(activity.getBeginDate());
+            dateEnd.setValue(activity.getEndDate());
+            comment.setValue(activity.getComment());
+        }
 
         setCompositionRoot(viewLayout);
     }
