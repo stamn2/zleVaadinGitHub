@@ -43,7 +43,7 @@ public class EmployeeTest {
 	
 	@Test
 	public void setPassword(){
-		emp.setPassword("newPassword");
+		emp.hashAndSetPassword("newPassword");
 		assertTrue(emp.checkPassword("newPassword"));
 	}
 	

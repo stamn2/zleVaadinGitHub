@@ -79,9 +79,6 @@ public class RecordHistoryView extends CustomComponent implements View {
             activityList.addAll(pc.getActivitiesList());
         }
     	
-    	System.out.println(activityList.size());
-    	System.out.println(projectCommitmentList.size());
-    	
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         // Generate button caption column

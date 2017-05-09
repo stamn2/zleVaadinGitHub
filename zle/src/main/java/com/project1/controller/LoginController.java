@@ -31,7 +31,7 @@ public class LoginController {
 
         emp = (Employee)zem.findObject(Employee.class, emp.getId());
         zem.startTransaction();
-        emp.setPassword(newPassword);
+        emp.hashAndSetPassword(newPassword);
         emp.setChangePassword(false);
         zem.endTransaction();
         return true;

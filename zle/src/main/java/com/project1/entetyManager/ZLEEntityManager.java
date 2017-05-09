@@ -107,6 +107,19 @@ public class ZLEEntityManager {
 		return projectCommitmenttList;
 	}
 	
+	public ProjectCommitment getProjectCommitmentWithActivity(long activityId){
+		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND where exists (select a from Activity a where a.id="+activityId+")"); //TODO not =, but have one...sql
+		ProjectCommitment projectCommitment = (ProjectCommitment) q.getSingleResult();
+			em.refresh(projectCommitment);
+		return projectCommitment;
+	}
+	
+	public Activity getActivity(long activityId) {
+		Query q = em.createQuery("select o from Activity o where o.id ="+activityId);
+		Activity activity = (Activity) q.getSingleResult();
+			em.refresh(activity);
+		return activity;
+	}
 	
 	public void startTransaction(){
 		if (!em.getTransaction().isActive())

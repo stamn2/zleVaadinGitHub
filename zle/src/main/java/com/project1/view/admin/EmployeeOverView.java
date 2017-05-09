@@ -79,7 +79,7 @@ public class EmployeeOverView extends CustomComponent implements View {
         employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword");
         employeesGrid.getColumn("generate Password")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
-                        System.out.println(e.getItemId()))); //TODO : generate new password
+                	generatePassword((Employee)e.getItemId()))); //TODO : generate new password
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
@@ -88,7 +88,12 @@ public class EmployeeOverView extends CustomComponent implements View {
         setCompositionRoot(viewLayout);
     }
 
-    @Override
+    public void generatePassword(Employee employeeId) {
+    	System.out.println(employeeId.generatePassword());
+    	employeeId.setChangePassword(true);
+    	}
+
+	@Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);

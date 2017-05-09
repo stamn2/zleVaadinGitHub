@@ -57,7 +57,7 @@ public class Employee implements Serializable {
             int index = (int)(RANDOM.nextInt(VALID_PW_CHARS.length()));
             pw.append(VALID_PW_CHARS.charAt(index));
     }
-    	setPassword(pw.toString());
+    	hashAndSetPassword(pw.toString());
         return pw.toString();
     }
 
@@ -122,7 +122,7 @@ public class Employee implements Serializable {
     	this.active = isActive;
     }
 
-    public void setPassword(String password){
+    public void hashAndSetPassword(String password){
         String stronger_salt = BCrypt.gensalt(12);
         this.password= BCrypt.hashpw(password, stronger_salt);
     }

@@ -21,5 +21,9 @@ public class RecordController {
         project.addActivity(activity);
         zem.endTransaction();
     }
+
+	public static Activity getActivity(long activityId) {
+		return zem.getActivity(activityId);
+	}
 	
 }

@@ -2,6 +2,7 @@ package com.project1.view;
 
 import com.project1.controller.ProjectController;
 import com.project1.controller.RecordController;
+import com.project1.domain.Activity;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.ProjectCommitment;
@@ -26,7 +27,9 @@ public class ActivityRecordView extends CustomComponent implements View {
     private ComboBox project;
     private TextArea comment;
     private VerticalLayout viewLayout;
-
+    private Activity activity;
+    private ProjectCommitment projectCommitment;
+    
     public ActivityRecordView(){
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -109,6 +112,17 @@ public class ActivityRecordView extends CustomComponent implements View {
         ds.addNestedContainerBean("project");
         project.setContainerDataSource(ds);
         project.setItemCaptionPropertyId("project.name");
+        
+        activity = RecordController.getActivity(Long.parseLong(event.getParameters()));
+        
+        //TODO in ZLEEntityManager, correct query!
+        //projectCommitment = ProjectController.getProjectCommitmentWithActivity(activity.getId());
+        //project.setValue(projectCommitment.getProject());
+        
+        dateBegin.setValue(activity.getBeginDate());
+        dateEnd.setValue(activity.getEndDate());
+        comment.setValue(activity.getComment());
+
 
         setCompositionRoot(viewLayout);
     }
