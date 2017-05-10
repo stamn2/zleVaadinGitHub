@@ -53,7 +53,12 @@ public class RecordHistoryView extends CustomComponent implements View {
         back = new Button("Back");
         back.setWidth("15%");
         back.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            if(((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+                getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            }
+            else{
+                getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+            }
         });
 
         topLayer = new HorizontalLayout(back, logout);
@@ -78,6 +83,7 @@ public class RecordHistoryView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        getUI().getPage().setTitle("History");
     	List<Activity> activityList = RecordController.getActivitiesFromEmployee(((Employee) getUI().getSession().getAttribute("user")).getId());
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
@@ -112,7 +118,7 @@ public class RecordHistoryView extends CustomComponent implements View {
                     }
                 });
 
-        projectsGrid = new Grid("Projects", gpc); //TODO show client correctly
+        projectsGrid = new Grid("History of activities", gpc); //TODO show project name ?
         projectsGrid.setColumnOrder("id","beginDate","endDate","comment","edit");
         projectsGrid.setWidth("100%");
         projectsGrid.getColumn("comment").setExpandRatio(1);

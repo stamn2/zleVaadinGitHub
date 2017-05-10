@@ -12,6 +12,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.*;
 
+import javax.persistence.NoResultException;
 import java.util.Date;
 import java.util.List;
 
@@ -78,13 +79,17 @@ public class ActivityRecordView extends CustomComponent implements View {
         comment = new TextArea("Comment :");
         comment.setWidth("100%");
 
-        commit = new Button("Commit"); //TODO check if begin date is after end date
+        commit = new Button("Commit");
         commit.setWidth("70%");
         commit.addClickListener(e -> {
 
             if (!dateBegin.isValid() || !dateEnd.isValid() || !project.isValid()) {
                 //TODO: show wich fields are not valid
                 Notification.show("Form is not filled correctly");
+                return;
+            }
+            else if(!dateBegin.getValue().before(dateEnd.getValue())){
+                Notification.show("The begin date is after end date");
                 return;
             }
             if(newActivity){
@@ -110,6 +115,7 @@ public class ActivityRecordView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+        getUI().getPage().setTitle("Activity record");
         long idEmployee = ((Employee)getUI().getSession().getAttribute("user")).getId();
         List<ProjectCommitment> projectList = RecordController.getProjectCommitmentListFromEmployee(idEmployee);
         BeanItemContainer<ProjectCommitment> ds = new BeanItemContainer<>(ProjectCommitment.class, projectList);
@@ -118,7 +124,27 @@ public class ActivityRecordView extends CustomComponent implements View {
         project.setItemCaptionPropertyId("project.name");
         
         if(!event.getParameters().equals("")){
-            activity = RecordController.getActivity(Long.parseLong(event.getParameters())); //TODO check param
+
+            try{
+                long idActivity = Long.parseLong(event.getParameters());
+                activity = RecordController.getActivity(idActivity);
+            }
+            catch(NumberFormatException e){
+                getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+            catch(NoResultException e){
+                getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+
+            if(activity.getProjectCommitment().getEmployee().getId() != idEmployee){
+                getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
+                Notification.show("Access is not allowed");
+                return;
+            }
 
             dateBegin.setValue(activity.getBeginDate());
             dateEnd.setValue(activity.getEndDate());

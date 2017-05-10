@@ -25,17 +25,6 @@ public class Project {
         this.client = client;
     }
 
-
-    public String getCost() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getNumbOfEmp() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     //------------ GETTER AND SETTER ----------------------
 
     public long getId() {

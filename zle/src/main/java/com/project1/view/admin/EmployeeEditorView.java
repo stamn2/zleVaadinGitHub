@@ -123,7 +123,6 @@ public class EmployeeEditorView extends CustomComponent implements View{
                         || !email.isValid() || !tel.isValid()){
                     //TODO: show wich fields are not valid
                     Notification.show("Form is not filled correctly");
-                    return;
                 }
                 else{
                     if(UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
@@ -156,7 +155,9 @@ public class EmployeeEditorView extends CustomComponent implements View{
 	public void enter(ViewChangeEvent event) {
         if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+            return;
         }
+        getUI().getPage().setTitle("Employee Editor");
 	}
 
 

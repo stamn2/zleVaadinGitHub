@@ -94,6 +94,6 @@ public class FirstLoginView extends CustomComponent implements View{
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        Notification.show("enter the first login view");
+        getUI().getPage().setTitle("Change password");
     }
 }

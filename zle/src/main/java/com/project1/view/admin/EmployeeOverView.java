@@ -101,7 +101,9 @@ public class EmployeeOverView extends CustomComponent implements View {
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+            return;
         }
+        getUI().getPage().setTitle("Employees");
     }
 
 }

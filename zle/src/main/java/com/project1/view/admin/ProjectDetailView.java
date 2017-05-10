@@ -132,10 +132,13 @@ public class ProjectDetailView extends CustomComponent implements View{
     public void enter(ViewChangeEvent event) {
         if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+            return;
         }
+        getUI().getPage().setTitle("Project Detail");
         project = ProjectController.getProject(Long.parseLong(event.getParameters())); //TODO check id
         projectName.setValue(project.getName());
-        Client c = project.getClient(); //TODO problem constructor is done befor enter
+        Client c = project.getClient();
+        //TODO : show number of employees and costs
         infoText.setValue("State: " + project.isActive() + "\n" +
                         "Client: " + c.getCompanyName() + "\n" +
                         c.getFirstname() + " " + c.getLastname() + "\n"+

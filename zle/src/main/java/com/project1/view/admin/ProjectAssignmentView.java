@@ -101,8 +101,10 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		 if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
-	            getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+	         getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+			 return;
 		 }
+         getUI().getPage().setTitle("Project Assignment");
 		 project = ProjectController.getProject(Long.parseLong(event.getParameters())); //TODO check id
 		 projectCommitment = ProjectController.getProjectCommitmentList(project.getId());
 		 

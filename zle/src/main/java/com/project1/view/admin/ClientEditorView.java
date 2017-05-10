@@ -137,7 +137,9 @@ public class ClientEditorView extends CustomComponent implements View  {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+            return;
         }
+        getUI().getPage().setTitle("Client editor");
     }
 
 }

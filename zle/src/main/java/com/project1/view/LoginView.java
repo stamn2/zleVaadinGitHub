@@ -103,7 +103,7 @@ public class LoginView extends CustomComponent implements View{
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Notification.show("enter Login-View");
+        getUI().getPage().setTitle("Login");
 	}
 
 }

@@ -56,6 +56,6 @@ public class UserHomepageView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        Notification.show("enter the homepage view");
+        getUI().getPage().setTitle("Homepage");
     }
 }
