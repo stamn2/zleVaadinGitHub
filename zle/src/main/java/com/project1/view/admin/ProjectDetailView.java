@@ -8,14 +8,9 @@ import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
+import javax.persistence.NoResultException;
 
 public class ProjectDetailView extends CustomComponent implements View{
 
@@ -89,23 +84,10 @@ public class ProjectDetailView extends CustomComponent implements View{
         adminButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         projectName = new Label();
-        //projectName.setValue(project.getName()); //TODO problem constructor is done before enter
         projectName.setHeight("2em");
 
         infoText = new TextArea();
-        /*Client c = project.getClient(); //TODO problem constructor is done befor enter
-        infoText.setValue("State: " + project.isActive() + "\n" +
-                        "Client: " + c.getCompanyName() + "\n" +
-                        c.getFirstname() + " " + c.getLastname() + "\n"+
-                        c.getStreet() + "\n"+
-                        c.getPlz() + " " + c.getCity() + "\n"+
-                        c.getEmail() + "\n"+
-                        c.getTel() + "\n" +
-                        "# of Employees: " + "\n" +
-                        "Cost: "
-                );*/
-        infoText.setValue("infoText");
-        infoText.setHeight("250px"); //TODO setHeight correctly!
+        infoText.setHeight("250px");
         infoText.setWidth("100%");
         
 
@@ -124,7 +106,6 @@ public class ProjectDetailView extends CustomComponent implements View{
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        //setCompositionRoot(viewLayout);
 
     }
 
@@ -135,11 +116,24 @@ public class ProjectDetailView extends CustomComponent implements View{
             return;
         }
         getUI().getPage().setTitle("Project Detail");
-        project = ProjectController.getProject(Long.parseLong(event.getParameters())); //TODO check id
+        try{
+            project = ProjectController.getProject(Long.parseLong(event.getParameters()));
+        }
+        catch(NumberFormatException e){
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            Notification.show("URL is not valid");
+            return;
+        }
+
+        if(project == null){
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            Notification.show("URL is not valid");
+            return;
+        }
         projectName.setValue(project.getName());
         Client c = project.getClient();
         //TODO : show number of employees and costs
-        infoText.setValue("State: " + project.isActive() + "\n" +
+        infoText.setValue("Project is active: " + project.isActive() + "\n" +
                         "Client: " + c.getCompanyName() + "\n" +
                         c.getFirstname() + " " + c.getLastname() + "\n"+
                         c.getStreet() + "\n"+

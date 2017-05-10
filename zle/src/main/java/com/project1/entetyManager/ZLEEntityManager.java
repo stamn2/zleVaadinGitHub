@@ -106,13 +106,6 @@ public class ZLEEntityManager {
 		}
 		return activityList;
 	}
-	
-	public Activity getActivity(long activityId) {
-		Query q = em.createQuery("select o from Activity o where o.id ="+activityId);
-		Activity activity = (Activity) q.getSingleResult();
-			em.refresh(activity);
-		return activity;
-	}
 
 	public void persistObject(Object o){
 		if (o == null)
@@ -138,7 +131,9 @@ public class ZLEEntityManager {
 	
 	public Object findObject(Class c, Long id){
 		Object o = em.find(c, id);
-		em.refresh(o);
+		if(o != null){
+			em.refresh(o);
+		}
 		return o;
 	}
 

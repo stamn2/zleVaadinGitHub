@@ -20,7 +20,7 @@ public class RecordController {
     }
 
 	public static Activity getActivity(long activityId) {
-		return zem.getActivity(activityId);
+        return (Activity)zem.findObject(Activity.class, activityId);
 	}
 
     public static List<Activity> getActivitiesFromEmployee(long idEmployee){

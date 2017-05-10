@@ -134,7 +134,8 @@ public class ActivityRecordView extends CustomComponent implements View {
                 Notification.show("URL is not valid");
                 return;
             }
-            catch(NoResultException e){
+
+            if(activity == null){
                 getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
                 Notification.show("URL is not valid");
                 return;
