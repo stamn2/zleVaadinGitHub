@@ -41,11 +41,16 @@ public class ActivityRecordView extends CustomComponent implements View {
         back = new Button("Back");
         back.setWidth("15%");
         back.addClickListener(e ->{
-            if(((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
-                getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            if(newActivity){
+                if(((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+                    getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+                }
+                else{
+                    getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+                }
             }
             else{
-                getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+                getUI().getNavigator().navigateTo(RecordHistoryView.NAME);
             }
         });
 
