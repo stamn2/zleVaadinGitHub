@@ -33,6 +33,12 @@ public class ProjectController {
     }
     
     public static ProjectCommitment addProjectCommitment(Project project, Employee employee, double hourlyRate){
+        List<ProjectCommitment> pcFromProject = zem.getProjectCommitmentWithProject(project.getId());
+        for(ProjectCommitment pc : pcFromProject){
+            if(pc.getEmployee().getId() == employee.getId()){
+                return null;
+            }
+        }
     	ProjectCommitment projectCommitment = new ProjectCommitment(project, employee, hourlyRate);
         zem.persistObject(projectCommitment);
         return projectCommitment;

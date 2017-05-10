@@ -83,11 +83,14 @@ public class ProjectOverView extends CustomComponent implements View {
                 });
 
 
-        projectsGrid = new Grid("Projects", gpc); //TODO show client correctly
+        projectsGrid = new Grid("Projects", gpc);
+        Grid.HeaderRow hr = projectsGrid.prependHeaderRow();
+        hr.join("id", "name").setHtml("<b>Project</b>");
+        hr.join("client.companyName", "client.firstname", "client.lastname").setHtml("<b>Client</b>");
         projectsGrid.setWidth("100%");
         projectsGrid.getColumn("show")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
-                        showProject(e.getItemId()))); //TODO edit object
+                        showProject(e.getItemId())));
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addProject, projectsGrid);
         viewLayout.setMargin(true);

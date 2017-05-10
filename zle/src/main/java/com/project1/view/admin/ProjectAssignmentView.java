@@ -64,7 +64,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 		
-        hourlyRate = new TextField("Hourly Rate:");
+        hourlyRate = new TextField("Hourly Rate:"); //TODO check if it is a number (and it is a possible money)
         hourlyRate.setWidth("100%");
         hourlyRate.setRequired(true);
         hourlyRate.setInvalidAllowed(false);
@@ -83,12 +83,16 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         save = new Button("ADD");
         save.addClickListener(e -> {
             if(!hourlyRate.isValid() || !employee.isValid()){
-                //TODO: IF EMPLOYEE ALREADY ASSIGNET!
                 Notification.show("Form is not filled correctly");
             }
             else{
-               ProjectController.addProjectCommitment(project, (Employee)employee.getValue(), Double.valueOf(hourlyRate.getValue()).doubleValue());
-               Page.getCurrent().reload();
+               ProjectCommitment pc = ProjectController.addProjectCommitment(project, (Employee) employee.getValue(), Double.valueOf(hourlyRate.getValue()).doubleValue());
+               if(pc == null){
+                   Notification.show("Employee is already assigned to the project");
+               }
+               else{
+                   Page.getCurrent().reload();
+               }
             }
         });
               
@@ -105,7 +109,20 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 			 return;
 		 }
          getUI().getPage().setTitle("Project Assignment");
-		 project = ProjectController.getProject(Long.parseLong(event.getParameters())); //TODO check id
+        try{
+            project = ProjectController.getProject(Long.parseLong(event.getParameters()));
+        }
+        catch(NumberFormatException e){
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            Notification.show("URL is not valid");
+            return;
+        }
+
+        if(project == null){
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            Notification.show("URL is not valid");
+            return;
+        }
 		 projectCommitment = ProjectController.getProjectCommitmentList(project.getId());
 		 
 	        List<Employee> empList = new ArrayList<>();
@@ -128,8 +145,6 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        gpc.removeContainerProperty("employee.active");
 	        gpc.removeContainerProperty("employee.admin");
 	        gpc.removeContainerProperty("employee.changePassword");
-	        gpc.removeContainerProperty("employee.firstname");
-	        gpc.removeContainerProperty("employee.lastname");
 	        
 	        back.addClickListener(e ->{
 				getUI().getNavigator().navigateTo(ProjectDetailView.NAME+ "/"+ project.getId());
@@ -137,7 +152,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 
 
 	        projectsGrid = new Grid("Projects", gpc);
-	        projectsGrid.setColumnOrder("id", "employee.email", "hourlyRate");
+	        projectsGrid.setColumnOrder("id", "employee.email","employee.firstname" ,"employee.lastname"  , "hourlyRate");
 	        projectsGrid.setWidth("100%");
 		 
 	        // The view root layout

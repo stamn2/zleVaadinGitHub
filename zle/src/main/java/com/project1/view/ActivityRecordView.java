@@ -126,8 +126,7 @@ public class ActivityRecordView extends CustomComponent implements View {
         if(!event.getParameters().equals("")){
 
             try{
-                long idActivity = Long.parseLong(event.getParameters());
-                activity = RecordController.getActivity(idActivity);
+                activity = RecordController.getActivity(Long.parseLong(event.getParameters()));
             }
             catch(NumberFormatException e){
                 getUI().getNavigator().navigateTo(RecordHistoryView.NAME);

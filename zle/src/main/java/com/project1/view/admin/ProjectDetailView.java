@@ -132,7 +132,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         }
         projectName.setValue(project.getName());
         Client c = project.getClient();
-        //TODO : show number of employees and costs
+        //TODO : show cost
         infoText.setValue("Project is active: " + project.isActive() + "\n" +
                         "Client: " + c.getCompanyName() + "\n" +
                         c.getFirstname() + " " + c.getLastname() + "\n"+
@@ -140,7 +140,7 @@ public class ProjectDetailView extends CustomComponent implements View{
                         c.getPlz() + " " + c.getCity() + "\n"+
                         c.getEmail() + "\n"+
                         c.getTel() + "\n" +
-                        "# of Employees: " + "\n" +
+                        "num. of Employees: " + ProjectController.getProjectCommitmentList(project.getId()).size() + "\n" +
                         "Cost: "
                 );
         infoText.setReadOnly(true);
