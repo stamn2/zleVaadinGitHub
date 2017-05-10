@@ -12,9 +12,10 @@ import java.util.List;
 public class ProjectController {
     private static ZLEEntityManager zem = new ZLEEntityManager();
 
-    public static void addClient(String companyName, String firstname, String lastname, String street, String plz, String city, String email, String tel){
+    public static Client addClient(String companyName, String firstname, String lastname, String street, String plz, String city, String email, String tel){
         Client client = new Client(companyName, firstname, lastname, street, plz, city, email, tel);
         zem.persistObject(client);
+        return client;
     }
 
     public static List<Client> getClients(){
