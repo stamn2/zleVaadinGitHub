@@ -55,6 +55,7 @@ public class ProjectControllerTest {
 		zem.removeElement(project);
 		client = (Client) zem.findObject(Client.class, client.getId());
 		zem.removeElement(client);
+		zem.removeElement(employee);
 	}
 	
 	@Test

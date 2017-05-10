@@ -14,9 +14,10 @@ public class RecordController {
         return zem.getProjectCommitmentWithEmployee(idEmployee);
     }
 
-    public static void addActivity(Date dateBegin, Date dateEnd, String comment, ProjectCommitment project){
+    public static Activity addActivity(Date dateBegin, Date dateEnd, String comment, ProjectCommitment project){
         Activity activity = new Activity(dateBegin, dateEnd, comment, project);
         zem.persistObject(activity);
+        return activity;
     }
 
 	public static Activity getActivity(long activityId) {
@@ -39,5 +40,4 @@ public class RecordController {
     public static void removeActivity(Activity activity){
         zem.removeElement(activity);
     }
-	
 }
