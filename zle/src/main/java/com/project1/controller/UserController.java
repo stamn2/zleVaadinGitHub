@@ -23,6 +23,7 @@ public class UserController {
         } catch (MessagingException e) {
         	System.out.println("Error: Email not send!");
         }*/
+        ProjectController.assignEmpToProjectX(emp);
         return true;
     }
     

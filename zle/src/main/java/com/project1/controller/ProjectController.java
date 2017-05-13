@@ -55,5 +55,24 @@ public class ProjectController {
     public static List<ProjectCommitment> getProjectCommitmentList(long idProject){
         return zem.getProjectCommitmentWithProject(idProject);
     }
+    
+    public static ProjectCommitment getProjectCommitmentbyBothIds(long idEmp, long idProject){
+        return zem.getProjectCommitmentWithProjectAndEmployee(idEmp,idProject);
+    }
+
+	public static Project getProject(String projectName) {
+		return zem.getProjectByName(projectName);
+	}
+
+	public static void addProjectX() {
+		ProjectController.addProject("ProjectX", 
+    					ProjectController.addClient("X", "x", "x", "x", "x", "x", "x@mai.com", "x"));	 
+	}
+
+	public static void assignEmpToProjectX(Employee emp) {
+		ProjectController.addProjectCommitment(ProjectController.getProject("ProjectX"), emp, 1234);
+		
+	}
+
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
+import com.project1.controller.ProjectController;
 import com.project1.controller.UserController;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
@@ -112,8 +113,9 @@ public class MyUI extends UI {
         protected void servletInitialized() throws ServletException {
         	super.servletInitialized();
         	System.out.println("init done...");
-
+        	if(ProjectController.getProject("ProjectX")==null) ProjectController.addProjectX();   
             UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
+                    	
 		}
     	
     }

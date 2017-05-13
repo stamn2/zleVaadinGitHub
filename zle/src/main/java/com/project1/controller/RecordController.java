@@ -1,6 +1,7 @@
 package com.project1.controller;
 
 import com.project1.domain.Activity;
+import com.project1.domain.Employee;
 import com.project1.domain.ProjectCommitment;
 import com.project1.entetyManager.ZLEEntityManager;
 
@@ -40,4 +41,20 @@ public class RecordController {
     public static void removeActivity(Activity activity){
         zem.removeElement(activity);
     }
+
+	public static Activity getRealTimeRecordActivity(long idEmployee) {
+		return zem.getRealTimeRecordActivity(idEmployee);
+	}
+
+	public static void setRealTimeRecord(Activity realTimeRecord) {
+		zem.startTransaction();
+		realTimeRecord.setRealTimeRecord(true);
+		zem.endTransaction();
+	}
+
+	public static void unsetRealTimeRecord(Activity realTimeRecord) {
+		zem.startTransaction();
+		realTimeRecord.setRealTimeRecord(false);
+		zem.endTransaction();
+	}
 }

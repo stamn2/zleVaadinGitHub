@@ -1,5 +1,10 @@
 package com.project1.view.admin;
 
+import java.util.Date;
+
+import com.project1.controller.ProjectController;
+import com.project1.controller.RecordController;
+import com.project1.domain.Activity;
 import com.project1.domain.Employee;
 import com.project1.view.ActivityRecordView;
 import com.project1.view.FirstLoginView;
@@ -32,15 +37,27 @@ public class AdminHomepageView extends CustomComponent implements View {
         employees.addClickListener(e -> {
             getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
         });
-
+        
+        
         start = new Button("Start");
         start.setWidth("80%");
         stop = new Button("Stop");
         stop.setWidth("80%");
         stop.setVisible(false);
+        
         start.addClickListener( e -> {
             start.setVisible(false);
             stop.setVisible(true);
+            RecordController.setRealTimeRecord(RecordController.addActivity(new Date(), new Date(), "realTimeRecord", 
+            		ProjectController.getProjectCommitmentbyBothIds(((Employee)getUI().getSession().getAttribute("user")).getId(),
+            				ProjectController.getProject("ProjectX").getId())));
+        });
+        stop.addClickListener(e ->{
+        	Activity realTimeRecord = RecordController.getRealTimeRecordActivity(((Employee)getUI().getSession().getAttribute("user")).getId());
+        	RecordController.updateActivity(realTimeRecord,
+        			realTimeRecord.getBeginDate(), new Date(), realTimeRecord.getComment(), realTimeRecord.getProjectCommitment());
+        	RecordController.unsetRealTimeRecord(realTimeRecord);
+        	getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ realTimeRecord.getId());
         });
 
         manualEntry = new Button("Manual Entry");
@@ -91,6 +108,11 @@ public class AdminHomepageView extends CustomComponent implements View {
             return;
         }
         getUI().getPage().setTitle("Homepage");
+        
+        if(RecordController.getRealTimeRecordActivity(((Employee)getUI().getSession().getAttribute("user")).getId())!=null){
+            start.setVisible(false);
+            stop.setVisible(true);
+        }
     }
 
 }

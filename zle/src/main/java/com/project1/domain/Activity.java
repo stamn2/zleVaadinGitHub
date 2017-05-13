@@ -11,6 +11,7 @@ public class Activity {
     private long id;
 
     private boolean active = true;
+    private boolean realTimeRecord = false;
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,6 +39,14 @@ public class Activity {
 
     public boolean isActive() {
         return active;
+    }
+    
+    public boolean isRealTimeRecord(){
+    	return realTimeRecord;
+    }
+    
+    public void setRealTimeRecord(boolean isRealtimeRecord){
+    	 realTimeRecord=isRealtimeRecord;
     }
 
     public Date getBeginDate() {
