@@ -48,16 +48,13 @@ public class AdminHomepageView extends CustomComponent implements View {
         start.addClickListener( e -> {
             start.setVisible(false);
             stop.setVisible(true);
-            RecordController.setRealTimeRecord(RecordController.addActivity(new Date(), new Date(), "realTimeRecord", 
-            		ProjectController.getProjectCommitmentbyBothIds(((Employee)getUI().getSession().getAttribute("user")).getId(),
-            				ProjectController.getProject("ProjectX").getId())));
+            //TODO when null
+            RecordController.startRealTimeRecording((Employee) getUI().getSession().getAttribute("user"));
         });
         stop.addClickListener(e ->{
-        	Activity realTimeRecord = RecordController.getRealTimeRecordActivity(((Employee)getUI().getSession().getAttribute("user")).getId());
-        	RecordController.updateActivity(realTimeRecord,
-        			realTimeRecord.getBeginDate(), new Date(), realTimeRecord.getComment(), realTimeRecord.getProjectCommitment());
-        	RecordController.unsetRealTimeRecord(realTimeRecord);
-        	getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ realTimeRecord.getId());
+            //TODO when null
+        	Activity activity = RecordController.stopRealTimeRecording((Employee) getUI().getSession().getAttribute("user"));
+        	getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ activity.getId());
         });
 
         manualEntry = new Button("Manual Entry");

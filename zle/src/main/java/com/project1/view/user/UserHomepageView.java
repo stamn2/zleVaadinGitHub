@@ -1,5 +1,8 @@
 package com.project1.view.user;
 
+import com.project1.controller.RecordController;
+import com.project1.domain.Activity;
+import com.project1.domain.Employee;
 import com.project1.view.ActivityRecordView;
 import com.project1.view.LoginView;
 import com.project1.view.RecordHistoryView;
@@ -18,9 +21,17 @@ public class UserHomepageView extends CustomComponent implements View {
         stop = new Button("Stop");
         stop.setWidth("100%");
         stop.setVisible(false);
+
         start.addClickListener( e -> {
             start.setVisible(false);
             stop.setVisible(true);
+            //TODO when null
+            RecordController.startRealTimeRecording((Employee) getUI().getSession().getAttribute("user"));
+        });
+        stop.addClickListener(e ->{
+            //TODO when null
+            Activity activity = RecordController.stopRealTimeRecording((Employee) getUI().getSession().getAttribute("user"));
+            getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ activity.getId());
         });
 
         manualEntry = new Button("Manual Entry");
@@ -57,5 +68,9 @@ public class UserHomepageView extends CustomComponent implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         getUI().getPage().setTitle("Homepage");
+        if(RecordController.getRealTimeRecordActivity(((Employee) getUI().getSession().getAttribute("user")).getId())!=null){
+            start.setVisible(false);
+            stop.setVisible(true);
+        }
     }
 }

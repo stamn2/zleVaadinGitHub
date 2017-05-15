@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.project1.controller.ProjectController;
 import com.project1.controller.UserController;
+import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.view.admin.*;
@@ -113,7 +114,11 @@ public class MyUI extends UI {
         protected void servletInitialized() throws ServletException {
         	super.servletInitialized();
         	System.out.println("init done...");
-        	if(ProjectController.getProject("ProjectX")==null) ProjectController.addProjectX();   
+            //TODO check if system client exists allready?
+        	if(ProjectController.getRealTimeRecordingProject() == null){
+                Client systemClient = ProjectController.addClient("system", "system", "system", "system", "system", "system", "system", "system");
+				ProjectController.addProject("RealTimeRecording", systemClient);
+			}
             UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
                     	
 		}

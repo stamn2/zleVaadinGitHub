@@ -55,24 +55,23 @@ public class ProjectController {
     public static List<ProjectCommitment> getProjectCommitmentList(long idProject){
         return zem.getProjectCommitmentWithProject(idProject);
     }
-    
-    public static ProjectCommitment getProjectCommitmentbyBothIds(long idEmp, long idProject){
-        return zem.getProjectCommitmentWithProjectAndEmployee(idEmp,idProject);
+
+    public static void assignEmployeeToSystemProjects(Employee emp){
+        List<Project> systemProjects = zem.getSystemProjects();
+        for(Project p : systemProjects){
+            ProjectController.addProjectCommitment(p, emp, 0);
+        }
     }
 
-	public static Project getProject(String projectName) {
-		return zem.getProjectByName(projectName);
-	}
-
-	public static void addProjectX() {
-		ProjectController.addProject("ProjectX", 
-    					ProjectController.addClient("X", "x", "x", "x", "x", "x", "x@mai.com", "x"));	 
-	}
-
-	public static void assignEmpToProjectX(Employee emp) {
-		ProjectController.addProjectCommitment(ProjectController.getProject("ProjectX"), emp, 1234);
-		
-	}
+    public static Project getRealTimeRecordingProject(){
+        List<Project> systemProjects = zem.getSystemProjects();
+        for(Project p : systemProjects){
+            if(p.getName().equals("RealTimeRecording")){
+                return p;
+            }
+        }
+        return null;
+    }
 
 
 }

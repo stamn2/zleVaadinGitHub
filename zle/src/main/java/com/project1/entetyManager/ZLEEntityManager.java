@@ -80,16 +80,13 @@ public class ZLEEntityManager {
 		return projectList;
 	}
 
-	public Project getProjectByName(String projectName) {
-		try {
-			Query q = em.createQuery("select o from Project o where o.name='"+projectName+"'");
-			Project project = (Project) q.getSingleResult();
-				em.refresh(project);
-			return project;
-		} catch (NoResultException e) {
-			return null;
+	public List<Project> getSystemProjects(){
+		Query q = em.createQuery("select o from Project o where o.client.email=\"system\"");
+		List<Project> projectList = q.getResultList();
+		for(Project p : projectList) {
+			em.refresh(p);
 		}
-
+		return projectList;
 	}
 	
 	public List<ProjectCommitment> getProjectCommitmentWithProject(long idProject){
@@ -109,12 +106,16 @@ public class ZLEEntityManager {
 		}
 		return projectCommitmenttList;
 	}
-	
+
 	public ProjectCommitment getProjectCommitmentWithProjectAndEmployee(long idEmp, long idProject) {
 		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.employee.id = "+idEmp+" AND o.project.id = "+idProject);
-		ProjectCommitment projectCommitment = (ProjectCommitment) q.getSingleResult();
+		try {
+			ProjectCommitment projectCommitment = (ProjectCommitment) q.getSingleResult();
 			em.refresh(projectCommitment);
-		return projectCommitment;
+			return projectCommitment;
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public List<Activity> getActivitiesFromEmployee(long idEmployee){

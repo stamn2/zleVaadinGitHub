@@ -23,7 +23,7 @@ public class UserController {
         } catch (MessagingException e) {
         	System.out.println("Error: Email not send!");
         }*/
-        ProjectController.assignEmpToProjectX(emp);
+        ProjectController.assignEmployeeToSystemProjects(emp);
         return true;
     }
     
@@ -51,6 +51,6 @@ public class UserController {
         String newPw = emp.generatePassword();
         System.out.println(newPw);
         emp.setChangePassword(true);
-        zem.endTransaction();
+        zem.endTransaction(); //TODO send email
     }
 }

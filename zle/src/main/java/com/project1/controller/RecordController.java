@@ -2,6 +2,7 @@ package com.project1.controller;
 
 import com.project1.domain.Activity;
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
 import com.project1.domain.ProjectCommitment;
 import com.project1.entetyManager.ZLEEntityManager;
 
@@ -46,15 +47,28 @@ public class RecordController {
 		return zem.getRealTimeRecordActivity(idEmployee);
 	}
 
-	public static void setRealTimeRecord(Activity realTimeRecord) {
+	public static Activity startRealTimeRecording(Employee emp) {
+        Project project= ProjectController.getRealTimeRecordingProject();
+        if(project == null){
+            return null;
+        }
+        ProjectCommitment pc = zem.getProjectCommitmentWithProjectAndEmployee(emp.getId(), project.getId());
+        Activity activity = addActivity(new Date(), new Date(), "", pc);
 		zem.startTransaction();
-		realTimeRecord.setRealTimeRecord(true);
+		activity.setRealTimeRecord(true);
 		zem.endTransaction();
+        return activity;
 	}
 
-	public static void unsetRealTimeRecord(Activity realTimeRecord) {
-		zem.startTransaction();
-		realTimeRecord.setRealTimeRecord(false);
+	public static Activity stopRealTimeRecording(Employee emp) {
+        Activity activity = RecordController.getRealTimeRecordActivity(emp.getId());
+        if(activity == null) {
+            return null;
+        }
+        zem.startTransaction();
+        activity.setEndDate(new Date());
+		activity.setRealTimeRecord(false);
 		zem.endTransaction();
+        return activity;
 	}
 }
