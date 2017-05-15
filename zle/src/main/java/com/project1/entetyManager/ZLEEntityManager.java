@@ -63,7 +63,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<Client> getClients(){
-		Query q = em.createQuery("select o from Client o");
+		Query q = em.createQuery("select o from Client o where o.email<>\"system\"");
 		List<Client> clientList = q.getResultList();
 		for(Client c : clientList) {
 			em.refresh(c);
@@ -72,7 +72,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<Project> getActivePojects(){
-		Query q = em.createQuery("select o from Project o where o.active = true");
+		Query q = em.createQuery("select o from Project o where o.active = true and o.client.email<>\"system\"");
 		List<Project> projectList = q.getResultList();
 		for(Project p : projectList) {
 			em.refresh(p);
@@ -119,7 +119,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<Activity> getActivitiesFromEmployee(long idEmployee){
-		Query q = em.createQuery("select a from Activity a where a.active = true AND a.projectCommitment.active=true AND a.projectCommitment.employee.id ="+idEmployee+ " ORDER BY a.beginDate DESC");
+		Query q = em.createQuery("select a from Activity a where a.active = true AND a.realTimeRecord=false AND a.projectCommitment.employee.id ="+idEmployee+ " ORDER BY a.beginDate DESC");
 		List<Activity> activityList = q.getResultList();
 		for(Activity a : activityList) {
 			em.refresh(a);

@@ -91,6 +91,7 @@ public class RecordHistoryView extends CustomComponent implements View {
         gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("active");
         gpc.removeContainerProperty("projectCommitment");
+        gpc.removeContainerProperty("realTimeRecord");
         gpc.addGeneratedProperty("edit",
                 new PropertyValueGenerator<String>() {
                     @Override
