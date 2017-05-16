@@ -28,7 +28,7 @@ public class ActivityRecordView extends CustomComponent implements View {
 
     private Activity activity;
     private boolean newActivity = true;
-    
+
     public ActivityRecordView(){
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -79,7 +79,7 @@ public class ActivityRecordView extends CustomComponent implements View {
         project = new ComboBox("Project: ");
         project.setWidth("100%");
         project.setRequired(true);
-        project.setInvalidAllowed(false);
+        project.setInvalidAllowed(false); //TODO : doesn't show RealTimeRecording
 
         comment = new TextArea("Comment :");
         comment.setWidth("100%");

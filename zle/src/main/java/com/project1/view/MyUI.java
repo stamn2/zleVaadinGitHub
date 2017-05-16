@@ -117,6 +117,7 @@ public class MyUI extends UI {
             //TODO check if system client exists allready?
         	if(ProjectController.getRealTimeRecordingProject() == null){
                 Client systemClient = ProjectController.addClient("system", "system", "system", "system", "system", "system", "system", "system");
+				ProjectController.addProject("No Project", systemClient);
 				ProjectController.addProject("RealTimeRecording", systemClient);
 			}
             UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);

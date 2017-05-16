@@ -39,7 +39,7 @@ public class RecordHistoryView extends CustomComponent implements View {
 
     private GeneratedPropertyContainer gpc;
     
-
+//TODO show project name
     public RecordHistoryView(){
 
         logout = new Button("Logout");
