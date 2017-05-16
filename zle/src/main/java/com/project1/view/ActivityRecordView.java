@@ -79,7 +79,7 @@ public class ActivityRecordView extends CustomComponent implements View {
         project = new ComboBox("Project: ");
         project.setWidth("100%");
         project.setRequired(true);
-        project.setInvalidAllowed(false); //TODO : doesn't show RealTimeRecording
+        project.setInvalidAllowed(false);
 
         comment = new TextArea("Comment :");
         comment.setWidth("100%");

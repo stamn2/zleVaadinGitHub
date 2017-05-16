@@ -114,7 +114,6 @@ public class MyUI extends UI {
         protected void servletInitialized() throws ServletException {
         	super.servletInitialized();
         	System.out.println("init done...");
-            //TODO check if system client exists allready?
         	if(ProjectController.getRealTimeRecordingProject() == null){
                 Client systemClient = ProjectController.addClient("system", "system", "system", "system", "system", "system", "system", "system");
 				ProjectController.addProject("No Project", systemClient);

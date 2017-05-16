@@ -48,13 +48,13 @@ public class AdminHomepageView extends CustomComponent implements View {
         start.addClickListener( e -> {
             start.setVisible(false);
             stop.setVisible(true);
-            //TODO when null
             RecordController.startRealTimeRecording((Employee) getUI().getSession().getAttribute("user"));
         });
         stop.addClickListener(e ->{
-            //TODO when null
         	Activity activity = RecordController.stopRealTimeRecording((Employee) getUI().getSession().getAttribute("user"));
-        	getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/"+ activity.getId());
+        	if(activity != null) {
+                getUI().getNavigator().navigateTo(ActivityRecordView.NAME + "/" + activity.getId());
+            }
         });
 
         manualEntry = new Button("Manual Entry");

@@ -125,7 +125,7 @@ public class RecordHistoryView extends CustomComponent implements View {
                     }
                 });
 
-        projectsGrid = new Grid("History of activities", gpc); //TODO show project name ?
+        projectsGrid = new Grid("History of activities", gpc);
         projectsGrid.setColumnOrder("id","beginDate","endDate", "projectCommitment.project.name", "comment","edit", "remove");
         projectsGrid.setWidth("100%");
         projectsGrid.getColumn("comment").setExpandRatio(1);

@@ -13,6 +13,7 @@ import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
@@ -64,10 +65,12 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 		
-        hourlyRate = new TextField("Hourly Rate:"); //TODO check if it is a number (and it is a possible money)
+        hourlyRate = new TextField("Hourly Rate:");
         hourlyRate.setWidth("100%");
         hourlyRate.setRequired(true);
         hourlyRate.setInvalidAllowed(false);
+        hourlyRate.addValidator(new RegexpValidator("^[0-9]*\\.?[0-9]{0,2}$",
+                "It must be a number of max 2 digits after comma"));
 
 
         List<Employee> AllEmpsList = UserController.getActivesEmployees();

@@ -67,7 +67,7 @@ public class RecordController {
         }
         zem.startTransaction();
         activity.setEndDate(new Date());
-		activity.setRealTimeRecord(false); //TODO the activity "goes lost" if employee doesn't commit activity
+		activity.setRealTimeRecord(false);
 		zem.endTransaction();
         return activity;
 	}
