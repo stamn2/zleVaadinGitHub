@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.persistence.sessions.Record;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -95,5 +96,24 @@ public class RecordControllerTest {
 	public void removeActivity(){
 		activity3 = RecordController.addActivity(new Date(), new Date(), new String("comment"), projectCommitment);
 		RecordController.removeActivity(activity3);
+	}
+	
+	@Test
+	public void startAndGetRealTimeRecordActivity(){
+		activity3 = RecordController.startRealTimeRecording(employee);
+		assertTrue(activity3.getId() == RecordController.getRealTimeRecordActivity(employee.getId()).getId());
+		RecordController.removeActivity(activity3);
+	}
+	
+	@Test
+	public void stopRealTimeRecordActivity(){
+		activity3 = RecordController.startRealTimeRecording(employee);
+		assertFalse(RecordController.stopRealTimeRecording(employee).isRealTimeRecord());	
+		RecordController.removeActivity(activity3);
+	}
+	
+	@Test
+	public void getNoRealTimeRecord(){
+		assertNull(RecordController.getRealTimeRecordActivity(employee.getId()));
 	}
 }

@@ -79,8 +79,18 @@ public class ProjectControllerTest {
 	}
 	
 	@Test
+	public void addTwoTimesSameProjectCommitment() {
+		assertNull(ProjectController.addProjectCommitment(project, employee, hourlyRate));
+	}
+	
+	@Test
 	public void getProjects(){
 		assertTrue(ProjectController.getProjects().size()>=1);
 	}
- 
+	
+	@Test
+	public void getNullProjectcommitmentWithProjectAndEmployee(){
+		long wrongProjectID = 999;
+		assertNull(zem.getProjectCommitmentWithProjectAndEmployee(employee.getId(), wrongProjectID));
+	}
 }

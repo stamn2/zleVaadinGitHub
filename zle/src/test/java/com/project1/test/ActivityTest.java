@@ -88,4 +88,15 @@ public class ActivityTest {
 		assertEquals(comment2, activity.getComment());
 	}
 	
+	@Test
+	public void isSetRealTimeRecord() {
+		assertFalse(activity.isRealTimeRecord());
+	}
+	
+	@Test
+	public void setRealTimeRecord() {
+		activity.setRealTimeRecord(true);
+		assertTrue(activity.isRealTimeRecord());
+	}
+	
 }
