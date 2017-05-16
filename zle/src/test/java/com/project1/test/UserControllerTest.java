@@ -29,13 +29,13 @@ public class UserControllerTest {
 	
 	@Test
 	public void addEmployee() {
-		assertTrue(UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true));
+		assertTrue(UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true) != null);
 	}
 	
 	@Test
 	public void addSameEmployee() {
 		UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
-		assertFalse(UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true));
+		assertFalse(UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true) != null);
 	}
 	
 	@Test

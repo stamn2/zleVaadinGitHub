@@ -125,8 +125,9 @@ public class EmployeeEditorView extends CustomComponent implements View{
                     Notification.show("Form is not filled correctly");
                 }
                 else{
-                    if(UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
-                            plz.getValue(), city.getValue(), tel.getValue(), adminRight.getValue())){
+                    Employee emp = UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
+                            plz.getValue(), city.getValue(), tel.getValue(), adminRight.getValue());
+                    if(emp != null){
                             getUI().getNavigator().navigateTo(EmployeeOverView.NAME);}
                     else{
                             Notification.show("An active employee with this email exists already!");

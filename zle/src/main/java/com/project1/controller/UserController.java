@@ -10,9 +10,9 @@ import java.util.List;
 public class UserController {
     private static ZLEEntityManager zem = new ZLEEntityManager();
 
-    public static boolean addEmployee(String email, String firstname, String lastname, String street, String plz, String city, String tel, boolean isAdmin){
+    public static Employee addEmployee(String email, String firstname, String lastname, String street, String plz, String city, String tel, boolean isAdmin){
     	if(zem.getEmployee(email) != null){
-            return false;
+            return null;
         }
         Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel, isAdmin);
         String password = emp.generatePassword();
@@ -24,7 +24,7 @@ public class UserController {
         	System.out.println("Error: Email not send!");
         }*/
         ProjectController.assignEmployeeToSystemProjects(emp);
-        return true;
+        return emp;
     }
     
     public static List<Employee> getActivesEmployees(){
