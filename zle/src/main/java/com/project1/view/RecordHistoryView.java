@@ -38,8 +38,7 @@ public class RecordHistoryView extends CustomComponent implements View {
     private HorizontalLayout topLayer;
 
     private GeneratedPropertyContainer gpc;
-    
-//TODO show project name
+
     public RecordHistoryView(){
 
         logout = new Button("Logout");
@@ -87,11 +86,18 @@ public class RecordHistoryView extends CustomComponent implements View {
     	List<Activity> activityList = RecordController.getActivitiesFromEmployee(((Employee) getUI().getSession().getAttribute("user")).getId());
     	
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
-        // Generate button caption column
+        ds.addNestedContainerBean("projectCommitment");
+        ds.addNestedContainerBean("projectCommitment.project");
         gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("active");
-        gpc.removeContainerProperty("projectCommitment");
         gpc.removeContainerProperty("realTimeRecord");
+        gpc.removeContainerProperty("projectCommitment.id");
+        gpc.removeContainerProperty("projectCommitment.employee");
+        gpc.removeContainerProperty("projectCommitment.hourlyRate");
+        gpc.removeContainerProperty("projectCommitment.active");
+        gpc.removeContainerProperty("projectCommitment.project.id");
+        gpc.removeContainerProperty("projectCommitment.project.active");
+        gpc.removeContainerProperty("projectCommitment.project.client");
         gpc.addGeneratedProperty("edit",
                 new PropertyValueGenerator<String>() {
                     @Override
@@ -120,7 +126,7 @@ public class RecordHistoryView extends CustomComponent implements View {
                 });
 
         projectsGrid = new Grid("History of activities", gpc); //TODO show project name ?
-        projectsGrid.setColumnOrder("id","beginDate","endDate","comment","edit");
+        projectsGrid.setColumnOrder("id","beginDate","endDate", "projectCommitment.project.name", "comment","edit", "remove");
         projectsGrid.setWidth("100%");
         projectsGrid.getColumn("comment").setExpandRatio(1);
         projectsGrid.getColumn("edit")

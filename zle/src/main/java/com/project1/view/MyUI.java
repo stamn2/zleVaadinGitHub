@@ -120,7 +120,7 @@ public class MyUI extends UI {
 				ProjectController.addProject("No Project", systemClient);
 				ProjectController.addProject("RealTimeRecording", systemClient);
 			}
-            UserController.addEmployee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
+            UserController.addEmployee("admin", "admin", "admin", "admin", "admin", "admin", "admin",true);
                     	
 		}
     	
