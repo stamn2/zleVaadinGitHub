@@ -99,7 +99,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<ProjectCommitment> getProjectCommitmentWithEmployee(long idEmployee){
-		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.employee.id ="+idEmployee);
+		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.employee.id ="+idEmployee + " AND NOT (o.project.client.email=\"system\" AND o.project.name=\"RealTimeRecording\")");
 		List<ProjectCommitment> projectCommitmenttList = q.getResultList();
 		for(ProjectCommitment p : projectCommitmenttList) {
 			em.refresh(p);
