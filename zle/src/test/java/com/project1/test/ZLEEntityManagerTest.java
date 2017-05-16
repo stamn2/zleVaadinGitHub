@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.project1.domain.Employee;
+import com.project1.domain.Project;
 import com.project1.entetyManager.ZLEEntityManager;
 
 public class ZLEEntityManagerTest {
@@ -19,8 +20,8 @@ public class ZLEEntityManagerTest {
 	
 	public ZLEEntityManagerTest() {
 		em = new ZLEEntityManager(PERSISTENCE_UNIT_NAME);
-		emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
-		emp2 = new Employee("email2@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		emp = new Employee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		emp2 = new Employee("test2", "firstname", "lastname", "street", "plz", "city", "tel",true);
 		emp2.setIsActive(false);
 	}
 	
@@ -40,7 +41,7 @@ public class ZLEEntityManagerTest {
 	@Test
 	public void persistEmployee() {
 		em.persistObject(emp);
-		assertEquals(em.getEmployee("email@mail.com"), emp);
+		assertTrue(em.getEmployee("test").getId() == emp.getId());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -64,7 +65,7 @@ public class ZLEEntityManagerTest {
 		em.persistObject(emp2);
 		List<Employee> activeEmployees = em.getActiveEmployees();
 		assertTrue(activeEmployees.size()==1);
-		assertEquals(activeEmployees.get(0), emp);
+		assertTrue(activeEmployees.get(0).getId() == emp.getId());
 	}
 	
 	@Test
@@ -73,8 +74,8 @@ public class ZLEEntityManagerTest {
 		em.persistObject(emp2);
 		List<Employee> allEmployees = em.getAllEmployees();
 		assertTrue(allEmployees.size()==2);	
-		assertEquals(allEmployees.get(0), emp);
-		assertEquals(allEmployees.get(1), emp2);
+		assertTrue(allEmployees.get(0).getId() == emp.getId());
+		assertTrue(allEmployees.get(1).getId() == emp2.getId());
 	}
 	 
 	@Test(expected = IllegalArgumentException.class)

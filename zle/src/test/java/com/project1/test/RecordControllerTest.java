@@ -3,6 +3,7 @@ package com.project1.test;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,7 +27,7 @@ public class RecordControllerTest {
 	static Project project;
 	double hourlyRate;
 	Employee employee;
-	ProjectCommitment projectCommitment;
+	ProjectCommitment projectCommitment,noProject;
 	Activity activity, activity2, activity3;
 	
 	public RecordControllerTest() {
@@ -38,8 +39,8 @@ public class RecordControllerTest {
 		client = ProjectController.addClient("companyName", "firstname", "lastname", "street", "plz",
 				"city", "email", "tel");
 		project = ProjectController.addProject("name", client);
-		UserController.addEmployee("test@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
-		employee = zem.getEmployee("test@mail.com");
+		UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		employee = zem.getEmployee("test");
 		projectCommitment = ProjectController.addProjectCommitment(project, employee, hourlyRate);
 		activity = RecordController.addActivity(new Date(), new Date(), new String("comment"), projectCommitment);
 	}
@@ -47,6 +48,11 @@ public class RecordControllerTest {
 	@After
 	public void clear(){
 		RecordController.removeActivity(activity);
+		//No-Project&RealTimeActivityProject
+		List<Project> systemProject = zem.getSystemProjects();
+		for (Project project : systemProject) {
+			zem.removeElement(zem.getProjectCommitmentWithProjectAndEmployee(employee.getId(), project.getId()));
+		}
 		projectCommitment = (ProjectCommitment) zem.findObject(ProjectCommitment.class, projectCommitment.getId());
 		zem.removeElement(projectCommitment);
 		project = (Project) zem.findObject(Project.class, project.getId());

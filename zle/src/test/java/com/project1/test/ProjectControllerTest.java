@@ -2,6 +2,8 @@ package com.project1.test;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,20 +33,25 @@ public class ProjectControllerTest {
 		client = ProjectController.addClient("companyName", "firstname", "lastname", "street", "plz",
 				"city", "email", "tel");
 		project = ProjectController.addProject("name", client);	
-		UserController.addEmployee("test@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
-		employee = zem.getEmployee("test@mail.com");
+		UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		employee = zem.getEmployee("test");
 		projectCommitment = ProjectController.addProjectCommitment(project, employee, hourlyRate);
 	}
 	
 	@After
 	public void clear(){
+		//No-Project&RealTimeActivityProject
+		List<Project> systemProject = zem.getSystemProjects();
+		for (Project project : systemProject) {
+			zem.removeElement(zem.getProjectCommitmentWithProjectAndEmployee(zem.getEmployee("test").getId(), project.getId()));
+		}
 		projectCommitment = (ProjectCommitment) zem.findObject(ProjectCommitment.class, projectCommitment.getId());
 		zem.removeElement(projectCommitment);
 		project = (Project) zem.findObject(Project.class, project.getId());
 		zem.removeElement(project);
 		client = (Client) zem.findObject(Client.class, client.getId());
 		zem.removeElement(client);
-		employee = zem.getEmployee("test@mail.com");
+		employee = zem.getEmployee("test");
 		zem.removeElement(employee);
 	}
 	

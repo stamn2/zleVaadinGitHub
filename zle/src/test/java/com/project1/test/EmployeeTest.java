@@ -13,7 +13,7 @@ public class EmployeeTest {
 	
 	@Before
 	public void setUp(){
-		emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel",true);
+		emp = new Employee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
 	} 
 
 	@Test
@@ -77,7 +77,7 @@ public class EmployeeTest {
 	
 	@Test
 	public void getEmail(){
-		assertEquals(emp.getEmail(), "email@mail.com");
+		assertEquals(emp.getEmail(), "test");
 	}
 	
 	@Test
