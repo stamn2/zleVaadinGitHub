@@ -18,7 +18,7 @@ public class UserController {
         String password = emp.generatePassword();
         System.out.println(password);
         zem.persistObject(emp);
-        /*try { TODO : uncomment the lines to send email for final version
+        /*try { //TODO : uncomment the lines to send email for final version and remove system.out.println password
             sendAccountCreatedEmail(email, password);
         } catch (MessagingException e) {
         	System.out.println("Error: Email not send!");
@@ -44,6 +44,18 @@ public class UserController {
         new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
                 messageText);
     }
+
+    private static void sendGenNewPasswordEmail(String email, String password) throws MessagingException {
+        String messageText;
+        String subject;
+        messageText = "<h1>You've got a new Password!</h1>";
+        messageText += "<h3>Password: " + password + "<h3><br /><br />";
+        messageText += "For any questions you can contact an administrator.";
+        subject = "ZLE - Your new Password";
+
+        new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
+                messageText);
+    }
     
     public static void generatedNewPassword(Employee emp){
         emp = (Employee)zem.findObject(Employee.class, emp.getId());
@@ -51,6 +63,12 @@ public class UserController {
         String newPw = emp.generatePassword();
         System.out.println(newPw);
         emp.setChangePassword(true);
-        zem.endTransaction(); //TODO send email
+        zem.endTransaction();
+
+        /*try { //TODO : uncomment the lines to send email for final version and remove system.out.println newPw
+            sendGenNewPasswordEmail(emp.getEmail(), newPw);
+        } catch (MessagingException e) {
+        	System.out.println("Error: Email not send!");
+        }*/
     }
 }
