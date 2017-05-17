@@ -5,11 +5,14 @@ import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.ButtonRenderer;
 
 import java.util.List;
 
@@ -52,9 +55,28 @@ public class ClientOverView extends CustomComponent implements View {
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
 
+        gpc.addGeneratedProperty("edit",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Edit"; // The caption
+                    }
+
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
+
 
         clientsGrid = new Grid("Clients", gpc);
         clientsGrid.setWidth("100%");
+        clientsGrid.getColumn("edit")
+                .setRenderer(new ButtonRenderer(e ->{ // Java 8
+                    Client client = (Client)e.getItemId();
+                    getUI().getNavigator().navigateTo(ClientEditorView.NAME + "/" + client.getId());}));
+        clientsGrid.setColumnOrder("id", "companyName", "firstname", "lastname", "street", "plz", "city", "email", "tel", "edit");
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addClient, clientsGrid);
         viewLayout.setMargin(true);

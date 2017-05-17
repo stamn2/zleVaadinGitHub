@@ -1,6 +1,7 @@
 package com.project1.view.admin;
 
 import com.project1.controller.ProjectController;
+import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
@@ -13,10 +14,11 @@ public class ClientEditorView extends CustomComponent implements View  {
     public static final String NAME = "ClientEditorView";
 
     private TextField idField, companyName, firstname, lastname, street, plz, city, email, tel;
-    private Label titleLabel;
     private Button save, logout, back;
-    private VerticalLayout fields;
     private VerticalLayout viewLayout;
+
+    private Client client;
+    private boolean newClient = true;
 
     public ClientEditorView(){
         logout = new Button("Logout");
@@ -39,12 +41,11 @@ public class ClientEditorView extends CustomComponent implements View  {
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        titleLabel = new Label("Zeit und Leistungserfassung - ClientEditor");
+        Label titleLabel = new Label("Zeit und Leistungserfassung - ClientEditor");
         titleLabel.addStyleName("titles");
 
         idField = new TextField("ID:");
         idField.setWidth("100%");
-        idField.setReadOnly(true);
 
         companyName = new TextField("company name:");
         companyName.setWidth("100%");
@@ -110,16 +111,22 @@ public class ClientEditorView extends CustomComponent implements View  {
                     || !email.isValid() || !tel.isValid()){
                 //TODO: show wich fields are not valid
                 Notification.show("Form is not filled correctly");
+                return;
+            }
+            if(newClient){
+                ProjectController.addClient(companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
+                        plz.getValue(), city.getValue(), email.getValue(), tel.getValue());
+                getUI().getNavigator().navigateTo(ClientOverView.NAME);
             }
             else{
-                ProjectController.addClient(companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
+                ProjectController.updateClient(client, companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
                         plz.getValue(), city.getValue(), email.getValue(), tel.getValue());
                 getUI().getNavigator().navigateTo(ClientOverView.NAME);
             }
         });
 
         // Add both to a panel
-        fields = new VerticalLayout(titleLabel, idField, companyName, firstname, lastname, street, plzCity, email, tel, save);
+        VerticalLayout fields = new VerticalLayout(titleLabel, idField, companyName, firstname, lastname, street, plzCity, email, tel, save);
         fields.setSpacing(true);
         fields.setWidth("50%");
         fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -129,8 +136,6 @@ public class ClientEditorView extends CustomComponent implements View  {
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-
-        setCompositionRoot(viewLayout);
     }
 
     @Override
@@ -140,6 +145,39 @@ public class ClientEditorView extends CustomComponent implements View  {
             return;
         }
         getUI().getPage().setTitle("Client editor");
+
+        if(!event.getParameters().equals("")){
+
+            try{
+                client = ProjectController.getClient(Long.parseLong(event.getParameters()));
+            }
+            catch(NumberFormatException e){
+                getUI().getNavigator().navigateTo(ClientOverView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+
+            if(client == null){
+                getUI().getNavigator().navigateTo(ClientOverView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+
+            idField.setValue(String.valueOf(client.getId()));
+            idField.setReadOnly(true);
+            companyName.setValue(client.getCompanyName());
+            firstname.setValue(client.getFirstname());
+            lastname.setValue(client.getLastname());
+            street.setValue(client.getStreet());
+            plz.setValue(client.getPlz());
+            city.setValue(client.getCity());
+            email.setValue(client.getEmail());
+            tel.setValue(client.getTel());
+
+            newClient = false;
+        }
+
+        setCompositionRoot(viewLayout);
     }
 
 }

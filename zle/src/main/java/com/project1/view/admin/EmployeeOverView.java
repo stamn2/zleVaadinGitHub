@@ -25,9 +25,6 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     private final Button addEmployee, logout, back;
     private final Grid employeesGrid;
-    
-    //List<Employee> employeeList;
-    //BeanItemContainer<Employee> ds;
 
     public EmployeeOverView(){
         addEmployee = new Button("Add Employee");

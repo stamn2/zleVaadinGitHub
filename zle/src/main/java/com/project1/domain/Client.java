@@ -72,4 +72,36 @@ public class Client {
     public String getTel() {
         return tel;
     }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
 }
