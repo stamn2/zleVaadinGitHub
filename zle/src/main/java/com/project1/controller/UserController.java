@@ -26,9 +26,43 @@ public class UserController {
         ProjectController.assignEmployeeToSystemProjects(emp);
         return emp;
     }
+
+    public static void generatedNewPassword(Employee emp){
+        emp = (Employee)zem.findObject(Employee.class, emp.getId());
+        zem.startTransaction();
+        String newPw = emp.generatePassword();
+        System.out.println(newPw);
+        emp.setChangePassword(true);
+        zem.endTransaction();
+
+        /*try { //TODO : uncomment the lines to send email for final version and remove system.out.println newPw
+            sendGenNewPasswordEmail(emp.getEmail(), newPw);
+        } catch (MessagingException e) {
+        	System.out.println("Error: Email not send!");
+        }*/
+    }
     
     public static List<Employee> getActivesEmployees(){
         return zem.getActiveEmployees();
+    }
+
+    public static Employee getEmployee(long employeeId) {
+        return (Employee)zem.findObject(Employee.class, employeeId);
+    }
+
+    public static void updateEmployee(Employee employee, String email, String firstname, String lastname, String street,
+                                      String plz, String city, String tel, boolean isAdmin){
+        zem.startTransaction();
+        employee.setEmail(email);
+        employee.setFirstname(firstname);
+        employee.setLastname(lastname);
+        employee.setStreet(street);
+        employee.setPlz(plz);
+        employee.setCity(city);
+        employee.setTel(tel);
+        employee.setIsAdmin(isAdmin);
+        zem.endTransaction();
+        //TODO: send e-mail to employee
     }
 
     private static void sendAccountCreatedEmail(String email, String password) throws MessagingException {
@@ -55,20 +89,5 @@ public class UserController {
 
         new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
                 messageText);
-    }
-    
-    public static void generatedNewPassword(Employee emp){
-        emp = (Employee)zem.findObject(Employee.class, emp.getId());
-        zem.startTransaction();
-        String newPw = emp.generatePassword();
-        System.out.println(newPw);
-        emp.setChangePassword(true);
-        zem.endTransaction();
-
-        /*try { //TODO : uncomment the lines to send email for final version and remove system.out.println newPw
-            sendGenNewPasswordEmail(emp.getEmail(), newPw);
-        } catch (MessagingException e) {
-        	System.out.println("Error: Email not send!");
-        }*/
     }
 }

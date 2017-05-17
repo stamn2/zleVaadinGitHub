@@ -54,7 +54,7 @@ public class Employee implements Serializable {
     public String generatePassword(){
         StringBuilder pw = new StringBuilder();
     	for (int i=0; i<DEFAULT_PASSWORD_LENGTH; i++) {                        
-            int index = (int)(RANDOM.nextInt(VALID_PW_CHARS.length()));
+            int index = RANDOM.nextInt(VALID_PW_CHARS.length());
             pw.append(VALID_PW_CHARS.charAt(index));
     }
     	hashAndSetPassword(pw.toString());
@@ -63,6 +63,11 @@ public class Employee implements Serializable {
 
     public boolean checkPassword(String password) {
         return BCrypt.checkpw(password, this.password);
+    }
+
+    public void hashAndSetPassword(String password) {
+        String stronger_salt = BCrypt.gensalt(12);
+        this.password= BCrypt.hashpw(password, stronger_salt);
     }
 
     //------------ GETTER AND SETTER ----------------------
@@ -117,13 +122,36 @@ public class Employee implements Serializable {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-    
-    public void setIsActive(boolean isActive){
-    	this.active = isActive;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void hashAndSetPassword(String password){
-        String stronger_salt = BCrypt.gensalt(12);
-        this.password= BCrypt.hashpw(password, stronger_salt);
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

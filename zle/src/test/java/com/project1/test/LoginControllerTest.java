@@ -71,8 +71,7 @@ public class LoginControllerTest {
 		emp = em.getEmployee("test@mail.com");
 		assertFalse(LoginController.changePassword(emp, "wrongPassword", "newPassword"));
 	} 
-	
-	//TODO je ne sais pas comment autrement controller, sans créer une nouvelle methode dans em
+
 	@Test
 	public void startTransaction() {	
 		em.startTransaction();

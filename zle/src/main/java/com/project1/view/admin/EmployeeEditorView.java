@@ -26,13 +26,15 @@ public class EmployeeEditorView extends CustomComponent implements View{
 	public static final String NAME = "EmployeeEditorView";
 	
 	private TextField idField, firstName, lastName, street, plz, city, email, tel;
-	private Label titleLabel;
+    private CheckBox adminRight;
 	private Button save, logout,back;
-	private VerticalLayout fields;
-	private VerticalLayout viewLayout;
+	private VerticalLayout layout;
+
+    private Employee employee;
+    private boolean newEmployee = true;
 
 	public EmployeeEditorView(){
-        final VerticalLayout layout = new VerticalLayout();
+        layout = new VerticalLayout();
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -53,16 +55,15 @@ public class EmployeeEditorView extends CustomComponent implements View{
         topLayer.setWidth("100%");
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
-        
-        titleLabel = new Label("Zeit und Leistungserfassung - EmployeeEditor");
+
+        Label titleLabel = new Label("Zeit und Leistungserfassung - EmployeeEditor");
         titleLabel.addStyleName("titles");
         
-        CheckBox adminRight = new CheckBox("Admin-Right");
+        adminRight = new CheckBox("Admin-Right");
         
         
         idField = new TextField("ID:");
         idField.setWidth("100%");
-        idField.setReadOnly(true);
         
         firstName = new TextField("firstName:");
         firstName.setWidth("100%");
@@ -123,33 +124,37 @@ public class EmployeeEditorView extends CustomComponent implements View{
                         || !email.isValid() || !tel.isValid()){
                     //TODO: show wich fields are not valid
                     Notification.show("Form is not filled correctly");
+                    return;
                 }
-                else{
+                if(newEmployee){
                     Employee emp = UserController.addEmployee(email.getValue(), firstName.getValue(), lastName.getValue(), street.getValue(),
                             plz.getValue(), city.getValue(), tel.getValue(), adminRight.getValue());
                     if(emp != null){
-                            getUI().getNavigator().navigateTo(EmployeeOverView.NAME);}
+                            getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
+                    }
                     else{
                             Notification.show("An active employee with this email exists already!");
                     }
                 }
+                else{
+                    UserController.updateEmployee(employee, email.getValue(), firstName.getValue(), lastName.getValue(),
+                            street.getValue(), plz.getValue(), city.getValue(), tel.getValue(), adminRight.getValue());
+                    getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
+                }
         });
-        
-		// Add both to a panel
-		fields = new VerticalLayout(titleLabel, adminRight, idField, firstName, lastName, street, plzCity, email, tel, save);
+
+        VerticalLayout fields = new VerticalLayout(titleLabel, adminRight, idField, firstName, lastName, street, plzCity, email, tel, save);
 		fields.setSpacing(true);
 		fields.setWidth("50%");
 		fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-		// The view root layout
-		viewLayout = new VerticalLayout(topLayer, fields);
+        VerticalLayout viewLayout = new VerticalLayout(topLayer, fields);
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-        
         
         layout.addComponents(viewLayout);
         layout.setMargin(true);
         layout.setSpacing(true);
-        setCompositionRoot(layout);
+
 	}
 	
 	@Override
@@ -159,7 +164,38 @@ public class EmployeeEditorView extends CustomComponent implements View{
             return;
         }
         getUI().getPage().setTitle("Employee Editor");
+
+        if(!event.getParameters().equals("")){
+
+            try{
+                employee = UserController.getEmployee(Long.parseLong(event.getParameters()));
+            }
+            catch(NumberFormatException e){
+                getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+
+            if(employee == null){
+                getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+
+            adminRight.setValue(employee.isAdmin());
+            idField.setValue(String.valueOf(employee.getId()));
+            idField.setReadOnly(true);
+            firstName.setValue(employee.getFirstname());
+            lastName.setValue(employee.getLastname());
+            street.setValue(employee.getStreet());
+            plz.setValue(employee.getPlz());
+            city.setValue(employee.getCity());
+            email.setValue(employee.getEmail());
+            tel.setValue(employee.getTel());
+
+            newEmployee = false;
+        }
+
+        setCompositionRoot(layout);
 	}
-
-
 }

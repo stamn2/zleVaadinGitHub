@@ -22,7 +22,7 @@ public class ZLEEntityManagerTest {
 		em = new ZLEEntityManager(PERSISTENCE_UNIT_NAME);
 		emp = new Employee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
 		emp2 = new Employee("test2", "firstname", "lastname", "street", "plz", "city", "tel",true);
-		emp2.setIsActive(false);
+		emp2.setActive(false);
 	}
 	
 	@Before

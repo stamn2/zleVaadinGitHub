@@ -59,7 +59,7 @@ public class EmployeeTest {
 	
 	@Test
 	public void isInactive(){
-		emp.setIsActive(false);
+		emp.setActive(false);
 		assertFalse(emp.isActive());
 	}
 	

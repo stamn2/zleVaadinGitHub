@@ -76,14 +76,33 @@ public class EmployeeOverView extends CustomComponent implements View {
                         return String.class;
                     }
                 });
+        gpc.addGeneratedProperty("edit",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Edit"; // The caption
+                    }
+
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
 
 
         employeesGrid = new Grid("Employees", gpc);
         employeesGrid.setWidth("100%");
-        employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword");
+
         employeesGrid.getColumn("generate Password")
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                 	generatePassword((Employee)e.getItemId())));
+        employeesGrid.getColumn("edit")
+                .setRenderer(new ButtonRenderer(e ->{ // Java 8
+                        Employee emp = (Employee)e.getItemId();
+                        getUI().getNavigator().navigateTo(EmployeeEditorView.NAME + "/" + emp.getId());}));
+
+        employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit");
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
