@@ -65,6 +65,13 @@ public class UserController {
         //TODO: send e-mail to employee
     }
 
+    public static void disableEmployeeAccount(Employee employee){
+        zem.startTransaction();
+        employee.setActive(false);
+        zem.endTransaction();
+        //TODO: send e-mail to employee
+    }
+
     private static void sendAccountCreatedEmail(String email, String password) throws MessagingException {
         String messageText;
         String subject;

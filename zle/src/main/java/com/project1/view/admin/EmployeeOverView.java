@@ -25,6 +25,7 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     private final Button addEmployee, logout, back;
     private final Grid employeesGrid;
+    private GeneratedPropertyContainer gpc;
 
     public EmployeeOverView(){
         addEmployee = new Button("Add Employee");
@@ -55,9 +56,7 @@ public class EmployeeOverView extends CustomComponent implements View {
 
         List<Employee> employeeList = UserController.getActivesEmployees();
         BeanItemContainer<Employee> ds = new BeanItemContainer<>(Employee.class, employeeList);
-        // Generate button caption column
-        GeneratedPropertyContainer gpc =
-                new GeneratedPropertyContainer(ds);
+        gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("password");
         gpc.removeContainerProperty("active");
         gpc.addGeneratedProperty("generate Password",
@@ -86,6 +85,19 @@ public class EmployeeOverView extends CustomComponent implements View {
                         return String.class;
                     }
                 });
+        gpc.addGeneratedProperty("disable",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Disable Account"; // The caption
+                    }
+
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
 
 
         employeesGrid = new Grid("Employees", gpc);
@@ -98,8 +110,11 @@ public class EmployeeOverView extends CustomComponent implements View {
                 .setRenderer(new ButtonRenderer(e ->{ // Java 8
                         Employee emp = (Employee)e.getItemId();
                         getUI().getNavigator().navigateTo(EmployeeEditorView.NAME + "/" + emp.getId());}));
+        employeesGrid.getColumn("disable")
+                .setRenderer(new ButtonRenderer(e -> // Java 8
+                        disableEmployee(e.getItemId())));
 
-        employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit");
+        employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addEmployee, employeesGrid);
         viewLayout.setMargin(true);
@@ -120,6 +135,12 @@ public class EmployeeOverView extends CustomComponent implements View {
             return;
         }
         getUI().getPage().setTitle("Employees");
+    }
+
+    private void disableEmployee(Object e){
+        Employee employee = (Employee)e;
+        UserController.disableEmployeeAccount(employee);
+        gpc.removeItem(e);
     }
 
 }
