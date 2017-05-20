@@ -41,13 +41,16 @@ public class UserController {
         	System.out.println("Error: Email not send!");
         }*/
     }
-    
-    public static List<Employee> getActivesEmployees(){
-        return zem.getActiveEmployees();
-    }
 
-    public static Employee getEmployee(long employeeId) {
-        return (Employee)zem.findObject(Employee.class, employeeId);
+    public static void disableEmployeeAccount(Employee employee){
+        zem.startTransaction();
+        employee.setActive(false);
+        zem.endTransaction();
+        /*try { //TODO : uncomment the lines to send email for final version
+            sendAccountDisabledEmail(employee.getEmail());
+        } catch (MessagingException e) {
+            System.out.println("Error: Email not send!");
+        }*/
     }
 
     public static void updateEmployee(Employee employee, String email, String firstname, String lastname, String street,
@@ -62,14 +65,20 @@ public class UserController {
         employee.setTel(tel);
         employee.setIsAdmin(isAdmin);
         zem.endTransaction();
-        //TODO: send e-mail to employee
+
+        /*try { //TODO : uncomment the lines to send email for final version
+            sendAccountUpdatedEmail(employee);
+        } catch (MessagingException e) {
+            System.out.println("Error: Email not send!");
+        }*/
+    }
+    
+    public static List<Employee> getActivesEmployees(){
+        return zem.getActiveEmployees();
     }
 
-    public static void disableEmployeeAccount(Employee employee){
-        zem.startTransaction();
-        employee.setActive(false);
-        zem.endTransaction();
-        //TODO: send e-mail to employee
+    public static Employee getEmployee(long employeeId) {
+        return (Employee)zem.findObject(Employee.class, employeeId);
     }
 
     private static void sendAccountCreatedEmail(String email, String password) throws MessagingException {
@@ -93,6 +102,33 @@ public class UserController {
         messageText += "<h3>Password: " + password + "<h3><br /><br />";
         messageText += "For any questions you can contact an administrator.";
         subject = "ZLE - Your new Password";
+
+        new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
+                messageText);
+    }
+
+    private static void sendAccountUpdatedEmail(Employee emp) throws MessagingException {
+        String messageText;
+        String subject;
+        messageText = "<h1>Your account has been updated!</h1>";
+        messageText += "<h3>Your coordinates:</h3>";
+        messageText += emp.getFirstname() + " " + emp.getLastname()+"<br />";
+        messageText += emp.getStreet()+"<br />";
+        messageText += emp.getPlz() + " " + emp.getCity()+"<br />";
+        messageText += emp.getTel() +"<br /><br />";
+        messageText += "For any questions you can contact an administrator.";
+        subject = "ZLE - Your account has been updated!";
+
+        new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(emp.getEmail(), subject,
+                messageText);
+    }
+
+    private static void sendAccountDisabledEmail(String email) throws MessagingException {
+        String messageText;
+        String subject;
+        messageText = "<h1>Your account has been disabled!</h1>";
+        messageText += "For any questions you can contact an administrator.";
+        subject = "ZLE - Your account has been disabled!";
 
         new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
                 messageText);
