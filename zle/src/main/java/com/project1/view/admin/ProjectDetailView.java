@@ -51,10 +51,6 @@ public class ProjectDetailView extends CustomComponent implements View{
 
         endProject = new Button("End Project");
         endProject.setWidth("80%");
-        endProject.addClickListener(e -> {
-            // getUI().getNavigator().navigateTo(ClientOverView.NAME);
-        });
-
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -128,6 +124,12 @@ public class ProjectDetailView extends CustomComponent implements View{
             Notification.show("URL is not valid");
             return;
         }
+        if(!project.isActive()){
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            Notification.show("Project is ended");
+            return;
+        }
+
         projectName.setValue(project.getName());
         Client c = project.getClient();
         //TODO : show cost
@@ -149,6 +151,11 @@ public class ProjectDetailView extends CustomComponent implements View{
         });
         history.addClickListener(e -> {
             getUI().getNavigator().navigateTo(ProjectHistoryView.NAME+ "/"+ project.getId());
+        });
+
+        endProject.addClickListener(e -> {
+            ProjectController.endProject(project);
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
     }
 

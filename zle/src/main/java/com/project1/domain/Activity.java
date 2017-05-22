@@ -80,4 +80,8 @@ public class Activity {
     public void setProjectCommitment(ProjectCommitment projectCommitment) {
         this.projectCommitment = projectCommitment;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

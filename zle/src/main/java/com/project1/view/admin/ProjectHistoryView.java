@@ -81,6 +81,12 @@ public class ProjectHistoryView extends CustomComponent implements View{
              Notification.show("URL is not valid");
              return;
          }
+
+         if(!project.isActive()){
+             getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+             Notification.show("Project is ended");
+             return;
+         }
          
  		 //TODO getALLactivities, also this from inactive employees! Yep, bien vu! Voilà =)
 		 List<Activity> activityList = ProjectController.getActivitiesFromProject(project.getId());

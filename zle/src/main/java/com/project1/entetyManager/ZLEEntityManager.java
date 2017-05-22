@@ -127,6 +127,15 @@ public class ZLEEntityManager {
 		return activityList;
 	}
 
+	public List<Activity> getActiveActivitiesFromProject(long idProject){
+		Query q = em.createQuery("select a from Activity a where a.active = true AND a.projectCommitment.project.id ="+idProject+ " ORDER BY a.beginDate DESC");
+		List<Activity> activityList = q.getResultList();
+		for(Activity a : activityList) {
+			em.refresh(a);
+		}
+		return activityList;
+	}
+
 	public List<Activity> getActivitiesFromEmployee(long idEmployee){
 		Query q = em.createQuery("select a from Activity a where a.active = true AND a.realTimeRecord=false AND a.projectCommitment.employee.id ="+idEmployee+ " ORDER BY a.beginDate DESC");
 		List<Activity> activityList = q.getResultList();

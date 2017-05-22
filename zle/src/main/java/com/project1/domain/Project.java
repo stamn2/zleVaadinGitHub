@@ -42,4 +42,8 @@ public class Project {
     public Client getClient() {
         return client;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

@@ -44,7 +44,9 @@ public class ProjectAssignmentView extends CustomComponent implements View{
     private Grid projectsGrid;
     private Project project;
     private List<ProjectCommitment> projectCommitment;
-    
+
+
+    //TODO doesn't show inactive employee
 	public ProjectAssignmentView() {
 		
         logout = new Button("Logout");
@@ -124,6 +126,11 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         if(project == null){
             getUI().getNavigator().navigateTo(ProjectOverView.NAME);
             Notification.show("URL is not valid");
+            return;
+        }
+        if(!project.isActive()){
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            Notification.show("Project is ended");
             return;
         }
 		 projectCommitment = ProjectController.getProjectCommitmentList(project.getId());

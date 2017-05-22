@@ -29,6 +29,7 @@ public class ProjectOverView extends CustomComponent implements View {
     private final Button addProject, logout, back;
     private final Grid projectsGrid;
 
+    //TODO show somewhere the ended projects ???
     public ProjectOverView(){
         addProject = new Button("Add Project");
         addProject.setWidth("15%");
