@@ -82,52 +82,46 @@ public class ProjectHistoryView extends CustomComponent implements View{
              return;
          }
          
- 		 //TODO getALLactivities, also this from inactive employees!
- 		 projectCommitment = ProjectController.getProjectCommitmentList(project.getId());
- 		 List<Activity> activityList = new ArrayList<>();
- 	        projectCommitment.forEach(e->{        	
- 	        	activityList.addAll(RecordController.getActivitiesFromEmployee(e.getEmployee().getId()));
- 	        });
- 	        
- 	      
- 	    	
- 	        BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
- 	        ds.addNestedContainerBean("projectCommitment");
- 	        ds.addNestedContainerBean("projectCommitment.employee");
- 	        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
- 	        gpc.removeContainerProperty("projectCommitment.id");
- 	        gpc.removeContainerProperty("projectCommitment.hourlyRate");
- 	        gpc.removeContainerProperty("projectCommitment.active");
- 	        gpc.removeContainerProperty("projectCommitment.project");
- 	        gpc.removeContainerProperty("projectCommitment.employee.active");
- 	        gpc.removeContainerProperty("projectCommitment.employee.admin");
- 	        gpc.removeContainerProperty("projectCommitment.employee.changePassword");
- 	        gpc.removeContainerProperty("projectCommitment.employee.city");
- 	        gpc.removeContainerProperty("projectCommitment.employee.firstname");
- 	        gpc.removeContainerProperty("projectCommitment.employee.lastname");
- 	        gpc.removeContainerProperty("projectCommitment.employee.id");
- 	        gpc.removeContainerProperty("projectCommitment.employee.plz");
- 	        gpc.removeContainerProperty("projectCommitment.employee.street");
- 	        gpc.removeContainerProperty("projectCommitment.employee.tel");
- 	        gpc.removeContainerProperty("active");
- 	        gpc.removeContainerProperty("id");
- 	        gpc.removeContainerProperty("realTimeRecord");
+ 		 //TODO getALLactivities, also this from inactive employees! Yep, bien vu! Voilà =)
+		 List<Activity> activityList = ProjectController.getActivitiesFromProject(project.getId());
+
+ 	     BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
+ 	     ds.addNestedContainerBean("projectCommitment");
+ 	     ds.addNestedContainerBean("projectCommitment.employee");
+ 	     GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
+ 	     gpc.removeContainerProperty("projectCommitment.id");
+ 	     gpc.removeContainerProperty("projectCommitment.hourlyRate");
+ 	     gpc.removeContainerProperty("projectCommitment.active");
+ 	     gpc.removeContainerProperty("projectCommitment.project");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.active");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.admin");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.changePassword");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.city");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.firstname");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.lastname");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.id");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.plz");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.street");
+ 	     gpc.removeContainerProperty("projectCommitment.employee.tel");
+ 	     gpc.removeContainerProperty("active");
+ 	     gpc.removeContainerProperty("id");
+ 	     gpc.removeContainerProperty("realTimeRecord");
  	        
  	        
- 	        back.addClickListener(e ->{
- 				getUI().getNavigator().navigateTo(ProjectDetailView.NAME+ "/"+ project.getId());
- 	        });
+ 	     back.addClickListener(e ->{
+			 getUI().getNavigator().navigateTo(ProjectDetailView.NAME+ "/"+ project.getId());
+ 	     });
 
 
- 	        projectsGrid = new Grid("Projects", gpc);
- 	        projectsGrid.setColumnOrder("beginDate", "endDate","projectCommitment.employee.email" ,"comment");
- 	        projectsGrid.setWidth("100%");
+ 	     projectsGrid = new Grid("Activities", gpc);
+ 	     projectsGrid.setColumnOrder("beginDate", "endDate","projectCommitment.employee.email" ,"comment");
+ 	     projectsGrid.setWidth("100%");
  		 
- 	        // The view root layout
- 	        viewLayout = new VerticalLayout(topLayer, projectsGrid);
- 	        viewLayout.setMargin(true);
- 	        viewLayout.setSpacing(true);
- 	        setCompositionRoot(viewLayout);
+ 	     // The view root layout
+ 	     viewLayout = new VerticalLayout(topLayer, projectsGrid);
+ 	     viewLayout.setMargin(true);
+ 	     viewLayout.setSpacing(true);
+ 	     setCompositionRoot(viewLayout);
  	}
 
 }

@@ -1,9 +1,6 @@
 package com.project1.controller;
 
-import com.project1.domain.Client;
-import com.project1.domain.Employee;
-import com.project1.domain.Project;
-import com.project1.domain.ProjectCommitment;
+import com.project1.domain.*;
 import com.project1.entetyManager.ZLEEntityManager;
 
 import java.util.ArrayList;
@@ -73,6 +70,10 @@ public class ProjectController {
     
     public static List<ProjectCommitment> getProjectCommitmentList(long idProject){
         return zem.getProjectCommitmentWithProject(idProject);
+    }
+
+    public static List<Activity> getActivitiesFromProject(long idProject){
+        return zem.getAllActivitiesFromProject(idProject);
     }
 
 
