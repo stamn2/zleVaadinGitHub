@@ -36,9 +36,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         
         history = new Button("History");
         history.setWidth("80%");
-        history.addClickListener(e -> {
-            // getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-        });
+
         cost = new Button("Cost");
         cost.setWidth("80%");
         cost.addClickListener(e -> {
@@ -148,6 +146,9 @@ public class ProjectDetailView extends CustomComponent implements View{
         
         employees.addClickListener(e -> {
             getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
+        });
+        history.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ProjectHistoryView.NAME+ "/"+ project.getId());
         });
     }
 

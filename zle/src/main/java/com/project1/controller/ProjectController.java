@@ -75,6 +75,7 @@ public class ProjectController {
         return zem.getProjectCommitmentWithProject(idProject);
     }
 
+
     public static void assignEmployeeToSystemProjects(Employee emp){
         List<Project> systemProjects = zem.getSystemProjects();
         for(Project p : systemProjects){
