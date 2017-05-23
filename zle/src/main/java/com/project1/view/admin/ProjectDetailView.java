@@ -40,7 +40,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         cost = new Button("Cost");
         cost.setWidth("80%");
         cost.addClickListener(e -> {
-            //getUI().getNavigator().navigateTo(ClientOverView.NAME);
+            getUI().getNavigator().navigateTo(CostOverView.NAME+ "/"+ project.getId());
         });
 
         editProject = new Button("Edit Project");
@@ -135,17 +135,17 @@ public class ProjectDetailView extends CustomComponent implements View{
         //TODO : show cost
         infoText.setValue("Project is active: " + project.isActive() + "\n" +
                         "Client: " + c.getCompanyName() + "\n" +
-                        c.getFirstname() + " " + c.getLastname() + "\n"+
-                        c.getStreet() + "\n"+
-                        c.getPlz() + " " + c.getCity() + "\n"+
-                        c.getEmail() + "\n"+
+                        c.getFirstname() + " " + c.getLastname() + "\n" +
+                        c.getStreet() + "\n" +
+                        c.getPlz() + " " + c.getCity() + "\n" +
+                        c.getEmail() + "\n" +
                         c.getTel() + "\n" +
                         "num. of Employees: " + ProjectController.getProjectCommitmentList(project.getId()).size() + "\n" +
                         "Cost: "
-                );
+        );
         infoText.setReadOnly(true);
         setCompositionRoot(viewLayout);
-        
+
         employees.addClickListener(e -> {
             getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
         });

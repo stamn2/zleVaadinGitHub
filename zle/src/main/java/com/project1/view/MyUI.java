@@ -66,6 +66,8 @@ public class MyUI extends UI {
 		getNavigator().addView(ActivityRecordView.NAME, ActivityRecordView.class);
 		getNavigator().addView(RecordHistoryView.NAME, RecordHistoryView.class);
 		getNavigator().addView(ProjectHistoryView.NAME, ProjectHistoryView.class);
+		getNavigator().addView(CostOverView.NAME, CostOverView.class);
+		getNavigator().addView(CostEditorView.NAME, CostEditorView.class);
         
         
 		getNavigator().addViewChangeListener(new ViewChangeListener() {

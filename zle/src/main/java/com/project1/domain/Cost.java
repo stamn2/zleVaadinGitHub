@@ -1,11 +1,33 @@
 package com.project1.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Cost {
+    @Id
+    @GeneratedValue
+    private long id;
+
     private String name;
+    @Temporal(TemporalType.DATE)
     private Date date;
     private double price;
     private String description;
+
+    @ManyToOne
+    private Project project;
+
+    public Cost(){
+
+    }
+
+    public Cost(String name, Date date, double price, Project project, String description){
+        this.name = name;
+        this.date = date;
+        this.price = price;
+        this.project = project;
+        this.description = description;
+    }
 
 }
