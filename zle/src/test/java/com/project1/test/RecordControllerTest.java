@@ -102,14 +102,14 @@ public class RecordControllerTest {
 	@Test
 	public void startAndGetRealTimeRecordActivity(){
 		activity3 = RecordController.startRealTimeRecording(employee);
-		assertTrue(activity3.getId() == RecordController.getRealTimeRecordActivity(employee.getId()).getId());
+		assertTrue(activity3.getId() == RecordController.getRealTimeRecordActivity(employee.getId()).getId()); //TODO nullPointerException ???
 		RecordController.removeActivity(activity3);
 	}
 	
 	@Test
 	public void stopRealTimeRecordActivity(){
 		activity3 = RecordController.startRealTimeRecording(employee);
-		assertFalse(RecordController.stopRealTimeRecording(employee).isRealTimeRecord());	
+		assertFalse(RecordController.stopRealTimeRecording(employee).isRealTimeRecord()); //TODO nullPointerException ???
 		RecordController.removeActivity(activity3);
 	}
 	

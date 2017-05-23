@@ -4,6 +4,7 @@ import com.project1.domain.*;
 import com.project1.entetyManager.ZLEEntityManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectController {
@@ -84,6 +85,16 @@ public class ProjectController {
     	zem.startTransaction();
     	pc.setActive(false);
     	zem.endTransaction();
+    }
+
+    public static List<Cost> getCosts(long idProject){
+        return zem.getCosts(idProject);
+    }
+
+    public static Cost addCost(String name, Date date, double price, Project project, String description){
+        Cost cost = new Cost(name, date, price, project, description);
+        zem.persistObject(cost);
+        return cost;
     }
 
 }

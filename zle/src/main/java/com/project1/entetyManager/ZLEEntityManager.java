@@ -8,11 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.project1.domain.Activity;
-import com.project1.domain.Client;
-import com.project1.domain.Employee;
-import com.project1.domain.Project;
-import com.project1.domain.ProjectCommitment;
+import com.project1.domain.*;
 
 
 public class ZLEEntityManager {
@@ -154,6 +150,15 @@ public class ZLEEntityManager {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	public List<Cost> getCosts(long idProject){
+		Query q = em.createQuery("select c from Cost c where c.project.id="+idProject+ " ORDER BY c.date DESC");
+		List<Cost> costList = q.getResultList();
+		for(Cost c : costList) {
+			em.refresh(c);
+		}
+		return costList;
 	}
 
 	public void persistObject(Object o){
