@@ -79,6 +79,11 @@ public class ProjectController {
         project.setActive(false);
         zem.endTransaction();
     }
-
+    
+    public static void inactivateProjectCommitment(ProjectCommitment pc){
+    	zem.startTransaction();
+    	pc.setActive(false);
+    	zem.endTransaction();
+    }
 
 }

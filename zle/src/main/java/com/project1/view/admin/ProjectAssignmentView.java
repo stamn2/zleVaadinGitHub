@@ -11,8 +11,10 @@ import com.project1.domain.Project;
 import com.project1.domain.ProjectCommitment;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -26,6 +28,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.ButtonRenderer;
 
 public class ProjectAssignmentView extends CustomComponent implements View{
 
@@ -155,15 +158,36 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        gpc.removeContainerProperty("employee.active");
 	        gpc.removeContainerProperty("employee.admin");
 	        gpc.removeContainerProperty("employee.changePassword");
+	        gpc.addGeneratedProperty("inactivate",
+	                new PropertyValueGenerator<String>() {
+	                    @Override
+	                    public String getValue(Item item, Object itemId,
+	                                           Object propertyId) {
+	                        return "Inactivate"; // The caption
+	                    }
+
+	                    @Override
+	                    public Class<String> getType() {
+	                        return String.class;
+	                    }
+	                });
+	        
+	        
 	        
 	        back.addClickListener(e ->{
 				getUI().getNavigator().navigateTo(ProjectDetailView.NAME+ "/"+ project.getId());
 	        });
 
 
-	        projectsGrid = new Grid("Projects", gpc);
+	        projectsGrid = new Grid("ProjectCommitments", gpc);
 	        projectsGrid.setColumnOrder("id", "employee.email","employee.firstname" ,"employee.lastname"  , "hourlyRate");
 	        projectsGrid.setWidth("100%");
+	        
+	        projectsGrid.getColumn("inactivate")
+            .setRenderer(new ButtonRenderer(e ->{ // Java 8      		
+                    ProjectController.inactivateProjectCommitment((ProjectCommitment)e.getItemId());
+                    gpc.removeItem(e);
+                    }));
 		 
 	        // The view root layout
 	        viewLayout = new VerticalLayout(topLayer, fields, projectsGrid);
