@@ -1,6 +1,5 @@
 package com.project1.zle;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -17,40 +16,43 @@ public class Main {
         
         	System.out.println("Create Simple PDF file with Text");
             String fileName = "PdfWithtext.pdf"; // name of our file
-            String imageName = "Logo.jpg";
+            String imageName = "Header-graphic03.gif";
             
             PDDocument doc = new PDDocument();
             PDPage page = new PDPage();
 
             doc.addPage(page);
             
-            PDImageXObject pdImage = PDImageXObject.createFromFile("user.dir/Header-graphic03.gif", doc);
+            PDImageXObject pdImage = PDImageXObject.createFromFile(imageName, doc);
 
             PDPageContentStream content = new PDPageContentStream(doc, page);
             
+            content.drawImage(pdImage, 180, 700);
+            
             content.beginText();
             content.setFont(PDType1Font.HELVETICA, 26);
-            content.moveTextPositionByAmount(220, 750);
-            content.drawString("Registration Form");
+            content.newLineAtOffset(220, 750);
+            content.showText("Registration Form");
+            content.endText();
+            
+            
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA, 16);
+            content.newLineAtOffset(80, 700);
+            content.showText("Name : ");
             content.endText();
             
             
             content.beginText();
             content.setFont(PDType1Font.HELVETICA, 16);
-            content.moveTextPositionByAmount(80, 700);
-            content.drawString("Name : ");
-            content.endText();
-            
-            
-            content.beginText();
-            content.setFont(PDType1Font.HELVETICA, 16);
-            content.moveTextPositionByAmount(80,650);
-            content.drawString("Father Name : ");
+            content.newLineAtOffset(80,650);
+            content.showText("Father Name : ");
             content.endText();
             
             content.beginText();
-            content.moveTextPositionByAmount(80,600);
-            content.drawString("DOB : ");
+            content.newLineAtOffset(80,600);
+            content.showText("DOB : ");
             content.endText();
             
             
