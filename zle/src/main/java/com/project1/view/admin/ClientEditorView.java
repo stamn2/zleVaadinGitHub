@@ -1,5 +1,6 @@
 package com.project1.view.admin;
 
+import com.project1.controller.ClientController;
 import com.project1.controller.ProjectController;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
@@ -114,12 +115,12 @@ public class ClientEditorView extends CustomComponent implements View  {
                 return;
             }
             if(newClient){
-                ProjectController.addClient(companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
+                ClientController.addClient(companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
                         plz.getValue(), city.getValue(), email.getValue(), tel.getValue());
                 getUI().getNavigator().navigateTo(ClientOverView.NAME);
             }
             else{
-                ProjectController.updateClient(client, companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
+                ClientController.updateClient(client, companyName.getValue(), firstname.getValue(), lastname.getValue(), street.getValue(),
                         plz.getValue(), city.getValue(), email.getValue(), tel.getValue());
                 getUI().getNavigator().navigateTo(ClientOverView.NAME);
             }
@@ -149,7 +150,7 @@ public class ClientEditorView extends CustomComponent implements View  {
         if(!event.getParameters().equals("")){
 
             try{
-                client = ProjectController.getClient(Long.parseLong(event.getParameters()));
+                client = ClientController.getClient(Long.parseLong(event.getParameters()));
             }
             catch(NumberFormatException e){
                 getUI().getNavigator().navigateTo(ClientOverView.NAME);

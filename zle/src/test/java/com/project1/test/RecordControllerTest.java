@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Date;
 import java.util.List;
 
+import com.project1.controller.ClientController;
 import org.eclipse.persistence.sessions.Record;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -37,13 +38,13 @@ public class RecordControllerTest {
 	
 	@Before
 	public void init(){
-		client = ProjectController.addClient("companyName", "firstname", "lastname", "street", "plz",
+		client = ClientController.addClient("companyName", "firstname", "lastname", "street", "plz",
 				"city", "email", "tel");
 		project = ProjectController.addProject("name", client);
 		UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
 		employee = zem.getEmployee("test");
 		projectCommitment = ProjectController.addProjectCommitment(project, employee, hourlyRate);
-		activity = RecordController.addActivity(new Date(), new Date(), new String("comment"), projectCommitment);
+		activity = RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
 	}
 	
 	@After
@@ -71,7 +72,7 @@ public class RecordControllerTest {
 	
 	@Test
 	public void addAndGetActivity() {
-		activity2 = RecordController.addActivity(new Date(), new Date(), new String("comment"), projectCommitment);
+		activity2 = RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
 		assertTrue(activity2.getId() == RecordController.getActivity(activity2.getId()).getId());
 		RecordController.removeActivity(activity2);
 	}
@@ -94,7 +95,7 @@ public class RecordControllerTest {
 	
 	@Test
 	public void removeActivity(){
-		activity3 = RecordController.addActivity(new Date(), new Date(), new String("comment"), projectCommitment);
+		activity3 = RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
 		RecordController.removeActivity(activity3);
 	}
 	

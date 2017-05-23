@@ -1,5 +1,6 @@
 package com.project1.view.admin;
 
+import com.project1.controller.ClientController;
 import com.project1.controller.ProjectController;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
@@ -51,7 +52,7 @@ public class ProjectEditorView extends CustomComponent implements View {
         name.setInputPrompt("name of the project");
         name.setInvalidAllowed(false);
 
-        List<Client> clientList = ProjectController.getClients();
+        List<Client> clientList = ClientController.getClients();
         BeanItemContainer<Client> ds = new BeanItemContainer<>(Client.class, clientList);
 
         client = new ComboBox("Client: ");

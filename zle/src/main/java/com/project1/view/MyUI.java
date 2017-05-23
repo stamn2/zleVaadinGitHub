@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
+import com.project1.controller.ClientController;
 import com.project1.controller.ProjectController;
 import com.project1.controller.UserController;
 import com.project1.domain.Client;
@@ -116,7 +117,7 @@ public class MyUI extends UI {
         	super.servletInitialized();
         	System.out.println("init done...");
         	if(ProjectController.getRealTimeRecordingProject() == null){
-                Client systemClient = ProjectController.addClient("system", "system", "system", "system", "system", "system", "system", "system");
+                Client systemClient = ClientController.addClient("system", "system", "system", "system", "system", "system", "system", "system");
 				ProjectController.addProject("No Project", systemClient);
 				ProjectController.addProject("RealTimeRecording", systemClient);
 			}

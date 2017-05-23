@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import com.project1.controller.ClientController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class ProjectControllerTest {
 	
 	@Before
 	public void init(){
-		client = ProjectController.addClient("companyName", "firstname", "lastname", "street", "plz",
+		client = ClientController.addClient("companyName", "firstname", "lastname", "street", "plz",
 				"city", "email", "tel");
 		project = ProjectController.addProject("name", client);	
 		UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
@@ -57,9 +58,9 @@ public class ProjectControllerTest {
 	
 	@Test
 	public void addAndGetClient() {
-		client2 = ProjectController.addClient("companyName", "firstname", "lastname", "street", "plz",
+		client2 = ClientController.addClient("companyName", "firstname", "lastname", "street", "plz",
 				"city", "email", "tel");
-		assertTrue(ProjectController.getClients().size()>=1);
+		assertTrue(ClientController.getClients().size()>=1);
 		client2 = (Client) zem.findObject(Client.class, client2.getId());
 		zem.removeElement(client2);
 	}

@@ -1,5 +1,6 @@
 package com.project1.view.admin;
 
+import com.project1.controller.ClientController;
 import com.project1.controller.ProjectController;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
@@ -50,7 +51,7 @@ public class ClientOverView extends CustomComponent implements View {
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        List<Client> clientList = ProjectController.getClients();
+        List<Client> clientList = ClientController.getClients();
         BeanItemContainer<Client> ds = new BeanItemContainer<>(Client.class, clientList);
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
