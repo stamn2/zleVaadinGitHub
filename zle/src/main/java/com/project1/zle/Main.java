@@ -1,70 +1,70 @@
 package com.project1.zle;
 
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
-import com.project1.domain.Employee;
-import com.vaadin.sass.internal.tree.controldirective.EachDefNode;
-
-
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.*;
 
 public class Main {
+    
+	public static void main(String[] args) {
+        
+        try{
+        
+        	System.out.println("Create Simple PDF file with Text");
+            String fileName = "PdfWithtext.pdf"; // name of our file
+            String imageName = "Logo.jpg";
+            
+            PDDocument doc = new PDDocument();
+            PDPage page = new PDPage();
+
+            doc.addPage(page);
+            
+            PDImageXObject pdImage = PDImageXObject.createFromFile("user.dir/Header-graphic03.gif", doc);
+
+            PDPageContentStream content = new PDPageContentStream(doc, page);
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA, 26);
+            content.moveTextPositionByAmount(220, 750);
+            content.drawString("Registration Form");
+            content.endText();
+            
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA, 16);
+            content.moveTextPositionByAmount(80, 700);
+            content.drawString("Name : ");
+            content.endText();
+            
+            
+            content.beginText();
+            content.setFont(PDType1Font.HELVETICA, 16);
+            content.moveTextPositionByAmount(80,650);
+            content.drawString("Father Name : ");
+            content.endText();
+            
+            content.beginText();
+            content.moveTextPositionByAmount(80,600);
+            content.drawString("DOB : ");
+            content.endText();
+            
+            
+            content.close();
+            doc.save(fileName);
+            doc.close();
+        
+        System.out.println("your file created in : "+ System.getProperty("user.dir"));
+        
+        
+        }
+        catch(IOException e){ // "| COSVisitorException"
+        System.out.println(e.getMessage());
+        }
 	
-    private static final String PERSISTENCE_UNIT_NAME = "zleDB";
-    private static EntityManagerFactory factory; 
-    
-public static void main(String[] args) {
-	
-	//factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    //EntityManager em = factory.createEntityManager();
-   
-    
-    
-    //clean DB-Table Employee
-    /*Query q = em.createQuery("select o from Employee o");
-    List<Employee> empList = q.getResultList();
-    for (Employee emp : empList) {
-        System.out.println(emp);
-    }
-    for (Employee employee : empList) {
-    	em.getTransaction().begin();
-        em.remove(employee);
-        em.getTransaction().commit();
 	}
-
-    System.out.println("Size is: " + empList.size());
-    
-    String email="email@mail.com";
-    
-	em.getTransaction().begin();
-	
-	Query q2 = em.createQuery("select o from Employee o where o.email='"+email+"' and o.active = 'true'");
-    try {
-    	Employee employee = (Employee) q2.getSingleResult();
-	} catch (NoResultException e) { 
-		System.out.println("null");
-	}*/
-
-  /*  Employee emp = new Employee("email@mail.com", "firstname", "lastname", "street", "plz", "city", "tel", true);
-    emp.setIsAdmin(true);
-    em.getTransaction().begin();
-    em.persist(emp);
-    em.getTransaction().commit();
-
-    em.close();*/
-    String stronger_salt = BCrypt.gensalt(12); //default-Value for the seed is 10 -> 12 is more secure!
-	String hashedPw = BCrypt.hashpw("123hallo", stronger_salt); 
-	
-	if (BCrypt.checkpw("123Hallo", hashedPw))
-	    System.out.println("It matches");
-	else
-	    System.out.println("It does not match");
-
-
-}
 }
