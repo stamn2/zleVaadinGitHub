@@ -47,6 +47,8 @@ public class ProjectAssignmentView extends CustomComponent implements View{
     private Grid projectsGrid;
     private Project project;
     private List<ProjectCommitment> projectCommitment;
+    private GeneratedPropertyContainer gpc;
+    private BeanItemContainer<ProjectCommitment> dsEmps;
 
 
     //TODO doesn't show inactive employee
@@ -143,10 +145,10 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        	empList.add(e.getEmployee());
 	        });
 	        
-	        BeanItemContainer<ProjectCommitment> dsEmps = new BeanItemContainer<>(ProjectCommitment.class, projectCommitment);
+	        dsEmps = new BeanItemContainer<>(ProjectCommitment.class, projectCommitment);
 	        dsEmps.addNestedContainerBean("employee");
 	        // Generate button caption column
-	        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(dsEmps);
+	        gpc = new GeneratedPropertyContainer(dsEmps);
 	        gpc.removeContainerProperty("project");
 	        gpc.removeContainerProperty("active");
 	        gpc.removeContainerProperty("activities");
@@ -186,7 +188,8 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        projectsGrid.getColumn("inactivate")
             .setRenderer(new ButtonRenderer(e ->{ // Java 8      		
                     ProjectController.inactivateProjectCommitment((ProjectCommitment)e.getItemId());
-                    gpc.removeItem(e);
+                    //gpc.removeItem(e);
+                    Page.getCurrent().reload();
                     }));
 		 
 	        // The view root layout
@@ -196,5 +199,6 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
 	        setCompositionRoot(viewLayout);
 	}
+	
 
 }
