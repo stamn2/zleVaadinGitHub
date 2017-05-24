@@ -30,4 +30,29 @@ public class Cost {
         this.description = description;
     }
 
+    //------------ GETTER AND SETTER ----------------------
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Project getProject() {
+        return project;
+    }
 }
