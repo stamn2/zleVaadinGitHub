@@ -85,6 +85,7 @@ public class CostOverView  extends CustomComponent implements View {
         BeanItemContainer<Cost> ds = new BeanItemContainer<>(Cost.class, costList);
         // Generate button caption column
         GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
+        gpc.removeContainerProperty("project");
 
         Grid costGrid = new Grid("Costs", gpc);
         costGrid.setWidth("100%");
