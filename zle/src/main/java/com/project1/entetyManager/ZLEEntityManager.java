@@ -86,6 +86,15 @@ public class ZLEEntityManager {
 		return projectList;
 	}
 
+	public List<Project> getInactivePojects(){
+		Query q = em.createQuery("select o from Project o where o.active = false and o.client.email<>\"system\"");
+		List<Project> projectList = q.getResultList();
+		for(Project p : projectList) {
+			em.refresh(p);
+		}
+		return projectList;
+	}
+
 	public List<Project> getSystemProjects(){
 		Query q = em.createQuery("select o from Project o where o.client.email=\"system\"");
 		List<Project> projectList = q.getResultList();
@@ -105,7 +114,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<ProjectCommitment> getProjectCommitmentWithEmployee(long idEmployee){
-		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.employee.id ="+idEmployee + " AND NOT (o.project.client.email=\"system\" AND o.project.name=\"RealTimeRecording\")");
+		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.project.active=true AND o.employee.id ="+idEmployee + " AND NOT (o.project.client.email=\"system\" AND o.project.name=\"RealTimeRecording\")");
 		List<ProjectCommitment> projectCommitmenttList = q.getResultList();
 		for(ProjectCommitment p : projectCommitmenttList) {
 			em.refresh(p);
@@ -114,7 +123,7 @@ public class ZLEEntityManager {
 	}
 
 	public ProjectCommitment getProjectCommitmentWithProjectAndEmployee(long idEmp, long idProject) {
-		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.employee.id = "+idEmp+" AND o.project.id = "+idProject);
+		Query q = em.createQuery("select o from ProjectCommitment o where o.active=true AND o.project.active = true AND o.employee.id = "+idEmp+" AND o.project.id = "+idProject);
 		try {
 			ProjectCommitment projectCommitment = (ProjectCommitment) q.getSingleResult();
 			em.refresh(projectCommitment);
@@ -133,17 +142,8 @@ public class ZLEEntityManager {
 		return activityList;
 	}
 
-	public List<Activity> getActiveActivitiesFromProject(long idProject){
-		Query q = em.createQuery("select a from Activity a where a.active = true AND a.projectCommitment.project.id ="+idProject+ " ORDER BY a.beginDate DESC");
-		List<Activity> activityList = q.getResultList();
-		for(Activity a : activityList) {
-			em.refresh(a);
-		}
-		return activityList;
-	}
-
 	public List<Activity> getActivitiesFromEmployee(long idEmployee){
-		Query q = em.createQuery("select a from Activity a where a.active = true AND a.realTimeRecord=false AND a.projectCommitment.employee.id ="+idEmployee+ " ORDER BY a.beginDate DESC");
+		Query q = em.createQuery("select a from Activity a where a.active = true AND a.projectCommitment.project.active = true AND a.realTimeRecord=false AND a.projectCommitment.employee.id ="+idEmployee+ " ORDER BY a.beginDate DESC");
 		List<Activity> activityList = q.getResultList();
 		for(Activity a : activityList) {
 			em.refresh(a);

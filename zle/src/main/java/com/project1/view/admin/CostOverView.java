@@ -77,11 +77,6 @@ public class CostOverView  extends CustomComponent implements View {
             Notification.show("URL is not valid");
             return;
         }
-        if(!project.isActive()){
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-            Notification.show("Project is ended");
-            return;
-        }
 
         List<Cost> costList = ProjectController.getCosts(project.getId());
         BeanItemContainer<Cost> ds = new BeanItemContainer<>(Cost.class, costList);
@@ -98,6 +93,11 @@ public class CostOverView  extends CustomComponent implements View {
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
+        if(!project.isActive()){
+            addCost.setEnabled(false);
+        }
+
         setCompositionRoot(viewLayout);
     }
 

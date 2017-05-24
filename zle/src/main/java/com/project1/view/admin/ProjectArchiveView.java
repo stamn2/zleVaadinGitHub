@@ -14,26 +14,20 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class ProjectOverView extends CustomComponent implements View {
+public class ProjectArchiveView extends CustomComponent implements View {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7120911827497326373L;
+    public static final String NAME = "projectArchiveView";
 
-	public static final String NAME = "projectOverview";
-
-    private final Button back, logout, addProject, archive;
+    private final Button back, logout;
     private final Grid projectsGrid;
 
-    public ProjectOverView(){
+    public ProjectArchiveView(){
         back = new Button("Back");
         back.setWidth("15%");
         back.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
 
         logout = new Button("Logout");
@@ -49,23 +43,7 @@ public class ProjectOverView extends CustomComponent implements View {
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        addProject = new Button("Add Project");
-        addProject.setWidth("90%");
-        addProject.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectEditorView.NAME);
-        });
-
-        archive = new Button("Archive");
-        archive.setWidth("90%");
-        archive.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectArchiveView.NAME);
-        });
-
-        HorizontalLayout actionLayer = new HorizontalLayout(addProject, archive);
-        actionLayer.setSpacing(true);
-        actionLayer.setWidth("40%");
-
-        List<Project> projectList = ProjectController.getProjects();
+        List<Project> projectList = ProjectController.getArchivedProjects();
         BeanItemContainer<Project> ds = new BeanItemContainer<>(Project.class, projectList);
         ds.addNestedContainerBean("client");
         // Generate button caption column
@@ -91,8 +69,7 @@ public class ProjectOverView extends CustomComponent implements View {
                     }
                 });
 
-
-        projectsGrid = new Grid("Projects", gpc);
+        projectsGrid = new Grid("Archived Projects", gpc);
         Grid.HeaderRow hr = projectsGrid.prependHeaderRow();
         hr.join("id", "name").setHtml("<b>Project</b>");
         hr.join("client.companyName", "client.firstname", "client.lastname").setHtml("<b>Client</b>");
@@ -101,7 +78,7 @@ public class ProjectOverView extends CustomComponent implements View {
                 .setRenderer(new ButtonRenderer(e -> // Java 8
                         showProject(e.getItemId())));
 
-        VerticalLayout viewLayout = new VerticalLayout(topLayer, actionLayer, projectsGrid);
+        VerticalLayout viewLayout = new VerticalLayout(topLayer, projectsGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -119,6 +96,6 @@ public class ProjectOverView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
             return;
         }
-        getUI().getPage().setTitle("Projects");
+        getUI().getPage().setTitle("Archived Projects");
     }
 }

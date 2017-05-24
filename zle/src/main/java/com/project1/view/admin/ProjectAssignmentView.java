@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.project1.controller.ProjectController;
 import com.project1.controller.UserController;
-import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.domain.ProjectCommitment;
@@ -41,7 +40,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	
     private TextField hourlyRate;
     private ComboBox employee;
-    private Button save, logout, back;
+    private Button addAssignment, logout, back;
     private HorizontalLayout fields,topLayer;
     private VerticalLayout viewLayout;
     private Grid projectsGrid;
@@ -90,23 +89,21 @@ public class ProjectAssignmentView extends CustomComponent implements View{
         employee.setContainerDataSource(dsEmp);
         employee.setItemCaptionPropertyId("email");
 
-        save = new Button("ADD");
-        save.addClickListener(e -> {
-            if(!hourlyRate.isValid() || !employee.isValid()){
+        addAssignment = new Button("ADD");
+        addAssignment.addClickListener(e -> {
+            if (!hourlyRate.isValid() || !employee.isValid()) {
                 Notification.show("Form is not filled correctly");
-            }
-            else{
-               ProjectCommitment pc = ProjectController.addProjectCommitment(project, (Employee) employee.getValue(), Double.valueOf(hourlyRate.getValue()).doubleValue());
-               if(pc == null){
-                   Notification.show("Employee is already assigned to the project");
-               }
-               else{
-                   Page.getCurrent().reload();
-               }
+            } else {
+                ProjectCommitment pc = ProjectController.addProjectCommitment(project, (Employee) employee.getValue(), Double.valueOf(hourlyRate.getValue()).doubleValue());
+                if (pc == null) {
+                    Notification.show("Employee is already assigned to the project");
+                } else {
+                    Page.getCurrent().reload();
+                }
             }
         });
               
-        fields = new HorizontalLayout(employee, hourlyRate, save);
+        fields = new HorizontalLayout(employee, hourlyRate, addAssignment);
         fields.setSpacing(true);
         fields.setWidth("50%");
         fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -133,11 +130,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
             Notification.show("URL is not valid");
             return;
         }
-        if(!project.isActive()){
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-            Notification.show("Project is ended");
-            return;
-        }
+
 		 projectCommitment = ProjectController.getProjectCommitmentList(project.getId());
 		 
 	        List<Employee> empList = new ArrayList<>();
@@ -197,6 +190,11 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	        viewLayout.setMargin(true);
 	        viewLayout.setSpacing(true);
 	        viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
+
+            if(!project.isActive()){
+                addAssignment.setEnabled(false);
+                projectsGrid.getColumn("inactivate").setHidden(true);
+            }
 	        setCompositionRoot(viewLayout);
 	}
 	

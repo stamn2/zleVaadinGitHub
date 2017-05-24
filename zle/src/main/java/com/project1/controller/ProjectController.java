@@ -15,6 +15,10 @@ public class ProjectController {
         return zem.getActivePojects();
     }
 
+    public static List<Project> getArchivedProjects(){
+        return zem.getInactivePojects();
+    }
+
     public static Project addProject(String name, Client client){
         Project project = new Project(name, client);
         zem.persistObject(project);
@@ -75,15 +79,7 @@ public class ProjectController {
     }
 
     public static void endProject(Project project){
-        List<Activity> activities = zem.getActiveActivitiesFromProject(project.getId());
-        List<ProjectCommitment> projectCommitments = zem.getProjectCommitmentWithProject(project.getId());
         zem.startTransaction();
-        for(Activity a : activities){
-            a.setActive(false);
-        }
-        for(ProjectCommitment pc : projectCommitments){
-            pc.setActive(false);
-        }
         project.setActive(false);
         zem.endTransaction();
     }

@@ -72,7 +72,12 @@ public class ProjectDetailView extends CustomComponent implements View{
         back = new Button("Back");
         back.setWidth("15%");
         back.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            if(project.isActive()){
+                getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            }
+            else{
+                getUI().getNavigator().navigateTo(ProjectArchiveView.NAME);
+            }
         });
 
         HorizontalLayout topLayer = new HorizontalLayout(back, logout);
@@ -131,11 +136,6 @@ public class ProjectDetailView extends CustomComponent implements View{
             Notification.show("URL is not valid");
             return;
         }
-        if(!project.isActive()){
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-            Notification.show("Project is ended");
-            return;
-        }
 
         projectName.setValue(project.getName());
         Client c = project.getClient();
@@ -151,6 +151,12 @@ public class ProjectDetailView extends CustomComponent implements View{
                         "Cost: "
         );
         infoText.setReadOnly(true);
+
+        if(!project.isActive()){
+            editProject.setEnabled(false);
+            endProject.setEnabled(false);
+        }
+
         setCompositionRoot(viewLayout);
     }
 
