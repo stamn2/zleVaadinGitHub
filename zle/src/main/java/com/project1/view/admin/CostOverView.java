@@ -14,8 +14,10 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.renderers.DateRenderer;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CostOverView  extends CustomComponent implements View {
 
@@ -89,6 +91,8 @@ public class CostOverView  extends CustomComponent implements View {
 
         Grid costGrid = new Grid("Costs", gpc);
         costGrid.setWidth("100%");
+        costGrid.setColumnOrder("id", "date", "name", "price", "description");
+        costGrid.getColumn("date").setRenderer(new DateRenderer("%1$td %1$tb %1$tY"));
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addCost, costGrid);
         viewLayout.setMargin(true);

@@ -52,23 +52,23 @@ public class MyUI extends UI {
     	// i create the navigator, add a view and change/navigate to it
     	new Navigator(this, this);
     	getNavigator().addView("", LoginView.class);
-		getNavigator().addView(EmployeeEditorView.NAME, EmployeeEditorView.class);
         getNavigator().addView(FirstLoginView.NAME, FirstLoginView.class);
         getNavigator().addView(AdminHomepageView.NAME, AdminHomepageView.class);
 		getNavigator().addView(UserHomepageView.NAME, UserHomepageView.class);
+		getNavigator().addView(ActivityRecordView.NAME, ActivityRecordView.class);
+		getNavigator().addView(RecordHistoryView.NAME, RecordHistoryView.class);
         getNavigator().addView(EmployeeOverView.NAME, EmployeeOverView.class);
+		getNavigator().addView(EmployeeEditorView.NAME, EmployeeEditorView.class);
+		getNavigator().addView(EmployeeArchiveView.NAME, EmployeeArchiveView.class);
 		getNavigator().addView(ClientOverView.NAME, ClientOverView.class);
 		getNavigator().addView(ClientEditorView.NAME, ClientEditorView.class);
 		getNavigator().addView(ProjectOverView.NAME, ProjectOverView.class);
 		getNavigator().addView(ProjectEditorView.NAME, ProjectEditorView.class);
 		getNavigator().addView(ProjectDetailView.NAME, ProjectDetailView.class);
 		getNavigator().addView(ProjectAssignmentView.NAME, ProjectAssignmentView.class);
-		getNavigator().addView(ActivityRecordView.NAME, ActivityRecordView.class);
-		getNavigator().addView(RecordHistoryView.NAME, RecordHistoryView.class);
 		getNavigator().addView(ProjectHistoryView.NAME, ProjectHistoryView.class);
 		getNavigator().addView(CostOverView.NAME, CostOverView.class);
 		getNavigator().addView(CostEditorView.NAME, CostEditorView.class);
-        
         
 		getNavigator().addViewChangeListener(new ViewChangeListener() {
 			/**

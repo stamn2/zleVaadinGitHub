@@ -48,7 +48,17 @@ public class ZLEEntityManager {
 		}
 		return employeeList;
 	}
-	
+
+	public List<Employee> getInactiveEmployees(){
+		Query q = em.createQuery("select o from Employee o where o.active = false");
+		List<Employee> employeeList = q.getResultList();
+		for(Employee e : employeeList) {
+			em.refresh(e);
+		}
+		return employeeList;
+	}
+
+	//TODO remove unused method (only tests)?
 	public List<Employee> getAllEmployees(){
 		Query q = em.createQuery("select o from Employee o");
 		List<Employee> employeeList = q.getResultList();
