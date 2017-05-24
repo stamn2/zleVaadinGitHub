@@ -8,6 +8,7 @@ import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 
 import javax.persistence.NoResultException;
@@ -21,7 +22,7 @@ public class ProjectDetailView extends CustomComponent implements View{
 
     public static final String NAME = "projectDetailView";
 
-    private final Button cost, history, employees, editProject, endProject;
+    private final Button cost, history, employees, editProject, endProject, enableProject;
     private final Button logout, back;
     private Project project;
     private Label projectName;
@@ -61,6 +62,13 @@ public class ProjectDetailView extends CustomComponent implements View{
             getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
 
+        enableProject = new Button("Enable Project");
+        enableProject.setWidth("80%");
+        enableProject.addClickListener(e -> {
+            ProjectController.enableProject(project);
+            Page.getCurrent().reload();
+        });
+
         logout = new Button("Logout");
         logout.setWidth("15%");
         logout.addClickListener(e ->{
@@ -86,7 +94,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        VerticalLayout adminButtons = new VerticalLayout(employees,history,cost,editProject,endProject);
+        VerticalLayout adminButtons = new VerticalLayout(employees,history,cost,editProject,endProject, enableProject);
         adminButtons.setSpacing(true);
         adminButtons.setWidth("100%");
         adminButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -154,7 +162,10 @@ public class ProjectDetailView extends CustomComponent implements View{
 
         if(!project.isActive()){
             editProject.setEnabled(false);
-            endProject.setEnabled(false);
+            endProject.setVisible(false);
+        }
+        else{
+            enableProject.setVisible(false);
         }
 
         setCompositionRoot(viewLayout);
