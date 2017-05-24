@@ -53,6 +53,21 @@ public class UserController {
         }*/
     }
 
+    public static boolean enableEmployeeAccount(Employee employee){
+        if(zem.getEmployee(employee.getEmail()) != null){
+            return false;
+        }
+        zem.startTransaction();
+        employee.setActive(true);
+        zem.endTransaction();
+        /*try { //TODO : uncomment the lines to send email for final version
+            sendAccountEnabledEmail(employee.getEmail());
+        } catch (MessagingException e) {
+            System.out.println("Error: Email not send!");
+        }*/
+        return true;
+    }
+
     public static void updateEmployee(Employee employee, String email, String firstname, String lastname, String street,
                                       String plz, String city, String tel, boolean isAdmin){
         zem.startTransaction();
@@ -75,6 +90,10 @@ public class UserController {
     
     public static List<Employee> getActivesEmployees(){
         return zem.getActiveEmployees();
+    }
+
+    public static List<Employee> getInactivesEmployees(){
+        return zem.getInactiveEmployees();
     }
 
     public static Employee getEmployee(long employeeId) {
@@ -129,6 +148,17 @@ public class UserController {
         messageText = "<h1>Your account has been disabled!</h1>";
         messageText += "For any questions you can contact an administrator.";
         subject = "ZLE - Your account has been disabled!";
+
+        new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
+                messageText);
+    }
+
+    private static void sendAccountEnabledEmail(String email) throws MessagingException {
+        String messageText;
+        String subject;
+        messageText = "<h1>Your account has been enabled, you can now login!</h1>";
+        messageText += "For any questions you can contact an administrator.";
+        subject = "ZLE - Your account has been enabled!";
 
         new EmailSender("smtp.gmail.com", "zle.projekt1@gmail.com", "ZLEProjekt1").send(email, subject,
                 messageText);

@@ -23,15 +23,15 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     public static final String NAME = "employeeOverview";
 
-    private final Button addEmployee, logout, back;
+    private final Button back, logout, addEmployee, archive;
     private final Grid employeesGrid;
     private GeneratedPropertyContainer gpc;
 
     public EmployeeOverView(){
-        addEmployee = new Button("Add Employee");
-        addEmployee.setWidth("15%");
-        addEmployee.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(EmployeeEditorView.NAME);
+        back = new Button("Back");
+        back.setWidth("15%");
+        back.addClickListener(e ->{
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
         });
 
         logout = new Button("Logout");
@@ -41,18 +41,27 @@ public class EmployeeOverView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-
-        back = new Button("Back");
-        back.setWidth("15%");
-        back.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
-        });
-
         HorizontalLayout topLayer = new HorizontalLayout(back, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
+
+        addEmployee = new Button("Add Employee");
+        addEmployee.setWidth("90%");
+        addEmployee.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(EmployeeEditorView.NAME);
+        });
+
+        archive = new Button("Archive");
+        archive.setWidth("90%");
+        archive.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(EmployeeArchiveView.NAME);
+        });
+
+        HorizontalLayout actionLayer = new HorizontalLayout(addEmployee, archive);
+        actionLayer.setSpacing(true);
+        actionLayer.setWidth("40%");
 
         List<Employee> employeeList = UserController.getActivesEmployees();
         BeanItemContainer<Employee> ds = new BeanItemContainer<>(Employee.class, employeeList);
@@ -116,7 +125,7 @@ public class EmployeeOverView extends CustomComponent implements View {
 
         employeesGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
 
-        VerticalLayout viewLayout = new VerticalLayout(topLayer, addEmployee, employeesGrid);
+        VerticalLayout viewLayout = new VerticalLayout(topLayer, actionLayer, employeesGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
