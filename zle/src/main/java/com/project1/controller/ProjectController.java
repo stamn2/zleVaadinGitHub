@@ -20,6 +20,13 @@ public class ProjectController {
         zem.persistObject(project);
         return project;
     }
+
+    public static void updateProject(Project project, String name, Client client){
+        zem.startTransaction();
+        project.setName(name);
+        project.setClient(client);
+        zem.endTransaction();
+    }
     
     public static ProjectCommitment addProjectCommitment(Project project, Employee employee, double hourlyRate){
         List<ProjectCommitment> pcFromProject = zem.getProjectCommitmentWithProject(project.getId());

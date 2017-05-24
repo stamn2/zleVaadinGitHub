@@ -32,10 +32,15 @@ public class ProjectDetailView extends CustomComponent implements View{
         //TODO correct all navigateTo
         employees = new Button("Employees");
         employees.setWidth("80%");
-        
-        
+        employees.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
+        });
+
         history = new Button("History");
         history.setWidth("80%");
+        history.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ProjectHistoryView.NAME+ "/"+ project.getId());
+        });
 
         cost = new Button("Cost");
         cost.setWidth("80%");
@@ -46,11 +51,15 @@ public class ProjectDetailView extends CustomComponent implements View{
         editProject = new Button("Edit Project");
         editProject.setWidth("80%");
         editProject.addClickListener(e -> {
-            //getUI().getNavigator().navigateTo(ClientOverView.NAME);
+            getUI().getNavigator().navigateTo(ProjectEditorView.NAME+ "/"+ project.getId());
         });
 
         endProject = new Button("End Project");
         endProject.setWidth("80%");
+        endProject.addClickListener(e -> {
+            ProjectController.endProject(project);
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+        });
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -83,8 +92,6 @@ public class ProjectDetailView extends CustomComponent implements View{
         infoText = new TextArea();
         infoText.setHeight("250px");
         infoText.setWidth("100%");
-        
-
 
         VerticalLayout projectInfo = new VerticalLayout(projectName, infoText);
         projectInfo.setSpacing(true);
@@ -145,18 +152,6 @@ public class ProjectDetailView extends CustomComponent implements View{
         );
         infoText.setReadOnly(true);
         setCompositionRoot(viewLayout);
-
-        employees.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
-        });
-        history.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectHistoryView.NAME+ "/"+ project.getId());
-        });
-
-        endProject.addClickListener(e -> {
-            ProjectController.endProject(project);
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-        });
     }
 
 }
