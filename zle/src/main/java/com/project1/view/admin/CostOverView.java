@@ -26,6 +26,8 @@ public class CostOverView  extends CustomComponent implements View {
     private final Button addCost, logout, back;
     private HorizontalLayout topLayer;
 
+    private GeneratedPropertyContainer gpc;
+
     private Project project;
 
     public CostOverView(){
@@ -81,13 +83,30 @@ public class CostOverView  extends CustomComponent implements View {
         List<Cost> costList = ProjectController.getCosts(project.getId());
         BeanItemContainer<Cost> ds = new BeanItemContainer<>(Cost.class, costList);
         // Generate button caption column
-        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(ds);
+        gpc = new GeneratedPropertyContainer(ds);
         gpc.removeContainerProperty("project");
+
+        gpc.addGeneratedProperty("remove",
+                new PropertyValueGenerator<String>() {
+                    @Override
+                    public String getValue(Item item, Object itemId,
+                                           Object propertyId) {
+                        return "Remove"; // The caption
+                    }
+
+                    @Override
+                    public Class<String> getType() {
+                        return String.class;
+                    }
+                });
 
         Grid costGrid = new Grid("Costs", gpc);
         costGrid.setWidth("100%");
         costGrid.setColumnOrder("id", "date", "name", "price", "description");
         costGrid.getColumn("date").setRenderer(new DateRenderer("%1$td %1$tb %1$tY"));
+        costGrid.getColumn("remove")
+                .setRenderer(new ButtonRenderer(e -> // Java 8
+                        removeCost(e.getItemId())));
 
         VerticalLayout viewLayout = new VerticalLayout(topLayer, addCost, costGrid);
         viewLayout.setMargin(true);
@@ -96,9 +115,16 @@ public class CostOverView  extends CustomComponent implements View {
 
         if(!project.isActive()){
             addCost.setEnabled(false);
+            costGrid.getColumn("remove").setHidden(true);
         }
 
         setCompositionRoot(viewLayout);
+    }
+
+    private void removeCost(Object e){
+        Cost cost = (Cost)e;
+        ProjectController.removeCost(cost);
+        gpc.removeItem(cost);
     }
 
 }

@@ -100,4 +100,8 @@ public class ProjectController {
         return cost;
     }
 
+    public static void removeCost(Cost cost){
+        zem.removeElement(cost);
+    }
+
 }
