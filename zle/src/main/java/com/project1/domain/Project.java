@@ -46,4 +46,12 @@ public class Project {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

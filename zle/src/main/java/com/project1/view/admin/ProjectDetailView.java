@@ -8,6 +8,7 @@ import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 
 import javax.persistence.NoResultException;
@@ -21,7 +22,7 @@ public class ProjectDetailView extends CustomComponent implements View{
 
     public static final String NAME = "projectDetailView";
 
-    private final Button cost, history, employees, editProject, endProject;
+    private final Button cost, history, employees, editProject, endProject, enableProject;
     private final Button logout, back;
     private Project project;
     private Label projectName;
@@ -32,10 +33,15 @@ public class ProjectDetailView extends CustomComponent implements View{
         //TODO correct all navigateTo
         employees = new Button("Employees");
         employees.setWidth("80%");
-        
-        
+        employees.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
+        });
+
         history = new Button("History");
         history.setWidth("80%");
+        history.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(ProjectHistoryView.NAME+ "/"+ project.getId());
+        });
 
         cost = new Button("Cost");
         cost.setWidth("80%");
@@ -46,11 +52,22 @@ public class ProjectDetailView extends CustomComponent implements View{
         editProject = new Button("Edit Project");
         editProject.setWidth("80%");
         editProject.addClickListener(e -> {
-            //getUI().getNavigator().navigateTo(ClientOverView.NAME);
+            getUI().getNavigator().navigateTo(ProjectEditorView.NAME+ "/"+ project.getId());
         });
 
         endProject = new Button("End Project");
         endProject.setWidth("80%");
+        endProject.addClickListener(e -> {
+            ProjectController.endProject(project);
+            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+        });
+
+        enableProject = new Button("Enable Project");
+        enableProject.setWidth("80%");
+        enableProject.addClickListener(e -> {
+            ProjectController.enableProject(project);
+            Page.getCurrent().reload();
+        });
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -63,7 +80,12 @@ public class ProjectDetailView extends CustomComponent implements View{
         back = new Button("Back");
         back.setWidth("15%");
         back.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            if(project.isActive()){
+                getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            }
+            else{
+                getUI().getNavigator().navigateTo(ProjectArchiveView.NAME);
+            }
         });
 
         HorizontalLayout topLayer = new HorizontalLayout(back, logout);
@@ -72,7 +94,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        VerticalLayout adminButtons = new VerticalLayout(employees,history,cost,editProject,endProject);
+        VerticalLayout adminButtons = new VerticalLayout(employees,history,cost,editProject,endProject, enableProject);
         adminButtons.setSpacing(true);
         adminButtons.setWidth("100%");
         adminButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -83,8 +105,6 @@ public class ProjectDetailView extends CustomComponent implements View{
         infoText = new TextArea();
         infoText.setHeight("250px");
         infoText.setWidth("100%");
-        
-
 
         VerticalLayout projectInfo = new VerticalLayout(projectName, infoText);
         projectInfo.setSpacing(true);
@@ -124,11 +144,6 @@ public class ProjectDetailView extends CustomComponent implements View{
             Notification.show("URL is not valid");
             return;
         }
-        if(!project.isActive()){
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-            Notification.show("Project is ended");
-            return;
-        }
 
         projectName.setValue(project.getName());
         Client c = project.getClient();
@@ -144,19 +159,16 @@ public class ProjectDetailView extends CustomComponent implements View{
                         "Cost: "
         );
         infoText.setReadOnly(true);
+
+        if(!project.isActive()){
+            editProject.setEnabled(false);
+            endProject.setVisible(false);
+        }
+        else{
+            enableProject.setVisible(false);
+        }
+
         setCompositionRoot(viewLayout);
-
-        employees.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectAssignmentView.NAME+ "/"+ project.getId());
-        });
-        history.addClickListener(e -> {
-            getUI().getNavigator().navigateTo(ProjectHistoryView.NAME+ "/"+ project.getId());
-        });
-
-        endProject.addClickListener(e -> {
-            ProjectController.endProject(project);
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-        });
     }
 
 }

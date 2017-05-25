@@ -82,13 +82,6 @@ public class ProjectHistoryView extends CustomComponent implements View{
              return;
          }
 
-         if(!project.isActive()){
-             getUI().getNavigator().navigateTo(ProjectOverView.NAME);
-             Notification.show("Project is ended");
-             return;
-         }
-         
- 		 //TODO getALLactivities, also this from inactive employees! Yep, bien vu! Voilà =)
 		 List<Activity> activityList = ProjectController.getActivitiesFromProject(project.getId());
 
  	     BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);

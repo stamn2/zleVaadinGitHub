@@ -24,6 +24,9 @@ public class ProjectEditorView extends CustomComponent implements View {
     private VerticalLayout fields;
     private VerticalLayout viewLayout;
 
+    private Project project;
+    private boolean newProject = true;
+
     public ProjectEditorView(){
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -36,7 +39,12 @@ public class ProjectEditorView extends CustomComponent implements View {
         back = new Button("Back");
         back.setWidth("15%");
         back.addClickListener(e ->{
-            getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            if(newProject) {
+                getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+            }
+            else{
+                getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/" + project.getId());
+            }
         });
 
         HorizontalLayout topLayer = new HorizontalLayout(back, logout);
@@ -67,11 +75,15 @@ public class ProjectEditorView extends CustomComponent implements View {
             if(!name.isValid() || !client.isValid()){
                 //TODO: show wich fields are not valid
                 Notification.show("Form is not filled correctly");
+                return;
+            }
+            if(newProject){
+                project = ProjectController.addProject(name.getValue(), (Client)client.getValue());
             }
             else{
-                Project p = ProjectController.addProject(name.getValue(), (Client)client.getValue());
-                getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/"+ p.getId());
+                ProjectController.updateProject(project, name.getValue(), (Client)client.getValue());
             }
+            getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/" + project.getId());
         });
 
         // Add both to a panel
@@ -86,8 +98,6 @@ public class ProjectEditorView extends CustomComponent implements View {
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
 
-        setCompositionRoot(viewLayout);
-
     }
 
     @Override
@@ -97,6 +107,34 @@ public class ProjectEditorView extends CustomComponent implements View {
             return;
         }
         getUI().getPage().setTitle("Project Editor");
+        if(!event.getParameters().equals("")){
+            try{
+                project = ProjectController.getProject(Long.parseLong(event.getParameters()));
+            }
+            catch(NumberFormatException e){
+                getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+
+            if(project == null){
+                getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+                Notification.show("URL is not valid");
+                return;
+            }
+            if(!project.isActive()){
+                getUI().getNavigator().navigateTo(ProjectOverView.NAME);
+                Notification.show("Project is ended");
+                return;
+            }
+
+            name.setValue(project.getName());
+            client.setValue(project.getClient()); //TODO select client!!!
+
+            newProject = false;
+        }
+
+        setCompositionRoot(viewLayout);
     }
 
 }

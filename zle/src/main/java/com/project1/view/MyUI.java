@@ -63,6 +63,7 @@ public class MyUI extends UI {
 		getNavigator().addView(ClientOverView.NAME, ClientOverView.class);
 		getNavigator().addView(ClientEditorView.NAME, ClientEditorView.class);
 		getNavigator().addView(ProjectOverView.NAME, ProjectOverView.class);
+		getNavigator().addView(ProjectArchiveView.NAME, ProjectArchiveView.class);
 		getNavigator().addView(ProjectEditorView.NAME, ProjectEditorView.class);
 		getNavigator().addView(ProjectDetailView.NAME, ProjectDetailView.class);
 		getNavigator().addView(ProjectAssignmentView.NAME, ProjectAssignmentView.class);

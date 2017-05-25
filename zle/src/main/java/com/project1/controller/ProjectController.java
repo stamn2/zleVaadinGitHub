@@ -15,10 +15,21 @@ public class ProjectController {
         return zem.getActivePojects();
     }
 
+    public static List<Project> getArchivedProjects(){
+        return zem.getInactivePojects();
+    }
+
     public static Project addProject(String name, Client client){
         Project project = new Project(name, client);
         zem.persistObject(project);
         return project;
+    }
+
+    public static void updateProject(Project project, String name, Client client){
+        zem.startTransaction();
+        project.setName(name);
+        project.setClient(client);
+        zem.endTransaction();
     }
     
     public static ProjectCommitment addProjectCommitment(Project project, Employee employee, double hourlyRate){
@@ -68,16 +79,14 @@ public class ProjectController {
     }
 
     public static void endProject(Project project){
-        List<Activity> activities = zem.getActiveActivitiesFromProject(project.getId());
-        List<ProjectCommitment> projectCommitments = zem.getProjectCommitmentWithProject(project.getId());
         zem.startTransaction();
-        for(Activity a : activities){
-            a.setActive(false);
-        }
-        for(ProjectCommitment pc : projectCommitments){
-            pc.setActive(false);
-        }
         project.setActive(false);
+        zem.endTransaction();
+    }
+
+    public static void enableProject(Project project){
+        zem.startTransaction();
+        project.setActive(true);
         zem.endTransaction();
     }
     
@@ -95,6 +104,10 @@ public class ProjectController {
         Cost cost = new Cost(name, date, price, project, description);
         zem.persistObject(cost);
         return cost;
+    }
+
+    public static void removeCost(Cost cost){
+        zem.removeElement(cost);
     }
 
 }
