@@ -60,15 +60,10 @@ public class ProjectEditorView extends CustomComponent implements View {
         name.setInputPrompt("name of the project");
         name.setInvalidAllowed(false);
 
-        List<Client> clientList = ClientController.getClients();
-        BeanItemContainer<Client> ds = new BeanItemContainer<>(Client.class, clientList);
-
         client = new ComboBox("Client: ");
         client.setWidth("100%");
         client.setRequired(true);
         client.setInvalidAllowed(false);
-        client.setContainerDataSource(ds);
-        client.setItemCaptionPropertyId("companyName");//TODO : show firstname and lastname
 
         save = new Button("SAVE");
         save.addClickListener(e -> {
@@ -107,6 +102,13 @@ public class ProjectEditorView extends CustomComponent implements View {
             return;
         }
         getUI().getPage().setTitle("Project Editor");
+
+        List<Client> clientList = ClientController.getClients();
+        BeanItemContainer<Client> ds = new BeanItemContainer<>(Client.class, clientList);
+
+        client.setContainerDataSource(ds);
+        client.setItemCaptionPropertyId("companyName");//TODO : show firstname and lastname
+
         if(!event.getParameters().equals("")){
             try{
                 project = ProjectController.getProject(Long.parseLong(event.getParameters()));
@@ -129,7 +131,12 @@ public class ProjectEditorView extends CustomComponent implements View {
             }
 
             name.setValue(project.getName());
-            client.setValue(project.getClient()); //TODO select client!!!
+            //TODO  why doesn't we need to do that in ActivityRecordView?
+            for(Client c : clientList){
+                if(c.getId() == project.getClient().getId()){
+                    client.setValue(c);
+                }
+            }
 
             newProject = false;
         }
