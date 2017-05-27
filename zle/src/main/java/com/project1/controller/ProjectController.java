@@ -60,6 +60,13 @@ public class ProjectController {
         return zem.getAllActivitiesFromProject(idProject);
     }
 
+    public static Activity getOldestActiveActiviteFromProject(long idProject){
+        return zem.getOldestActiveActivityFromProject(idProject);
+    }
+
+    public static Activity getLastActiveActiviteFromProject(long idProject){
+        return zem.getLastActiveActivityFromProject(idProject);
+    }
 
     public static void assignEmployeeToSystemProjects(Employee emp){
         List<Project> systemProjects = zem.getSystemProjects();

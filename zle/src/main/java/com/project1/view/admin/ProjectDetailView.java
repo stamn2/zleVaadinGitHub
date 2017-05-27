@@ -22,7 +22,7 @@ public class ProjectDetailView extends CustomComponent implements View{
 
     public static final String NAME = "projectDetailView";
 
-    private final Button cost, history, employees, editProject, endProject, enableProject;
+    private final Button cost, history, employees, billing, editProject, endProject, enableProject;
     private final Button logout, back;
     private Project project;
     private Label projectName;
@@ -47,6 +47,12 @@ public class ProjectDetailView extends CustomComponent implements View{
         cost.setWidth("80%");
         cost.addClickListener(e -> {
             getUI().getNavigator().navigateTo(CostOverView.NAME+ "/"+ project.getId());
+        });
+
+        billing = new Button("Billing");
+        billing.setWidth("80%");
+        billing.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(BillingView.NAME + "/" + project.getId());
         });
 
         editProject = new Button("Edit Project");
@@ -94,7 +100,7 @@ public class ProjectDetailView extends CustomComponent implements View{
         topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        VerticalLayout adminButtons = new VerticalLayout(employees,history,cost,editProject,endProject, enableProject);
+        VerticalLayout adminButtons = new VerticalLayout(employees,history,cost, billing, editProject,endProject, enableProject);
         adminButtons.setSpacing(true);
         adminButtons.setWidth("100%");
         adminButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

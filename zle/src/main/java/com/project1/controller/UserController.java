@@ -16,7 +16,7 @@ public class UserController {
         }
         Employee emp = new Employee(email, firstname, lastname, street, plz, city, tel, isAdmin);
         String password = emp.generatePassword();
-        System.out.println(password);
+        System.out.println("Password: " + password);
         zem.persistObject(emp);
         /*try { //TODO : uncomment the lines to send email for final version and remove system.out.println password
             sendAccountCreatedEmail(email, password);
@@ -31,7 +31,7 @@ public class UserController {
         emp = (Employee)zem.findObject(Employee.class, emp.getId());
         zem.startTransaction();
         String newPw = emp.generatePassword();
-        System.out.println(newPw);
+        System.out.println("Password: " + newPw);
         emp.setChangePassword(true);
         zem.endTransaction();
 

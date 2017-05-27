@@ -142,6 +142,30 @@ public class ZLEEntityManager {
 		return activityList;
 	}
 
+	public Activity getOldestActiveActivityFromProject(long idProject){
+		Query q = em.createQuery("select a from Activity a where a.active=true AND a.projectCommitment.project.id ="+idProject+ " ORDER BY a.beginDate ASC");
+		q.setMaxResults(1);
+		List<Activity> activityList = q.getResultList();
+		if(activityList.size() == 1){
+			Activity a = activityList.get(0);
+			em.refresh(a);
+			return a;
+		}
+		return null;
+	}
+
+	public Activity getLastActiveActivityFromProject(long idProject){
+		Query q = em.createQuery("select a from Activity a where a.active=true AND a.projectCommitment.project.id ="+idProject+ " ORDER BY a.endDate DESC");
+		q.setMaxResults(1);
+		List<Activity> activityList = q.getResultList();
+		if(activityList.size() == 1){
+			Activity a = activityList.get(0);
+			em.refresh(a);
+			return a;
+		}
+		return null;
+	}
+
 	public List<Activity> getActivitiesFromEmployee(long idEmployee){
 		Query q = em.createQuery("select a from Activity a where a.active = true AND a.projectCommitment.project.active = true AND a.realTimeRecord=false AND a.projectCommitment.employee.id ="+idEmployee+ " ORDER BY a.beginDate DESC");
 		List<Activity> activityList = q.getResultList();
