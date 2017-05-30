@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+//TODO : rounding the values
 public class BillingView extends CustomComponent implements View {
 
     public static final String NAME = "BillingView";
@@ -111,9 +113,12 @@ public class BillingView extends CustomComponent implements View {
         printPDF = new Button("Print PDF");
         printPDF.setWidth("80%");
         printPDF.addClickListener(e -> {
+            //TODO inactivate activities
             PDFCreater.createPdf(billingList, costList, total, month, year, project);
             PDFCreater.openPDF();
         });
+
+        //TODO adapt heigh of the grids
     	viewLayout.addComponent(employeeCostGrid);
     	viewLayout.addComponent(matCostGrid);
     	viewLayout.addComponent(totalCost);
@@ -127,7 +132,8 @@ public class BillingView extends CustomComponent implements View {
         ds.addNestedContainerBean("pc");
         ds.addNestedContainerBean("pc.employee");
         gpc = new GeneratedPropertyContainer(ds);
-        
+
+        //TODO : remove some columns
         employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
 
