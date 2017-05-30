@@ -144,16 +144,17 @@ public class ProjectController {
             return billingList;
         }
 
-        long currentID = activityList.get(0).getProjectCommitment().getId();
+        ProjectCommitment currentPC = activityList.get(0).getProjectCommitment();
         double cost=0;
         double totalHoures = 0;
         double hourlyRate = activityList.get(0).getProjectCommitment().getHourlyRate();
         for (Activity activity : activityList) {
-            if (currentID != activity.getProjectCommitment().getId()) {
+            if (currentPC.getId() != activity.getProjectCommitment().getId()) {
+                billingList.add(new BillingEmployeeItem(currentPC, cost, totalHoures));
                 cost=0;
-                currentID = activity.getProjectCommitment().getId();
+                totalHoures = 0;
+                currentPC = activity.getProjectCommitment();
                 hourlyRate = activity.getProjectCommitment().getHourlyRate();
-                billingList.add(new BillingEmployeeItem(activity.getProjectCommitment(), cost, totalHoures));
             }
             double dif= ((double)(activity.getEndDate().getTime()-activity.getBeginDate().getTime()))/3600000;
             totalHoures+=dif;
