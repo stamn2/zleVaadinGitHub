@@ -58,16 +58,6 @@ public class ZLEEntityManager {
 		return employeeList;
 	}
 
-	//TODO remove unused method (only tests)?
-	public List<Employee> getAllEmployees(){
-		Query q = em.createQuery("select o from Employee o");
-		List<Employee> employeeList = q.getResultList();
-		for(Employee e : employeeList) {
-			em.refresh(e);
-		}
-		return employeeList;
-	}
-
 	public List<Client> getClients(){
 		Query q = em.createQuery("select o from Client o where o.email<>\"system\"");
 		List<Client> clientList = q.getResultList();

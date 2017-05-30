@@ -106,38 +106,18 @@ public class BillingView extends CustomComponent implements View {
 	}
 
 	private void createEmployeeGrid(int month, int year) {
-		List<Activity> activityList = ProjectController.getMonthlyActivitiesFromProject(project.getId(), month, year);
-		List<BillingEmployeeItem> billingList = new ArrayList<>();
-		long currentID = activityList.get(0).getProjectCommitment().getId();
-		double cost=0;
-		double totalHoures = 0;
-		double hourlyRate = activityList.get(0).getProjectCommitment().getHourlyRate();
-		for (Activity activity : activityList) {		
-			if (currentID != activity.getProjectCommitment().getId()) {
-				cost=0;
-				currentID = activity.getProjectCommitment().getId();
-				hourlyRate = activity.getProjectCommitment().getHourlyRate();
-				billingList.add(new BillingEmployeeItem(activity.getProjectCommitment(), cost, totalHoures));
-			}
-				double dif= ((double)(activity.getEndDate().getTime()-activity.getBeginDate().getTime()))/3600000;
-				totalHoures+=dif;
-				cost+=dif*hourlyRate;
-		}
-		billingList.add(new BillingEmployeeItem(activityList.get(activityList.size()-1).getProjectCommitment(), cost, totalHoures));
-
-		
+        List<BillingEmployeeItem> billingList = ProjectController.getBillingEmployeeItems(project.getId(), month, year);
         BeanItemContainer<BillingEmployeeItem> ds = new BeanItemContainer<>(BillingEmployeeItem.class, billingList);
         ds.addNestedContainerBean("pc");
         ds.addNestedContainerBean("pc.employee");
-       System.out.println( ds.getContainerPropertyIds());
+        System.out.println(ds.getContainerPropertyIds());
         gpc = new GeneratedPropertyContainer(ds);
         
         employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
 
-        //employeeCostGrid.setColumnOrder("beginDate","endDate","comment");
     	FooterRow footer = employeeCostGrid.appendFooterRow();
-    	//footer.getCell("comment").setText("Total: 1528.55");
+    	footer.getCell("cost").setText("Total:"+ProjectController.getSumBillingEmployeeItems(billingList));
 	}
 	
 	private void createMatGrid(int month, int year) {

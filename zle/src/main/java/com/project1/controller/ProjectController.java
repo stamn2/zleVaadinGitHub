@@ -2,6 +2,7 @@ package com.project1.controller;
 
 import com.project1.domain.*;
 import com.project1.entetyManager.ZLEEntityManager;
+import com.project1.zle.BillingEmployeeItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -131,6 +132,43 @@ public class ProjectController {
         double sum = 0;
         for (Cost c : costs){
             sum += c.getPrice();
+        }
+        return sum;
+    }
+
+    //TODO use bigDecimal???
+    public static List<BillingEmployeeItem> getBillingEmployeeItems(long idProject, int month, int year){
+        List<Activity> activityList = ProjectController.getMonthlyActivitiesFromProject(idProject, month, year);
+        List<BillingEmployeeItem> billingList = new ArrayList<>();
+        if(activityList.size() == 0){
+            return billingList;
+        }
+
+        long currentID = activityList.get(0).getProjectCommitment().getId();
+        double cost=0;
+        double totalHoures = 0;
+        double hourlyRate = activityList.get(0).getProjectCommitment().getHourlyRate();
+        for (Activity activity : activityList) {
+            if (currentID != activity.getProjectCommitment().getId()) {
+                cost=0;
+                currentID = activity.getProjectCommitment().getId();
+                hourlyRate = activity.getProjectCommitment().getHourlyRate();
+                billingList.add(new BillingEmployeeItem(activity.getProjectCommitment(), cost, totalHoures));
+            }
+            double dif= ((double)(activity.getEndDate().getTime()-activity.getBeginDate().getTime()))/3600000;
+            totalHoures+=dif;
+            cost+=dif*hourlyRate;
+        }
+        billingList.add(new BillingEmployeeItem(activityList.get(activityList.size()-1).getProjectCommitment(), cost, totalHoures));
+        return billingList;
+
+    }
+
+    //TODO use bigDecimal???
+    public static double getSumBillingEmployeeItems(List<BillingEmployeeItem> billingEmployeeItems){
+        double sum = 0;
+        for (BillingEmployeeItem bei : billingEmployeeItems){
+            sum += bei.getCost();
         }
         return sum;
     }
