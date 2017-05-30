@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+//TODO : rounding the values
 public class BillingView extends CustomComponent implements View {
 
     public static final String NAME = "BillingView";
@@ -42,6 +44,7 @@ public class BillingView extends CustomComponent implements View {
 	private Grid matCostGrid;
     private GeneratedPropertyContainer gpc, gpc2;
     private Button printPDF;
+    private List<Activity> activitiesFromMonth;
     private List<BillingEmployeeItem> billingList;
     private List<Cost> costList;
     private Label totalCost;
@@ -113,7 +116,10 @@ public class BillingView extends CustomComponent implements View {
         printPDF.addClickListener(e -> {
             PDFCreater.createPdf(billingList, costList, total, month, year, project);
             PDFCreater.openPDF();
+            ProjectController.inactiveMonthlyActivitiesFromProject(activitiesFromMonth);
         });
+
+        //TODO adapt heigh of the grids
     	viewLayout.addComponent(employeeCostGrid);
     	viewLayout.addComponent(matCostGrid);
     	viewLayout.addComponent(totalCost);
@@ -122,12 +128,14 @@ public class BillingView extends CustomComponent implements View {
 	}
 
 	private void createEmployeeGrid(int month, int year) {
-        billingList = ProjectController.getBillingEmployeeItems(project.getId(), month, year);
+        activitiesFromMonth = ProjectController.getMonthlyActivitiesFromProject(project.getId(), month, year);
+        billingList = ProjectController.getBillingEmployeeItems(activitiesFromMonth);
         BeanItemContainer<BillingEmployeeItem> ds = new BeanItemContainer<>(BillingEmployeeItem.class, billingList);
         ds.addNestedContainerBean("pc");
         ds.addNestedContainerBean("pc.employee");
         gpc = new GeneratedPropertyContainer(ds);
-        
+
+        //TODO : remove some columns
         employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
 
