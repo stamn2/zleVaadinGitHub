@@ -22,6 +22,8 @@ import com.vaadin.ui.Grid.FooterRow;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -97,8 +99,6 @@ public class BillingView extends CustomComponent implements View {
     private void showCost(Object month, Object year) {
     	createEmployeeGrid((int)month,(int)year);
     	createMatGrid((int)month,(int)year);
-    	FooterRow footer = matCostGrid.appendFooterRow();
-    	footer.getCell("price").setText("Total: 1528.55");
     	viewLayout.addComponent(employeeCostGrid);
     	viewLayout.addComponent(matCostGrid);
     	setCompositionRoot(viewLayout);
@@ -106,12 +106,36 @@ public class BillingView extends CustomComponent implements View {
 
 	private void createEmployeeGrid(int month, int year) {
 		List<Activity> activityList = ProjectController.getMonthlyActivitiesFromProject(project.getId(), month, year);
+		long currentID = activityList.get(0).getProjectCommitment().getEmployee().getId();
+		
+		double cost=0;
+		double hourlyRate = activityList.get(0).getProjectCommitment().getHourlyRate();
+		for (Activity activity : activityList) {		
+			if (currentID != activity.getProjectCommitment().getEmployee().getId()) {
+				System.out.println(activity.getProjectCommitment().getEmployee().getEmail());
+				System.out.println("COST: "+cost);
+				cost=0;
+				currentID = activity.getProjectCommitment().getEmployee().getId();
+				hourlyRate = activity.getProjectCommitment().getHourlyRate();
+			}
+				double dif= ((double)(activity.getEndDate().getTime()-activity.getBeginDate().getTime()))/3600000;
+				cost+=dif*hourlyRate;
+		}
+		System.out.println(currentID);
+		System.out.println("COST: "+cost);
+		
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         gpc = new GeneratedPropertyContainer(ds);
 
         employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
-       // employeeCostGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
+        employeeCostGrid.removeColumn("active");
+        employeeCostGrid.removeColumn("id");
+        employeeCostGrid.removeColumn("projectCommitment");
+        employeeCostGrid.removeColumn("realTimeRecord");
+        employeeCostGrid.setColumnOrder("beginDate","endDate","comment");
+    	FooterRow footer = employeeCostGrid.appendFooterRow();
+    	footer.getCell("comment").setText("Total: 1528.55");
 	}
 	
 	private void createMatGrid(int month, int year) {
@@ -121,7 +145,11 @@ public class BillingView extends CustomComponent implements View {
         
         matCostGrid = new Grid("Material", gpc2);
         matCostGrid.setWidth("100%");
-       // matCostGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
+        matCostGrid.removeColumn("id");
+        matCostGrid.removeColumn("project");
+        matCostGrid.setColumnOrder("date","name","description","price");
+    	FooterRow footer = matCostGrid.appendFooterRow();
+    	footer.getCell("price").setText("Total:"+ProjectController.getSumCosts(costList));
 	}
 
 	@Override
