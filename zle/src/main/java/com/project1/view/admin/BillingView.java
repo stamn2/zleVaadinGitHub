@@ -10,6 +10,7 @@ import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
+import com.project1.zle.BillingEmployeeItem;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
@@ -106,36 +107,37 @@ public class BillingView extends CustomComponent implements View {
 
 	private void createEmployeeGrid(int month, int year) {
 		List<Activity> activityList = ProjectController.getMonthlyActivitiesFromProject(project.getId(), month, year);
-		long currentID = activityList.get(0).getProjectCommitment().getEmployee().getId();
-		
+		List<BillingEmployeeItem> billingList = new ArrayList<>();
+		long currentID = activityList.get(0).getProjectCommitment().getId();
 		double cost=0;
+		double totalHoures = 0;
 		double hourlyRate = activityList.get(0).getProjectCommitment().getHourlyRate();
 		for (Activity activity : activityList) {		
-			if (currentID != activity.getProjectCommitment().getEmployee().getId()) {
-				System.out.println(activity.getProjectCommitment().getEmployee().getEmail());
-				System.out.println("COST: "+cost);
+			if (currentID != activity.getProjectCommitment().getId()) {
 				cost=0;
-				currentID = activity.getProjectCommitment().getEmployee().getId();
+				currentID = activity.getProjectCommitment().getId();
 				hourlyRate = activity.getProjectCommitment().getHourlyRate();
+				billingList.add(new BillingEmployeeItem(activity.getProjectCommitment(), cost, totalHoures));
 			}
 				double dif= ((double)(activity.getEndDate().getTime()-activity.getBeginDate().getTime()))/3600000;
+				totalHoures+=dif;
 				cost+=dif*hourlyRate;
 		}
-		System.out.println(currentID);
-		System.out.println("COST: "+cost);
-		
-        BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
-        gpc = new GeneratedPropertyContainer(ds);
+		billingList.add(new BillingEmployeeItem(activityList.get(activityList.size()-1).getProjectCommitment(), cost, totalHoures));
 
+		
+        BeanItemContainer<BillingEmployeeItem> ds = new BeanItemContainer<>(BillingEmployeeItem.class, billingList);
+        ds.addNestedContainerBean("pc");
+        ds.addNestedContainerBean("pc.employee");
+       System.out.println( ds.getContainerPropertyIds());
+        gpc = new GeneratedPropertyContainer(ds);
+        
         employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
-        employeeCostGrid.removeColumn("active");
-        employeeCostGrid.removeColumn("id");
-        employeeCostGrid.removeColumn("projectCommitment");
-        employeeCostGrid.removeColumn("realTimeRecord");
-        employeeCostGrid.setColumnOrder("beginDate","endDate","comment");
+
+        //employeeCostGrid.setColumnOrder("beginDate","endDate","comment");
     	FooterRow footer = employeeCostGrid.appendFooterRow();
-    	footer.getCell("comment").setText("Total: 1528.55");
+    	//footer.getCell("comment").setText("Total: 1528.55");
 	}
 	
 	private void createMatGrid(int month, int year) {
