@@ -196,7 +196,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<Cost> getMonthlyCost(long idProject, int month, int year){
-		Query q = em.createQuery("select c from Cost c where c.project.id="+idProject+ " AND MONTH(c.date)="+month+ " AND YEAR(c.date)="+year+" ORDER BY c.date DESC");
+		Query q = em.createQuery("select c from Cost c where c.project.id="+idProject+ " AND FUNC('MONTH',c.date)="+month+ " AND FUNC('YEAR',c.date)="+year+" ORDER BY c.date DESC");
 		List<Cost> costList = q.getResultList();
 		for(Cost c : costList) {
 			em.refresh(c);

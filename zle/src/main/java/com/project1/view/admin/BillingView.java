@@ -1,15 +1,22 @@
 package com.project1.view.admin;
 
 import com.project1.controller.ProjectController;
+import com.project1.controller.RecordController;
+import com.project1.controller.UserController;
 import com.project1.domain.Activity;
 import com.project1.domain.Client;
+import com.project1.domain.Cost;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +33,9 @@ public class BillingView extends CustomComponent implements View {
     private ComboBox month, year;
     private VerticalLayout viewLayout;
     private Project project;
+    private Grid employeeCostGrid = new Grid();;
+	private Grid matCostGrid = new Grid();
+    private GeneratedPropertyContainer gpc, gpc2;
 
     public BillingView(){
         logout = new Button("Logout");
@@ -68,7 +78,7 @@ public class BillingView extends CustomComponent implements View {
         preview = new Button("Preview");
         preview.setWidth("100%");
         preview.addClickListener(e ->{
-            //TODO
+            showCost(month.getValue(),year.getValue());
         });
 
         HorizontalLayout billingLayer = new HorizontalLayout(month, year, preview);
@@ -77,13 +87,38 @@ public class BillingView extends CustomComponent implements View {
         billingLayer.setMargin(true);
         billingLayer.setSpacing(true);
 
-        viewLayout = new VerticalLayout(topLayer, billingLayer);
+        viewLayout = new VerticalLayout(topLayer, billingLayer,matCostGrid,employeeCostGrid);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(billingLayer, Alignment.MIDDLE_CENTER);
     }
 
-    @Override
+    private void showCost(Object month, Object year) {
+    	createEmployeeGrid();
+    	createMatGrid((int)month,(int)year);
+	}
+
+	private void createEmployeeGrid() {
+		List<Activity> activityList = ProjectController.getActivitiesFromProject(project.getId());
+        BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
+        gpc = new GeneratedPropertyContainer(ds);
+
+        employeeCostGrid = new Grid("Employees", gpc);
+        employeeCostGrid.setWidth("100%");
+       // employeeCostGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
+	}
+	
+	private void createMatGrid(int month, int year) {
+		List<Cost> costList = ProjectController.getMonthlyCosts(project.getId(), month, year);
+        BeanItemContainer<Cost> ds = new BeanItemContainer<>(Cost.class, costList);
+        gpc2 = new GeneratedPropertyContainer(ds);
+        
+        matCostGrid = new Grid("Material", gpc2);
+        matCostGrid.setWidth("100%");
+       // matCostGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
+	}
+
+	@Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         if(!((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
             getUI().getNavigator().navigateTo(UserHomepageView.NAME);
@@ -128,7 +163,7 @@ public class BillingView extends CustomComponent implements View {
         if(!project.isActive()){
             //TODO
         }
-
+        createEmployeeGrid();
         setCompositionRoot(viewLayout);
     }
 
