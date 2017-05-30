@@ -33,8 +33,8 @@ public class BillingView extends CustomComponent implements View {
     private ComboBox month, year;
     private VerticalLayout viewLayout;
     private Project project;
-    private Grid employeeCostGrid = new Grid();;
-	private Grid matCostGrid = new Grid();
+    private Grid employeeCostGrid;
+	private Grid matCostGrid;
     private GeneratedPropertyContainer gpc, gpc2;
 
     public BillingView(){
@@ -87,7 +87,7 @@ public class BillingView extends CustomComponent implements View {
         billingLayer.setMargin(true);
         billingLayer.setSpacing(true);
 
-        viewLayout = new VerticalLayout(topLayer, billingLayer,matCostGrid,employeeCostGrid);
+        viewLayout = new VerticalLayout(topLayer, billingLayer);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(billingLayer, Alignment.MIDDLE_CENTER);
@@ -96,6 +96,9 @@ public class BillingView extends CustomComponent implements View {
     private void showCost(Object month, Object year) {
     	createEmployeeGrid();
     	createMatGrid((int)month,(int)year);
+    	viewLayout.addComponent(employeeCostGrid);
+    	viewLayout.addComponent(matCostGrid);
+    	setCompositionRoot(viewLayout);
 	}
 
 	private void createEmployeeGrid() {
@@ -103,7 +106,7 @@ public class BillingView extends CustomComponent implements View {
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         gpc = new GeneratedPropertyContainer(ds);
 
-        employeeCostGrid = new Grid("Employees", gpc);
+        employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
        // employeeCostGrid.setColumnOrder("id", "firstname", "lastname", "street", "plz", "city", "tel", "email","admin", "changePassword", "edit", "disable");
 	}
@@ -163,7 +166,6 @@ public class BillingView extends CustomComponent implements View {
         if(!project.isActive()){
             //TODO
         }
-        createEmployeeGrid();
         setCompositionRoot(viewLayout);
     }
 
