@@ -87,7 +87,7 @@ public class BillingView extends CustomComponent implements View {
         preview = new Button("Preview");
         preview.setWidth("100%");
         preview.addClickListener(e ->{
-            showCost(month.getValue(),year.getValue());
+            showCost((int)month.getValue(),(int)year.getValue());
         });
 
         HorizontalLayout billingLayer = new HorizontalLayout(month, year, preview);
@@ -103,15 +103,15 @@ public class BillingView extends CustomComponent implements View {
         viewLayout.setComponentAlignment(billingLayer, Alignment.MIDDLE_CENTER);
     }
 
-    private void showCost(Object month, Object year) {
-    	createEmployeeGrid((int)month,(int)year);
-    	createMatGrid((int)month,(int)year);
+    private void showCost(int month, int year) {
+    	createEmployeeGrid(month,year);
+    	createMatGrid(month,year);
     	double total= ProjectController.getSumBillingEmployeeItems(billingList)+ProjectController.getSumCosts(costList);
     	totalCost = new Label("TotalCost: "+total+"[CHF]");
         printPDF = new Button("Print PDF");
         printPDF.setWidth("80%");
         printPDF.addClickListener(e -> {
-            PDFCreater.createPdf(billingList, costList, total);
+            PDFCreater.createPdf(billingList, costList, total, month, year, project);
             PDFCreater.openPDF();
         });
     	viewLayout.addComponent(employeeCostGrid);
