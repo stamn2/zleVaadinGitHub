@@ -104,21 +104,21 @@ public class PDFCreater {
 	            
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 16);
-	            content.newLineAtOffset(100, 280);
+	            content.newLineAtOffset(100, 290);
 	            content.showText("Period");
 	            content.endText();
 	            
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 12);
 	            content.setLeading(14.5f);
-	            content.newLineAtOffset(100, 260);
+	            content.newLineAtOffset(100, 270);
 	            content.showText("Month\\Year: "+String.valueOf(month)+" \\ "+String.valueOf(year));
 	            content.endText();
 	            
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 18);
 	            content.newLineAtOffset(100, 200);
-	            content.showText("Total Costs: "+totalCosts);
+	            content.showText("Total Costs: "+totalCosts+"[CHF]");
 	            content.endText();
 	            
 	            content.beginText();
@@ -163,7 +163,7 @@ public class PDFCreater {
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(100, 580);
 	            for(int i=0; i<billingList.size();i++){ 
-	                content2.showText(billingList.get(i).getPc().getEmployee().getEmail());
+	                content2.showText(billingList.get(i).getPc().getEmployee().getLastname());
 	                content2.newLine();
 	            }
 	            content2.endText();
@@ -273,7 +273,7 @@ public class PDFCreater {
 	            content2.beginText();
 	            content2.setFont(PDType1Font.HELVETICA, 20);
 	            content2.newLineAtOffset(100, 200);
-	            content2.showText("Total Cost: "+totalCosts+" CHF");
+	            content2.showText("Total Cost: "+totalCosts+" [CHF]");
 	            content2.endText();
 	            
 	            content2.close();
