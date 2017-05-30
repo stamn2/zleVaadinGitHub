@@ -18,6 +18,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Grid.FooterRow;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -96,6 +97,8 @@ public class BillingView extends CustomComponent implements View {
     private void showCost(Object month, Object year) {
     	createEmployeeGrid();
     	createMatGrid((int)month,(int)year);
+    	FooterRow footer = matCostGrid.appendFooterRow();
+    	footer.getCell("price").setText("Total: 1528.55");
     	viewLayout.addComponent(employeeCostGrid);
     	viewLayout.addComponent(matCostGrid);
     	setCompositionRoot(viewLayout);
