@@ -74,6 +74,14 @@ public class ProjectController {
         return zem.getMonthlyActivitiesFromProject(idProject, month, year);
     }
 
+    public static void inactiveMonthlyActivitiesFromProject(List<Activity> monthlyActivities){
+        zem.startTransaction();
+        for(Activity a : monthlyActivities){
+            a.setActive(false);
+        }
+        zem.endTransaction();
+    }
+
     public static void assignEmployeeToSystemProjects(Employee emp){
         List<Project> systemProjects = zem.getSystemProjects();
         for(Project p : systemProjects){
@@ -137,18 +145,17 @@ public class ProjectController {
     }
 
     //TODO use bigDecimal???
-    public static List<BillingEmployeeItem> getBillingEmployeeItems(long idProject, int month, int year){
-        List<Activity> activityList = ProjectController.getMonthlyActivitiesFromProject(idProject, month, year);
+    public static List<BillingEmployeeItem> getBillingEmployeeItems(List<Activity> activitiesFromMonth){
         List<BillingEmployeeItem> billingList = new ArrayList<>();
-        if(activityList.size() == 0){
+        if(activitiesFromMonth.size() == 0){
             return billingList;
         }
 
-        ProjectCommitment currentPC = activityList.get(0).getProjectCommitment();
+        ProjectCommitment currentPC = activitiesFromMonth.get(0).getProjectCommitment();
         double cost=0;
         double totalHoures = 0;
-        double hourlyRate = activityList.get(0).getProjectCommitment().getHourlyRate();
-        for (Activity activity : activityList) {
+        double hourlyRate = activitiesFromMonth.get(0).getProjectCommitment().getHourlyRate();
+        for (Activity activity : activitiesFromMonth) {
             if (currentPC.getId() != activity.getProjectCommitment().getId()) {
                 billingList.add(new BillingEmployeeItem(currentPC, cost, totalHoures));
                 cost=0;
@@ -160,7 +167,7 @@ public class ProjectController {
             totalHoures+=dif;
             cost+=dif*hourlyRate;
         }
-        billingList.add(new BillingEmployeeItem(activityList.get(activityList.size()-1).getProjectCommitment(), cost, totalHoures));
+        billingList.add(new BillingEmployeeItem(activitiesFromMonth.get(activitiesFromMonth.size()-1).getProjectCommitment(), cost, totalHoures));
         return billingList;
 
     }

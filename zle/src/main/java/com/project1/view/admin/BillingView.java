@@ -44,6 +44,7 @@ public class BillingView extends CustomComponent implements View {
 	private Grid matCostGrid;
     private GeneratedPropertyContainer gpc, gpc2;
     private Button printPDF;
+    private List<Activity> activitiesFromMonth;
     private List<BillingEmployeeItem> billingList;
     private List<Cost> costList;
     private Label totalCost;
@@ -113,9 +114,9 @@ public class BillingView extends CustomComponent implements View {
         printPDF = new Button("Print PDF");
         printPDF.setWidth("80%");
         printPDF.addClickListener(e -> {
-            //TODO inactivate activities
             PDFCreater.createPdf(billingList, costList, total, month, year, project);
             PDFCreater.openPDF();
+            ProjectController.inactiveMonthlyActivitiesFromProject(activitiesFromMonth);
         });
 
         //TODO adapt heigh of the grids
@@ -127,7 +128,8 @@ public class BillingView extends CustomComponent implements View {
 	}
 
 	private void createEmployeeGrid(int month, int year) {
-        billingList = ProjectController.getBillingEmployeeItems(project.getId(), month, year);
+        activitiesFromMonth = ProjectController.getMonthlyActivitiesFromProject(project.getId(), month, year);
+        billingList = ProjectController.getBillingEmployeeItems(activitiesFromMonth);
         BeanItemContainer<BillingEmployeeItem> ds = new BeanItemContainer<>(BillingEmployeeItem.class, billingList);
         ds.addNestedContainerBean("pc");
         ds.addNestedContainerBean("pc.employee");
