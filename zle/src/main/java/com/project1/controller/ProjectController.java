@@ -3,6 +3,7 @@ package com.project1.controller;
 import com.project1.domain.*;
 import com.project1.entetyManager.ZLEEntityManager;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -123,6 +124,15 @@ public class ProjectController {
 
     public static List<Cost> getMonthlyCosts(long idProject, int month, int year){
         return zem.getMonthlyCost(idProject, month, year);
+    }
+
+    //TODO use bigDecimal???
+    public static double getSumCosts(List<Cost> costs){
+        double sum = 0;
+        for (Cost c : costs){
+            sum += c.getPrice();
+        }
+        return sum;
     }
 
 }

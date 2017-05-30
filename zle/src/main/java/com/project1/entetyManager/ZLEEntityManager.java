@@ -143,7 +143,7 @@ public class ZLEEntityManager {
 	}
 
 	public List<Activity> getMonthlyActivitiesFromProject(long idProject, int month, int year){
-		Query q = em.createQuery("select a from Activity a where a.projectCommitment.project.id ="+idProject+ " AND FUNC('MONTH',a.endDate)="+month+ " AND FUNC('YEAR',a.endDate)="+year+ " ORDER BY a.beginDate DESC");
+		Query q = em.createQuery("select a from Activity a where a.projectCommitment.project.id ="+idProject+ " AND FUNC('MONTH',a.endDate)="+month+ " AND FUNC('YEAR',a.endDate)="+year+ " ORDER BY a.projectCommitment.employee.id ASC");
 		List<Activity> activityList = q.getResultList();
 		for(Activity a : activityList) {
 			em.refresh(a);
