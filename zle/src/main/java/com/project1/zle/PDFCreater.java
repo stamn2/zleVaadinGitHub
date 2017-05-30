@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import com.project1.controller.ProjectController;
+import com.project1.domain.Client;
 import com.project1.domain.Cost;
 import com.project1.domain.Project;
 
@@ -64,7 +65,7 @@ public class PDFCreater {
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 26);
 	            content.newLineAtOffset(100, 500);
-	            content.showText("Invoice of Project X");
+	            content.showText("Invoice of Project");
 	            content.endText();
 	            
 	            content.beginText();
@@ -73,17 +74,19 @@ public class PDFCreater {
 	            content.showText("Client");
 	            content.endText();
 	            
+	            Client client = project.getClient();
+	            
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 12);
 	            content.setLeading(14.5f);
 	            content.newLineAtOffset(100, 430);
-	            content.showText("Name:");
+	            content.showText("Name: "+client.getCompanyName());
 	            content.newLine();
-	            content.showText("Address:");
+	            content.showText("Address: "+client.getStreet()+" "+client.getPlz());
 	            content.newLine();
-	            content.showText("Email:");
+	            content.showText("Email: "+ client.getEmail());
 	            content.newLine();
-	            content.showText("Phone:");
+	            content.showText("Phone: "+ client.getTel());
 	            content.endText();
 	            
 	            content.beginText();
@@ -96,9 +99,7 @@ public class PDFCreater {
 	            content.setFont(PDType1Font.HELVETICA, 12);
 	            content.setLeading(14.5f);
 	            content.newLineAtOffset(100, 330);
-	            content.showText("Project-Name:");
-	            content.newLine();
-	            content.showText("Description:");
+	            content.showText("Project-Name: "+project.getName());
 	            content.endText();
 	            
 	            content.beginText();
@@ -111,7 +112,7 @@ public class PDFCreater {
 	            content.setFont(PDType1Font.HELVETICA, 12);
 	            content.setLeading(14.5f);
 	            content.newLineAtOffset(100, 260);
-	            content.showText("Month\\Year: "+String.valueOf(month)+" "+String.valueOf(year));
+	            content.showText("Month\\Year: "+String.valueOf(month)+" \\ "+String.valueOf(year));
 	            content.endText();
 	            
 	            content.beginText();
