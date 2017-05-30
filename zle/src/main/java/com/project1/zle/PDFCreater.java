@@ -13,10 +13,12 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import com.project1.controller.ProjectController;
 import com.project1.domain.Cost;
+import com.project1.domain.Project;
 
 public class PDFCreater {
 
-	public static void createPdf(List<BillingEmployeeItem> billingList, List<Cost> matCostList, double totalCosts){
+	public static void createPdf(List<BillingEmployeeItem> billingList, List<Cost> matCostList, double totalCosts,
+			int month, int year, Project project){
 		 try{
 		        
 	        	System.out.println("Create Simple PDF file with Text");
@@ -109,15 +111,13 @@ public class PDFCreater {
 	            content.setFont(PDType1Font.HELVETICA, 12);
 	            content.setLeading(14.5f);
 	            content.newLineAtOffset(100, 260);
-	            content.showText("Begin-Date:");
-	            content.newLine();
-	            content.showText("End-Date:");
+	            content.showText("Month\\Year: "+String.valueOf(month)+" "+String.valueOf(year));
 	            content.endText();
 	            
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 18);
 	            content.newLineAtOffset(100, 200);
-	            content.showText("Total Costs:");
+	            content.showText("Total Costs: "+totalCosts);
 	            content.endText();
 	            
 	            content.beginText();

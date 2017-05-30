@@ -11,6 +11,7 @@ import com.project1.domain.Project;
 import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.project1.zle.BillingEmployeeItem;
+import com.project1.zle.PDFCreater;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
@@ -40,6 +41,10 @@ public class BillingView extends CustomComponent implements View {
     private Grid employeeCostGrid;
 	private Grid matCostGrid;
     private GeneratedPropertyContainer gpc, gpc2;
+    private Button printPDF;
+    private List<BillingEmployeeItem> billingList;
+    private List<Cost> costList;
+    private Label totalCost;
 
     public BillingView(){
         logout = new Button("Logout");
@@ -90,6 +95,7 @@ public class BillingView extends CustomComponent implements View {
         billingLayer.setWidth("60%");
         billingLayer.setMargin(true);
         billingLayer.setSpacing(true);
+        
 
         viewLayout = new VerticalLayout(topLayer, billingLayer);
         viewLayout.setMargin(true);
@@ -100,17 +106,26 @@ public class BillingView extends CustomComponent implements View {
     private void showCost(Object month, Object year) {
     	createEmployeeGrid((int)month,(int)year);
     	createMatGrid((int)month,(int)year);
+    	double total= ProjectController.getSumBillingEmployeeItems(billingList)+ProjectController.getSumCosts(costList);
+    	totalCost = new Label("TotalCost: "+total+"[CHF]");
+        printPDF = new Button("Print PDF");
+        printPDF.setWidth("80%");
+        printPDF.addClickListener(e -> {
+            PDFCreater.createPdf(billingList, costList, total);
+            PDFCreater.openPDF();
+        });
     	viewLayout.addComponent(employeeCostGrid);
     	viewLayout.addComponent(matCostGrid);
+    	viewLayout.addComponent(totalCost);
+    	viewLayout.addComponent(printPDF);
     	setCompositionRoot(viewLayout);
 	}
 
 	private void createEmployeeGrid(int month, int year) {
-        List<BillingEmployeeItem> billingList = ProjectController.getBillingEmployeeItems(project.getId(), month, year);
+        billingList = ProjectController.getBillingEmployeeItems(project.getId(), month, year);
         BeanItemContainer<BillingEmployeeItem> ds = new BeanItemContainer<>(BillingEmployeeItem.class, billingList);
         ds.addNestedContainerBean("pc");
         ds.addNestedContainerBean("pc.employee");
-        System.out.println(ds.getContainerPropertyIds());
         gpc = new GeneratedPropertyContainer(ds);
         
         employeeCostGrid = new Grid("Activity", gpc);
@@ -121,7 +136,7 @@ public class BillingView extends CustomComponent implements View {
 	}
 	
 	private void createMatGrid(int month, int year) {
-		List<Cost> costList = ProjectController.getMonthlyCosts(project.getId(), month, year);
+		costList = ProjectController.getMonthlyCosts(project.getId(), month, year);
         BeanItemContainer<Cost> ds = new BeanItemContainer<>(Cost.class, costList);
         gpc2 = new GeneratedPropertyContainer(ds);
         
