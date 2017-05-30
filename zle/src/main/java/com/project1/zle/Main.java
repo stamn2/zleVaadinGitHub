@@ -210,7 +210,10 @@ public class Main {
                 content2.showText("1'416");
                 content2.newLine();
             }
+            content2.newLine();
+            content2.showText("1'000'000");
             content2.endText();
+            
             
             //loops for all material-costs of the project
             content2.beginText();

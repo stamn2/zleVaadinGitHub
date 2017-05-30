@@ -11,6 +11,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import com.project1.controller.ProjectController;
 import com.project1.domain.Cost;
 
 public class PDFCreater {
@@ -212,6 +213,8 @@ public class PDFCreater {
 	                content2.showText(String.valueOf(billingList.get(i).getCost()));
 	                content2.newLine();
 	            }
+	            content2.newLine();
+	            content2.showText(String.valueOf(ProjectController.getSumBillingEmployeeItems(billingList)));
 	            content2.endText();
 	            
 	            //loops for all material-costs of the project
@@ -261,6 +264,8 @@ public class PDFCreater {
 	                content2.showText(String.valueOf(matCostList.get(i).getPrice()));
 	                content2.newLine();
 	            }
+	            content2.newLine();
+	            content2.showText(String.valueOf(ProjectController.getSumCosts(matCostList)));
 	            content2.endText();
 	            
 	            //Total Costs	            
