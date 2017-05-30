@@ -61,11 +61,11 @@ public class ProjectController {
     }
 
     public static Activity getOldestActiveActiviteFromProject(long idProject){
-        return zem.getOldestActiveActivityFromProject(idProject);
+        return zem.getOldestActivityFromProject(idProject);
     }
 
     public static Activity getLastActiveActiviteFromProject(long idProject){
-        return zem.getLastActiveActivityFromProject(idProject);
+        return zem.getLastActivityFromProject(idProject);
     }
 
     public static void assignEmployeeToSystemProjects(Employee emp){
@@ -115,6 +115,10 @@ public class ProjectController {
 
     public static void removeCost(Cost cost){
         zem.removeElement(cost);
+    }
+
+    public static List<Cost> getMonthlyCosts(long idProject, int month, int year){
+        return zem.getMonthlyCost(idProject, month, year);
     }
 
 }

@@ -142,8 +142,8 @@ public class ZLEEntityManager {
 		return activityList;
 	}
 
-	public Activity getOldestActiveActivityFromProject(long idProject){
-		Query q = em.createQuery("select a from Activity a where a.active=true AND a.projectCommitment.project.id ="+idProject+ " ORDER BY a.beginDate ASC");
+	public Activity getOldestActivityFromProject(long idProject){
+		Query q = em.createQuery("select a from Activity a where a.projectCommitment.project.id ="+idProject+ " ORDER BY a.beginDate ASC");
 		q.setMaxResults(1);
 		List<Activity> activityList = q.getResultList();
 		if(activityList.size() == 1){
@@ -154,8 +154,8 @@ public class ZLEEntityManager {
 		return null;
 	}
 
-	public Activity getLastActiveActivityFromProject(long idProject){
-		Query q = em.createQuery("select a from Activity a where a.active=true AND a.projectCommitment.project.id ="+idProject+ " ORDER BY a.endDate DESC");
+	public Activity getLastActivityFromProject(long idProject){
+		Query q = em.createQuery("select a from Activity a where a.projectCommitment.project.id ="+idProject+ " ORDER BY a.endDate DESC");
 		q.setMaxResults(1);
 		List<Activity> activityList = q.getResultList();
 		if(activityList.size() == 1){
@@ -188,6 +188,15 @@ public class ZLEEntityManager {
 
 	public List<Cost> getCosts(long idProject){
 		Query q = em.createQuery("select c from Cost c where c.project.id="+idProject+ " ORDER BY c.date DESC");
+		List<Cost> costList = q.getResultList();
+		for(Cost c : costList) {
+			em.refresh(c);
+		}
+		return costList;
+	}
+
+	public List<Cost> getMonthlyCost(long idProject, int month, int year){
+		Query q = em.createQuery("select c from Cost c where c.project.id="+idProject+ " AND MONTH(c.date)="+month+ " AND YEAR(c.date)="+year+" ORDER BY c.date DESC");
 		List<Cost> costList = q.getResultList();
 		for(Cost c : costList) {
 			em.refresh(c);

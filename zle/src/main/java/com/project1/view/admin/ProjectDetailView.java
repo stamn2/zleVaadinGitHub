@@ -153,16 +153,15 @@ public class ProjectDetailView extends CustomComponent implements View{
 
         projectName.setValue(project.getName());
         Client c = project.getClient();
-        //TODO : show cost
-        infoText.setValue("Project is active: " + project.isActive() + "\n" +
+        //TODO : show cost???
+        infoText.setValue("Project is enable: " + project.isActive() + "\n" +
                         "Client: " + c.getCompanyName() + "\n" +
                         c.getFirstname() + " " + c.getLastname() + "\n" +
                         c.getStreet() + "\n" +
                         c.getPlz() + " " + c.getCity() + "\n" +
                         c.getEmail() + "\n" +
                         c.getTel() + "\n" +
-                        "num. of Employees: " + ProjectController.getProjectCommitmentList(project.getId()).size() + "\n" +
-                        "Cost: "
+                        "num. of Employees: " + ProjectController.getProjectCommitmentList(project.getId()).size()
         );
         infoText.setReadOnly(true);
 
