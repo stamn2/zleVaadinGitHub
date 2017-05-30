@@ -95,7 +95,7 @@ public class BillingView extends CustomComponent implements View {
     }
 
     private void showCost(Object month, Object year) {
-    	createEmployeeGrid();
+    	createEmployeeGrid((int)month,(int)year);
     	createMatGrid((int)month,(int)year);
     	FooterRow footer = matCostGrid.appendFooterRow();
     	footer.getCell("price").setText("Total: 1528.55");
@@ -104,8 +104,8 @@ public class BillingView extends CustomComponent implements View {
     	setCompositionRoot(viewLayout);
 	}
 
-	private void createEmployeeGrid() {
-		List<Activity> activityList = ProjectController.getActivitiesFromProject(project.getId());
+	private void createEmployeeGrid(int month, int year) {
+		List<Activity> activityList = ProjectController.getMonthlyActivitiesFromProject(project.getId(), month, year);
         BeanItemContainer<Activity> ds = new BeanItemContainer<>(Activity.class, activityList);
         gpc = new GeneratedPropertyContainer(ds);
 

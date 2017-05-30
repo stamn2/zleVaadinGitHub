@@ -68,6 +68,10 @@ public class ProjectController {
         return zem.getLastActivityFromProject(idProject);
     }
 
+    public static List<Activity> getMonthlyActivitiesFromProject(long idProject, int month, int year){
+        return zem.getMonthlyActivitiesFromProject(idProject, month, year);
+    }
+
     public static void assignEmployeeToSystemProjects(Employee emp){
         List<Project> systemProjects = zem.getSystemProjects();
         for(Project p : systemProjects){

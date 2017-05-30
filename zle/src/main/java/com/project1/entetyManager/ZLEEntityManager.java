@@ -142,6 +142,15 @@ public class ZLEEntityManager {
 		return activityList;
 	}
 
+	public List<Activity> getMonthlyActivitiesFromProject(long idProject, int month, int year){
+		Query q = em.createQuery("select a from Activity a where a.projectCommitment.project.id ="+idProject+ " AND FUNC('MONTH',a.endDate)="+month+ " AND FUNC('YEAR',a.endDate)="+year+ " ORDER BY a.beginDate DESC");
+		List<Activity> activityList = q.getResultList();
+		for(Activity a : activityList) {
+			em.refresh(a);
+		}
+		return activityList;
+	}
+
 	public Activity getOldestActivityFromProject(long idProject){
 		Query q = em.createQuery("select a from Activity a where a.projectCommitment.project.id ="+idProject+ " ORDER BY a.beginDate ASC");
 		q.setMaxResults(1);
