@@ -32,7 +32,11 @@ public class ZLEEntityManagerTest {
 	
 	@After
 	public void clearDB(){
-		em.getAllEmployees().forEach(e->{
+		em.getActiveEmployees().forEach(e -> {
+			em.startTransaction();
+			em.removeElement(e);
+		});
+		em.getInactiveEmployees().forEach(e->{
 			em.startTransaction();
 			em.removeElement(e);
 		});
@@ -72,7 +76,8 @@ public class ZLEEntityManagerTest {
 	public void getAllEmployees(){
 		em.persistObject(emp);
 		em.persistObject(emp2);
-		List<Employee> allEmployees = em.getAllEmployees();
+		List<Employee> allEmployees = em.getActiveEmployees();
+		allEmployees.addAll(em.getInactiveEmployees());
 		assertTrue(allEmployees.size()==2);	
 		assertTrue(allEmployees.get(0).getId() == emp.getId());
 		assertTrue(allEmployees.get(1).getId() == emp2.getId());
@@ -88,7 +93,7 @@ public class ZLEEntityManagerTest {
 		em.persistObject(emp);
 		em.startTransaction();
 		em.removeElement(emp);
-		List<Employee> allEmployees = em.getAllEmployees();
+		List<Employee> allEmployees = em.getActiveEmployees();
 		assertTrue(allEmployees.size()==0);
 	}
 }
