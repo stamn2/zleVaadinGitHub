@@ -11,40 +11,70 @@ import java.util.List;
 
 import org.apache.derby.tools.sysinfo;
 
+/**
+ * @author Rosalie Truong & Nils Stampfli
+ */
 public class ProjectController {
 
     private static ZLEEntityManager zem = new ZLEEntityManager();
 
+    /**
+     * Get all active projects
+     * @return a list of the active projects
+     */
     public static List<Project> getProjects(){
         return zem.getActivePojects();
     }
 
+    /**
+     * Get all inactive projects
+     * @return a list of the inactive projects
+     */
     public static List<Project> getArchivedProjects(){
         return zem.getInactivePojects();
     }
 
+    /**
+     * Add a new project in the system
+     * @param name name of the project
+     * @param client client of the project
+     * @return the new project
+     */
     public static Project addProject(String name, Client client){
         Project project = new Project(name, client);
-        zem.persistObject(project);
+        zem.persistObject(project); //Save in database
         return project;
     }
 
+    /**
+     * Update the details from a project
+     * @param project project that need to be updated
+     * @param name name of the project
+     * @param client client of the project
+     */
     public static void updateProject(Project project, String name, Client client){
-        zem.startTransaction();
+        zem.startTransaction(); //begin modifications in database
         project.setName(name);
         project.setClient(client);
-        zem.endTransaction();
+        zem.endTransaction(); //end modifications in databse
     }
-    
+
+    /**
+     * Assign an active employee to the project
+     * @param project project where the employee will be assigned
+     * @param employee employee who should be assigned to the project
+     * @param hourlyRate hourly rate of the employee in the project
+     * @return assignment of the employee in the project, if null, the employee is already assigned to the project
+     */
     public static ProjectCommitment addProjectCommitment(Project project, Employee employee, double hourlyRate){
-        List<ProjectCommitment> pcFromProject = zem.getProjectCommitmentWithProject(project.getId());
+        List<ProjectCommitment> pcFromProject = zem.getProjectCommitmentWithProject(project.getId()); //list of active assignments
         for(ProjectCommitment pc : pcFromProject){
-            if(pc.getEmployee().getId() == employee.getId()){
+            if(pc.getEmployee().getId() == employee.getId()){ //Check if employee has already an active assignment
                 return null;
             }
         }
     	ProjectCommitment projectCommitment = new ProjectCommitment(project, employee, hourlyRate);
-        zem.persistObject(projectCommitment);
+        zem.persistObject(projectCommitment); //Save in database
         return projectCommitment;
     }
 
