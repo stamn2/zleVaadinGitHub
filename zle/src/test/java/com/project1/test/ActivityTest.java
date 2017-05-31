@@ -99,4 +99,10 @@ public class ActivityTest {
 		assertTrue(activity.isRealTimeRecord());
 	}
 	
+	@Test
+	public void setActive(){
+		activity.setActive(false);
+		assertFalse(activity.isActive());
+	}
+	
 }

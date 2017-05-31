@@ -109,4 +109,46 @@ public class EmployeeTest {
 	public void getTel(){
 		assertEquals(emp.getTel(), "tel");
 	}
+	
+	@Test
+	public void setEmail(){
+		emp.setEmail("new");
+		assertEquals(emp.getEmail(), "new");
+	}
+	
+	@Test
+	public void setFirstName(){
+		emp.setFirstname("new");
+		assertEquals(emp.getFirstname(), "new");
+	}
+	
+	@Test
+	public void setLastName(){
+		emp.setLastname("new");
+		assertEquals(emp.getLastname(), "new");
+	}
+	
+	@Test
+	public void setStreet(){
+		emp.setStreet("new");
+		assertEquals(emp.getStreet(), "new");
+	}
+	
+	@Test
+	public void setPlz(){
+		emp.setPlz("new");
+		assertEquals(emp.getPlz(), "new");
+	}
+	
+	@Test
+	public void setCity(){
+		emp.setCity("new");
+		assertEquals(emp.getCity(), "new");
+	}
+	
+	@Test
+	public void setTel(){
+		emp.setTel("new");
+		assertEquals(emp.getTel(), "new");
+	}
 }

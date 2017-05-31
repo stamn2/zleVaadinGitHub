@@ -62,4 +62,52 @@ public class ClilentTest {
 	public void getTel(){
 		assertEquals(client.getTel(), "tel");
 	}
+	
+	@Test
+	public void setCompanyName(){
+		client.setCompanyName("newName");
+		assertEquals(client.getCompanyName(), "newName");
+	}
+	
+	@Test
+	public void setFirstName(){
+		client.setFirstname("newName");
+		assertEquals(client.getFirstname(), "newName");
+	}
+	
+	@Test
+	public void setLastName(){
+		client.setLastname("newName");
+		assertEquals(client.getLastname(), "newName");
+	}
+	
+	@Test
+	public void setStreet(){
+		client.setStreet("newName");
+		assertEquals(client.getStreet(), "newName");
+	}
+	
+	@Test
+	public void setPlz(){
+		client.setPlz("newPlz");
+		assertEquals(client.getPlz(), "newPlz");
+	}
+	
+	@Test
+	public void setCity(){
+		client.setCity("newCity");
+		assertEquals(client.getCity(), "newCity");
+	}
+	
+	@Test
+	public void setEmail(){
+		client.setEmail("newEmail");
+		assertEquals(client.getEmail(), "newEmail");
+	}
+	
+	@Test
+	public void setTel(){
+		client.setTel("newTel");
+		assertEquals(client.getTel(), "newTel");
+	}
 }

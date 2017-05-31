@@ -46,4 +46,23 @@ public class ProjectTest {
 	public void getClient() {
 		assertEquals(client, project.getClient());
 	}
+	
+	@Test
+	public void setActive(){
+		project.setActive(false);
+		assertFalse(project.isActive());
+	}
+	
+	@Test
+	public void setName(){
+		project.setName("new");
+		assertEquals(project.getName(), "new");
+	}
+	
+	@Test
+	public void setEmail(){
+		Client newClient = new Client();
+		project.setClient(newClient);
+		assertEquals(project.getClient(),newClient);
+	}
 }
