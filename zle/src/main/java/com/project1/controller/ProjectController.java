@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.derby.tools.sysinfo;
+
 public class ProjectController {
 
     private static ZLEEntityManager zem = new ZLEEntityManager();
@@ -62,11 +64,11 @@ public class ProjectController {
         return zem.getAllActivitiesFromProject(idProject);
     }
 
-    public static Activity getOldestActiveActiviteFromProject(long idProject){
+    public static Activity getOldestActiviteFromProject(long idProject){
         return zem.getOldestActivityFromProject(idProject);
     }
 
-    public static Activity getLastActiveActiviteFromProject(long idProject){
+    public static Activity getLastActiviteFromProject(long idProject){
         return zem.getLastActivityFromProject(idProject);
     }
 

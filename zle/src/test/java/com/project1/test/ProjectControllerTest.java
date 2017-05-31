@@ -2,6 +2,8 @@ package com.project1.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.project1.controller.ClientController;
@@ -10,7 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.project1.controller.ProjectController;
+import com.project1.controller.RecordController;
 import com.project1.controller.UserController;
+import com.project1.domain.Activity;
 import com.project1.domain.Client;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
@@ -20,10 +24,11 @@ import com.project1.entetyManager.ZLEEntityManager;
 public class ProjectControllerTest {
 	private static ZLEEntityManager zem = new ZLEEntityManager();
 	Client client,client2;
-	Project project, project2;
+	Project project, project2,project3;
 	Employee employee;
 	ProjectCommitment projectCommitment, projectCommitment2;
 	double hourlyRate;
+	Activity activity;
 	
 	public ProjectControllerTest() {
 		hourlyRate = 1;
@@ -57,15 +62,6 @@ public class ProjectControllerTest {
 	}
 	
 	@Test
-	public void addAndGetClient() {
-		client2 = ClientController.addClient("companyName", "firstname", "lastname", "street", "plz",
-				"city", "email", "tel");
-		assertTrue(ClientController.getClients().size()>=1);
-		client2 = (Client) zem.findObject(Client.class, client2.getId());
-		zem.removeElement(client2);
-	}
-	
-	@Test
 	public void addAndGetProject() {
 		project2 = ProjectController.addProject("name", client);
 		assertTrue(project2.getId() == ProjectController.getProject(project2.getId()).getId());
@@ -94,4 +90,55 @@ public class ProjectControllerTest {
 		long wrongProjectID = 999;
 		assertNull(zem.getProjectCommitmentWithProjectAndEmployee(employee.getId(), wrongProjectID));
 	}
+	
+	@Test
+	public void getArchievedProjects(){
+		project3 = ProjectController.addProject("archieved", client);
+		ProjectController.endProject(project3);
+		assertTrue(project3.getId()==ProjectController.getArchivedProjects().get(ProjectController.getArchivedProjects().size()-1).getId());
+		project3 = (Project) zem.findObject(Project.class, project3.getId());
+		zem.removeElement(project3);
+	}
+	
+	@Test
+	public void updateProject(){
+		ProjectController.updateProject(project, "new", client);
+		assertEquals("new", ProjectController.getProject(project.getId()).getName());
+		}
+	
+	@Test
+	public void getActivities(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		assertTrue(ProjectController.getActivitiesFromProject(project.getId()).size()==1);
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
+	
+	@Test
+	public void getOldestActivities(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		assertTrue(ProjectController.getOldestActiviteFromProject(project.getId()).getId()==activity.getId());
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
+	
+	@Test
+	public void getLastActivities(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		assertTrue(ProjectController.getLastActiviteFromProject(project.getId()).getId()==activity.getId());
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
+	
+	@Test //TODO change month!!!
+	public void getMonthlyActivities(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		assertTrue(ProjectController.getMonthlyActivitiesFromProject(project.getId(), 5, 2017).size()==1);
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
+	
+	@Test //TODO change month!!!
+	public void inactivateMonthlyActivities(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		ProjectController.inactiveMonthlyActivitiesFromProject(ProjectController.getMonthlyActivitiesFromProject(project.getId(), 5, 2017));
+		assertFalse(ProjectController.getActivitiesFromProject(project.getId()).get(ProjectController.getActivitiesFromProject(project.getId()).size()-1).isActive());
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
 }

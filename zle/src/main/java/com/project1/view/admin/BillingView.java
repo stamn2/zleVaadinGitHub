@@ -180,8 +180,8 @@ public class BillingView extends CustomComponent implements View {
         }
 
         //TODO activity null
-        Activity firstActivity = ProjectController.getOldestActiveActiviteFromProject(project.getId());
-        Activity lastActivity = ProjectController.getLastActiveActiviteFromProject(project.getId());
+        Activity firstActivity = ProjectController.getOldestActiviteFromProject(project.getId());
+        Activity lastActivity = ProjectController.getLastActiviteFromProject(project.getId());
 
         ArrayList<Integer> yearsList = new ArrayList<>();
 
