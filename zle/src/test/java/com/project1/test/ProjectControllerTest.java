@@ -2,6 +2,7 @@ package com.project1.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +41,7 @@ public class ProjectControllerTest {
 		client = ClientController.addClient("companyName", "firstname", "lastname", "street", "plz",
 				"city", "email", "tel");
 		project = ProjectController.addProject("name", client);	
-		UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
-		employee = zem.getEmployee("test");
+		employee=UserController.addEmployee("test", "firstname", "lastname", "street", "plz", "city", "tel",true);
 		projectCommitment = ProjectController.addProjectCommitment(project, employee, hourlyRate);
 	}
 	
@@ -181,6 +181,7 @@ public class ProjectControllerTest {
 		zem.removeElement(zem.findObject(Cost.class, cost.getId()));
 		zem.removeElement(zem.findObject(Cost.class, cost2.getId()));
 	}
+	
 	@Test
 	public void getBillingEmployeeItemsAndSum(){
 		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
@@ -188,6 +189,33 @@ public class ProjectControllerTest {
 						ProjectController.getActivitiesFromProject(project.getId())).size()==1);
 		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
 		}
+	
+	@Test
+	public void getBillingEmployeeItemsIfEmpty(){
+		assertTrue(ProjectController.getBillingEmployeeItems(
+						ProjectController.getActivitiesFromProject(project.getId())).size()==0);
+		}
+	
+	@Test
+	public void getBillingEmployeeItemsIfDifferentProjectCommitments(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		
+		project2 = ProjectController.addProject("new", client);
+		ProjectCommitment pc2 = ProjectController.addProjectCommitment(project2, employee, hourlyRate);
+		Activity activity2 = RecordController.addActivity(new Date(), new Date(), "comment", pc2);
+		
+		List<Activity> listWithTwoProjectCommitments = new ArrayList<>();
+		listWithTwoProjectCommitments.addAll(ProjectController.getActivitiesFromProject(project.getId()));
+		listWithTwoProjectCommitments.addAll(ProjectController.getActivitiesFromProject(project2.getId()));
+		assertTrue(ProjectController.getBillingEmployeeItems(listWithTwoProjectCommitments).size()==2);
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		zem.removeElement(zem.findObject(Activity.class, activity2.getId()));
+		pc2 = (ProjectCommitment) zem.findObject(ProjectCommitment.class, pc2.getId());
+		zem.removeElement(pc2);
+		project2 = (Project) zem.findObject(Project.class, project2.getId());
+		zem.removeElement(project2);
+		}
+	
 	@Test
 	public void getSumBillingItems(){
 		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
