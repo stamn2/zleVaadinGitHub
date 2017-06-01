@@ -16,6 +16,7 @@ import com.project1.controller.RecordController;
 import com.project1.controller.UserController;
 import com.project1.domain.Activity;
 import com.project1.domain.Client;
+import com.project1.domain.Cost;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
 import com.project1.domain.ProjectCommitment;
@@ -24,9 +25,9 @@ import com.project1.entetyManager.ZLEEntityManager;
 public class ProjectControllerTest {
 	private static ZLEEntityManager zem = new ZLEEntityManager();
 	Client client,client2;
-	Project project, project2,project3;
+	Project project, project2;
 	Employee employee;
-	ProjectCommitment projectCommitment, projectCommitment2;
+	ProjectCommitment projectCommitment;
 	double hourlyRate;
 	Activity activity;
 	
@@ -93,11 +94,8 @@ public class ProjectControllerTest {
 	
 	@Test
 	public void getArchievedProjects(){
-		project3 = ProjectController.addProject("archieved", client);
-		ProjectController.endProject(project3);
-		assertTrue(project3.getId()==ProjectController.getArchivedProjects().get(ProjectController.getArchivedProjects().size()-1).getId());
-		project3 = (Project) zem.findObject(Project.class, project3.getId());
-		zem.removeElement(project3);
+		ProjectController.endProject(project);
+		assertTrue(project.getId()==ProjectController.getArchivedProjects().get(ProjectController.getArchivedProjects().size()-1).getId());
 	}
 	
 	@Test
@@ -130,15 +128,73 @@ public class ProjectControllerTest {
 	@Test //TODO change month!!!
 	public void getMonthlyActivities(){
 		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
-		assertTrue(ProjectController.getMonthlyActivitiesFromProject(project.getId(), 5, 2017).size()==1);
+		assertTrue(ProjectController.getMonthlyActivitiesFromProject(project.getId(), 6, 2017).size()==1);
 		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
 		}
 	
 	@Test //TODO change month!!!
 	public void inactivateMonthlyActivities(){
 		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
-		ProjectController.inactiveMonthlyActivitiesFromProject(ProjectController.getMonthlyActivitiesFromProject(project.getId(), 5, 2017));
+		ProjectController.inactiveMonthlyActivitiesFromProject(ProjectController.getMonthlyActivitiesFromProject(project.getId(), 6, 2017));
 		assertFalse(ProjectController.getActivitiesFromProject(project.getId()).get(ProjectController.getActivitiesFromProject(project.getId()).size()-1).isActive());
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
+	@Test
+	public void enableProject(){
+		ProjectController.endProject(project);
+		ProjectController.enableProject(project);
+		assertTrue(project.isActive());
+	}
+	
+	@Test
+	public void inactivateProjectCommitment(){
+		ProjectController.inactivateProjectCommitment(projectCommitment);
+		assertFalse(projectCommitment.isActive());
+	}
+	
+	@Test
+	public void addAndGetCosts(){
+		Cost cost = ProjectController.addCost("test", new Date(), 1, project, "test");
+		assertTrue(ProjectController.getCosts(project.getId()).size()==1);
+		zem.removeElement(zem.findObject(Cost.class, cost.getId()));
+	}
+	
+	@Test
+	public void removeCosts(){
+		Cost cost = ProjectController.addCost("test", new Date(), 1, project, "test");
+		ProjectController.removeCost(cost);
+		assertTrue(ProjectController.getCosts(project.getId()).size()==0);
+	}
+	
+	@Test
+	public void getMonthlyCosts(){
+		Cost cost = ProjectController.addCost("test", new Date(), 1, project, "test");
+		assertTrue(ProjectController.getMonthlyCosts(project.getId(), 6, 2017).size()==1);
+		zem.removeElement(zem.findObject(Cost.class, cost.getId()));
+	}
+	
+	@Test
+	public void getSumCosts(){
+		Cost cost = ProjectController.addCost("test", new Date(), 1, project, "test");
+		Cost cost2 = ProjectController.addCost("test", new Date(), 1, project, "test");
+		assertTrue(ProjectController.getSumCosts(ProjectController.getCosts(project.getId()))==2);
+		zem.removeElement(zem.findObject(Cost.class, cost.getId()));
+		zem.removeElement(zem.findObject(Cost.class, cost2.getId()));
+	}
+	@Test
+	public void getBillingEmployeeItemsAndSum(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		assertTrue(ProjectController.getBillingEmployeeItems(
+						ProjectController.getActivitiesFromProject(project.getId())).size()==1);
+		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
+		}
+	@Test
+	public void getSumBillingItems(){
+		activity=RecordController.addActivity(new Date(), new Date(), "comment", projectCommitment);
+		assertTrue(
+				ProjectController.getSumBillingEmployeeItems(
+						ProjectController.getBillingEmployeeItems(
+								ProjectController.getActivitiesFromProject(project.getId())))==0);
 		zem.removeElement(zem.findObject(Activity.class, activity.getId()));
 		}
 }
