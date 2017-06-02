@@ -16,6 +16,9 @@ import com.project1.domain.Client;
 import com.project1.domain.Cost;
 import com.project1.domain.Project;
 
+/**
+ * @author Rosalie Truong & Nils Stampfli
+ */
 public class PDFCreater {
 
 	public static void createPdf(List<BillingEmployeeItem> billingList, List<Cost> matCostList, double totalCosts,

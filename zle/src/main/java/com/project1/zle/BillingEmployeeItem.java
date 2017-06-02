@@ -2,6 +2,9 @@ package com.project1.zle;
 
 import com.project1.domain.ProjectCommitment;
 
+/**
+ * @author Rosalie Truong & Nils Stampfli
+ */
 public class BillingEmployeeItem {
 
 	private ProjectCommitment pc;
