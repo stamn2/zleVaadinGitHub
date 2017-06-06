@@ -104,6 +104,9 @@ public class BillingView extends CustomComponent implements View {
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(billingLayer, Alignment.MIDDLE_CENTER);
+
+        printPDF = new Button("Print PDF");
+        printPDF.setWidth("80%");
     }
 
     private void showCost(int month, int year) {
@@ -111,8 +114,7 @@ public class BillingView extends CustomComponent implements View {
     	createMatGrid(month,year);
     	double total= ProjectController.getSumBillingEmployeeItems(billingList)+ProjectController.getSumCosts(costList);
     	totalCost = new Label("TotalCost: "+total+"[CHF]");
-        printPDF = new Button("Print PDF");
-        printPDF.setWidth("80%");
+
         printPDF.addClickListener(e -> {
             PDFCreater.createPdf(billingList, costList, total, month, year, project);
             PDFCreater.openPDF();
@@ -134,8 +136,18 @@ public class BillingView extends CustomComponent implements View {
         ds.addNestedContainerBean("pc");
         ds.addNestedContainerBean("pc.employee");
         gpc = new GeneratedPropertyContainer(ds);
+        gpc.removeContainerProperty("pc.project");
+        gpc.removeContainerProperty("pc.active");
+        gpc.removeContainerProperty("pc.id");
+        gpc.removeContainerProperty("pc.employee.id");
+        gpc.removeContainerProperty("pc.employee.active");
+        gpc.removeContainerProperty("pc.employee.changePassword");
+        gpc.removeContainerProperty("pc.employee.admin");
+        gpc.removeContainerProperty("pc.employee.password");
+        gpc.removeContainerProperty("pc.employee.street");
+        gpc.removeContainerProperty("pc.employee.plz");
+        gpc.removeContainerProperty("pc.employee.city");
 
-        //TODO : remove some columns
         employeeCostGrid = new Grid("Activity", gpc);
         employeeCostGrid.setWidth("100%");
 
@@ -179,7 +191,6 @@ public class BillingView extends CustomComponent implements View {
             return;
         }
 
-        //TODO activity null
         Activity firstActivity = ProjectController.getOldestActiviteFromProject(project.getId());
         Activity lastActivity = ProjectController.getLastActiviteFromProject(project.getId());
 
@@ -200,7 +211,7 @@ public class BillingView extends CustomComponent implements View {
         year.setContainerDataSource(yearsContainer);
 
         if(!project.isActive()){
-            //TODO
+            printPDF.setEnabled(false);
         }
         setCompositionRoot(viewLayout);
     }

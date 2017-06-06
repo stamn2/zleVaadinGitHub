@@ -125,7 +125,6 @@ public class ProjectEditorView extends CustomComponent implements View {
                 return;
             }
             if(!project.isActive()){
-                //TODO change navigate to
                 getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/" + project.getId());
                 Notification.show("Project is ended");
                 return;

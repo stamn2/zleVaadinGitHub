@@ -30,7 +30,6 @@ public class ProjectDetailView extends CustomComponent implements View{
     private VerticalLayout viewLayout;
 
     public ProjectDetailView() {
-        //TODO correct all navigateTo
         employees = new Button("Employees");
         employees.setWidth("80%");
         employees.addClickListener(e -> {
