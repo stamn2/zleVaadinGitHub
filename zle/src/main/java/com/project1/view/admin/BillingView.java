@@ -36,7 +36,7 @@ public class BillingView extends CustomComponent implements View {
 
     public static final String NAME = "BillingView";
 
-    private final Button logout, back, preview;
+    private final Button logout, back, home, preview;
     private ComboBox month, year;
     private VerticalLayout viewLayout;
     private Project project;
@@ -59,15 +59,25 @@ public class BillingView extends CustomComponent implements View {
 
 
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             getUI().getNavigator().navigateTo(ProjectDetailView.NAME + "/" + project.getId());
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         ArrayList<Integer> monthsList = new ArrayList<>();

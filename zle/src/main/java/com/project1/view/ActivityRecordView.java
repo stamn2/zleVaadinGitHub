@@ -20,7 +20,7 @@ public class ActivityRecordView extends CustomComponent implements View {
 
     public static final String NAME = "ActivityRecordView";
 
-    private final Button logout, back, commit;
+    private final Button logout, back, home, commit;
     private DateField dateBegin, dateEnd;
     private ComboBox project;
     private TextArea comment;
@@ -39,7 +39,7 @@ public class ActivityRecordView extends CustomComponent implements View {
 
 
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             if(newActivity){
                 if(((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
@@ -54,10 +54,25 @@ public class ActivityRecordView extends CustomComponent implements View {
             }
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            if(((Employee)getUI().getSession().getAttribute("user")).isAdmin()) {
+                getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+            }
+            else{
+                getUI().getNavigator().navigateTo(UserHomepageView.NAME);
+            }
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         dateBegin = new DateField("Begin Date and Time:");

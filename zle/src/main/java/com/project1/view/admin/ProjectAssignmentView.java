@@ -40,7 +40,7 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 	
     private TextField hourlyRate;
     private ComboBox employee;
-    private Button addAssignment, logout, back;
+    private Button addAssignment, logout, back, home;
     private HorizontalLayout fields,topLayer;
     private VerticalLayout viewLayout;
     private Grid projectsGrid;
@@ -60,15 +60,23 @@ public class ProjectAssignmentView extends CustomComponent implements View{
 			getUI().getNavigator().navigateTo(LoginView.NAME);
         });
         
-        
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
 
-        
-        topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 		
         hourlyRate = new TextField("Hourly Rate:");

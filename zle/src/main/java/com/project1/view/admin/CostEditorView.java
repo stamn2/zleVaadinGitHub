@@ -16,7 +16,7 @@ public class CostEditorView extends CustomComponent implements View {
 
     public static final String NAME = "CostEditorView";
 
-    private final Button logout, back, commit;
+    private final Button logout, back, home, commit;
     private TextField name, price;
     private DateField date;
     private TextArea description;
@@ -31,17 +31,26 @@ public class CostEditorView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             getUI().getNavigator().navigateTo(CostOverView.NAME + "/" + project.getId());
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         name = new TextField("Name:");

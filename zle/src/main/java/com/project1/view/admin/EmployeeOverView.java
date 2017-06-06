@@ -23,16 +23,26 @@ public class EmployeeOverView extends CustomComponent implements View {
 
     public static final String NAME = "employeeOverview";
 
-    private final Button back, logout, addEmployee, archive;
+    private final Button back, home, logout, addEmployee, archive;
     private final Grid employeesGrid;
     private GeneratedPropertyContainer gpc;
 
     public EmployeeOverView(){
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
         });
+
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -41,10 +51,10 @@ public class EmployeeOverView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         addEmployee = new Button("Add Employee");

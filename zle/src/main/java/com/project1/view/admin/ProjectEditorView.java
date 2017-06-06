@@ -20,7 +20,7 @@ public class ProjectEditorView extends CustomComponent implements View {
 
     private TextField name;
     private ComboBox client;
-    private Button save, logout, back;
+    private Button save, logout, back, home;
     private VerticalLayout fields;
     private VerticalLayout viewLayout;
 
@@ -37,7 +37,7 @@ public class ProjectEditorView extends CustomComponent implements View {
 
 
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             if(newProject) {
                 getUI().getNavigator().navigateTo(ProjectOverView.NAME);
@@ -47,10 +47,20 @@ public class ProjectEditorView extends CustomComponent implements View {
             }
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
         
         

@@ -20,15 +20,25 @@ public class ProjectArchiveView extends CustomComponent implements View {
 
     public static final String NAME = "projectArchiveView";
 
-    private final Button back, logout;
+    private final Button back, home, logout;
     private final Grid projectsGrid;
 
     public ProjectArchiveView(){
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             getUI().getNavigator().navigateTo(ProjectOverView.NAME);
         });
+
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
 
         logout = new Button("Logout");
         logout.setWidth("15%");
@@ -37,10 +47,10 @@ public class ProjectArchiveView extends CustomComponent implements View {
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         List<Project> projectList = ProjectController.getArchivedProjects();

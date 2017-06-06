@@ -23,7 +23,7 @@ public class ProjectDetailView extends CustomComponent implements View{
     public static final String NAME = "projectDetailView";
 
     private final Button cost, history, employees, billing, editProject, endProject, enableProject;
-    private final Button logout, back;
+    private final Button logout, back, home;
     private Project project;
     private Label projectName;
     private TextArea infoText;
@@ -81,9 +81,8 @@ public class ProjectDetailView extends CustomComponent implements View{
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             if(project.isActive()){
                 getUI().getNavigator().navigateTo(ProjectOverView.NAME);
@@ -93,10 +92,20 @@ public class ProjectDetailView extends CustomComponent implements View{
             }
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         VerticalLayout adminButtons = new VerticalLayout(employees,history,cost, billing, editProject,endProject, enableProject);

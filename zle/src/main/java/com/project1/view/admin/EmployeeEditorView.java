@@ -27,7 +27,7 @@ public class EmployeeEditorView extends CustomComponent implements View{
 	
 	private TextField idField, firstName, lastName, street, plz, city, email, tel;
     private CheckBox adminRight;
-	private Button save, logout,back;
+	private Button save, logout,back, home;
 	private VerticalLayout layout;
 
     private Employee employee;
@@ -43,17 +43,26 @@ public class EmployeeEditorView extends CustomComponent implements View{
             getUI().getNavigator().navigateTo(LoginView.NAME);
         });
 
-
         back = new Button("Back");
-        back.setWidth("15%");
+        back.setWidth("100%");
         back.addClickListener(e ->{
             getUI().getNavigator().navigateTo(EmployeeOverView.NAME);
         });
 
-        HorizontalLayout topLayer = new HorizontalLayout(back, logout);
+        home = new Button("Home");
+        home.setWidth("100%");
+        home.addClickListener(e -> {
+            getUI().getNavigator().navigateTo(AdminHomepageView.NAME);
+        });
+
+        HorizontalLayout navigationLayer = new HorizontalLayout(back, home);
+        navigationLayer.setSpacing(true);
+        navigationLayer.setWidth("35%");
+
+        HorizontalLayout topLayer = new HorizontalLayout(navigationLayer, logout);
         topLayer.setSpacing(true);
         topLayer.setWidth("100%");
-        topLayer.setComponentAlignment(back, Alignment.TOP_LEFT);
+        topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
         Label titleLabel = new Label("Zeit und Leistungserfassung - EmployeeEditor");
