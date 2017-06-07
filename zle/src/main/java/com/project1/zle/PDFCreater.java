@@ -227,7 +227,7 @@ public class PDFCreater {
 	                content2.newLine();
 	            }
 	            content2.newLine();
-	            content2.showText(String.valueOf(ProjectController.getSumBillingEmployeeItems(billingList)));
+	            content2.showText(numberFormat.format(ProjectController.getSumBillingEmployeeItems(billingList)));
 	            content2.endText();
 	            
 	            //loops for all material-costs of the project
@@ -284,14 +284,14 @@ public class PDFCreater {
 	                content2.newLine();
 	            }
 	            content2.newLine();
-	            content2.showText(String.valueOf(ProjectController.getSumCosts(matCostList)));
+	            content2.showText(numberFormat.format(ProjectController.getSumCosts(matCostList)));
 	            content2.endText();
 	            
 	            //Total Costs	            
 	            content2.beginText();
 	            content2.setFont(PDType1Font.HELVETICA, 20);
 	            content2.newLineAtOffset(100, 200);
-	            content2.showText("Total Cost: "+totalCosts+" [CHF]");
+	            content2.showText("Total Cost: "+numberFormat.format(totalCosts)+" [CHF]");
 	            content2.endText();
 	            
 	            content2.close();
