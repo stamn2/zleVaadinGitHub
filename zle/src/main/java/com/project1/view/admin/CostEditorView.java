@@ -53,7 +53,7 @@ public class CostEditorView extends CustomComponent implements View {
         topLayer.setComponentAlignment(navigationLayer, Alignment.TOP_LEFT);
         topLayer.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
-        name = new TextField("Name:");
+        name = new TextField("Cost-Type:");
         name.setWidth("100%");
         name.setRequired(true);
         name.setInvalidAllowed(false);
@@ -72,7 +72,7 @@ public class CostEditorView extends CustomComponent implements View {
         price.addValidator(new RegexpValidator("^-?[0-9]*\\.?[0-9]{0,2}$",
                 "It must be a number of max 2 digits after comma"));
 
-        description = new TextArea("Comment :");
+        description = new TextArea("Descprition:");
         description.setWidth("100%");
 
         commit = new Button("Commit");
