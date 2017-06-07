@@ -156,13 +156,19 @@ public class PDFCreater {
 	            
 	            //loops for all employees, that worked on the project
 	            content2.beginText();
+	            content2.setFont(PDType1Font.HELVETICA, 18);
+	            content2.newLineAtOffset(100, 620);
+	            content2.showText("[Activities]");
+	            content2.endText();
+	            
+	            content2.beginText();
 	            content2.setFont(PDType1Font.HELVETICA, 16);
 	            content2.newLineAtOffset(100, 600);
 	            content2.showText("Employee");
 	            content2.endText();
 	            
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(100, 580);
 	            for(int i=0; i<billingList.size();i++){ 
@@ -178,7 +184,7 @@ public class PDFCreater {
 	            content2.endText();
 	            
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(200, 580);
 	            for(int i=0; i<billingList.size();i++){
@@ -194,7 +200,7 @@ public class PDFCreater {
 	            content2.endText();
 	            
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(300, 580);
 	            for(int i=0; i<billingList.size();i++){
@@ -210,7 +216,7 @@ public class PDFCreater {
 	            content2.endText();
 	            
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(400, 580);
 	            for(int i=0; i<billingList.size();i++){
@@ -223,13 +229,19 @@ public class PDFCreater {
 	            
 	            //loops for all material-costs of the project
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
-	            content2.newLineAtOffset(100, 400);
-	            content2.showText("Name");
+	            content2.setFont(PDType1Font.HELVETICA, 18);
+	            content2.newLineAtOffset(100, 420);
+	            content2.showText("[Other Expense]");
 	            content2.endText();
 	            
 	            content2.beginText();
 	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.newLineAtOffset(100, 400);
+	            content2.showText("Cost-Type");
+	            content2.endText();
+	            
+	            content2.beginText();
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(100, 380);
 	            for(int i=0; i<matCostList.size();i++){ 
@@ -240,14 +252,14 @@ public class PDFCreater {
 	            
 	            content2.beginText();
 	            content2.setFont(PDType1Font.HELVETICA, 16);
-	            content2.newLineAtOffset(250, 400);
+	            content2.newLineAtOffset(200, 400);
 	            content2.showText("Description");
 	            content2.endText();
 	            
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
-	            content2.newLineAtOffset(250, 380);
+	            content2.newLineAtOffset(200, 380);
 	            for(int i=0; i<matCostList.size();i++){
 	                content2.showText(matCostList.get(i).getDescription());
 	                content2.newLine();
@@ -261,7 +273,7 @@ public class PDFCreater {
 	            content2.endText();
 	            
 	            content2.beginText();
-	            content2.setFont(PDType1Font.HELVETICA, 16);
+	            content2.setFont(PDType1Font.HELVETICA, 14);
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(400, 380);
 	            for(int i=0; i<matCostList.size();i++){
