@@ -3,6 +3,7 @@ package com.project1.zle;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -20,6 +21,8 @@ import com.project1.domain.Project;
  * @author Rosalie Truong & Nils Stampfli
  */
 public class PDFCreater {
+
+	private static DecimalFormat numberFormat = new DecimalFormat("#.00");
 
 	public static void createPdf(List<BillingEmployeeItem> billingList, List<Cost> matCostList, double totalCosts,
 			int month, int year, Project project){
@@ -121,7 +124,7 @@ public class PDFCreater {
 	            content.beginText();
 	            content.setFont(PDType1Font.HELVETICA, 18);
 	            content.newLineAtOffset(100, 200);
-	            content.showText("Total Costs: "+totalCosts+"[CHF]");
+	            content.showText("Total Costs: "+numberFormat.format(totalCosts)+"[CHF]");
 	            content.endText();
 	            
 	            content.beginText();
@@ -188,7 +191,7 @@ public class PDFCreater {
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(200, 580);
 	            for(int i=0; i<billingList.size();i++){
-	                content2.showText(String.valueOf(billingList.get(i).getPc().getHourlyRate()));
+	                content2.showText(numberFormat.format(billingList.get(i).getPc().getHourlyRate()));
 	                content2.newLine();
 	            }
 	            content2.endText();
@@ -204,7 +207,7 @@ public class PDFCreater {
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(300, 580);
 	            for(int i=0; i<billingList.size();i++){
-	                content2.showText(String.valueOf(billingList.get(i).getHours()));
+	                content2.showText(numberFormat.format(billingList.get(i).getHours()));
 	                content2.newLine();
 	            }
 	            content2.endText();
@@ -220,7 +223,7 @@ public class PDFCreater {
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(400, 580);
 	            for(int i=0; i<billingList.size();i++){
-	                content2.showText(String.valueOf(billingList.get(i).getCost()));
+	                content2.showText(numberFormat.format(billingList.get(i).getCost()));
 	                content2.newLine();
 	            }
 	            content2.newLine();
@@ -277,7 +280,7 @@ public class PDFCreater {
 	            content2.setLeading(14.5f);
 	            content2.newLineAtOffset(400, 380);
 	            for(int i=0; i<matCostList.size();i++){
-	                content2.showText(String.valueOf(matCostList.get(i).getPrice()));
+	                content2.showText(numberFormat.format(matCostList.get(i).getPrice()));
 	                content2.newLine();
 	            }
 	            content2.newLine();
