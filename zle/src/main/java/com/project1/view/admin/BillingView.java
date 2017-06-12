@@ -1,10 +1,7 @@
 package com.project1.view.admin;
 
 import com.project1.controller.ProjectController;
-import com.project1.controller.RecordController;
-import com.project1.controller.UserController;
 import com.project1.domain.Activity;
-import com.project1.domain.Client;
 import com.project1.domain.Cost;
 import com.project1.domain.Employee;
 import com.project1.domain.Project;
@@ -12,22 +9,16 @@ import com.project1.view.LoginView;
 import com.project1.view.user.UserHomepageView;
 import com.project1.zle.BillingEmployeeItem;
 import com.project1.zle.PDFCreater;
-import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
-import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Grid.FooterRow;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -36,18 +27,18 @@ public class BillingView extends CustomComponent implements View {
 
     public static final String NAME = "BillingView";
 
-    private final Button logout, back, home, preview;
+    private Button logout, back, home, preview, printPDF;
     private ComboBox month, year;
     private VerticalLayout viewLayout;
-    private Project project;
-    private Grid employeeCostGrid;
-	private Grid matCostGrid;
+    private Grid employeeCostGrid, matCostGrid;
     private GeneratedPropertyContainer gpc, gpc2;
-    private Button printPDF;
+    private Label totalCost;
+
     private List<Activity> activitiesFromMonth;
     private List<BillingEmployeeItem> billingList;
     private List<Cost> costList;
-    private Label totalCost;
+
+    private Project project;
 
     public BillingView(){
         logout = new Button("Logout");
@@ -108,23 +99,35 @@ public class BillingView extends CustomComponent implements View {
         billingLayer.setWidth("60%");
         billingLayer.setMargin(true);
         billingLayer.setSpacing(true);
-        
 
-        viewLayout = new VerticalLayout(topLayer, billingLayer);
+        employeeCostGrid = new Grid();
+        employeeCostGrid.setVisible(false);
+        matCostGrid = new Grid();
+        matCostGrid.setVisible(false);
+        totalCost = new Label();
+        totalCost.setVisible(false);
+        printPDF = new Button();
+        printPDF.setVisible(false);
+
+        viewLayout = new VerticalLayout(topLayer, billingLayer, employeeCostGrid, matCostGrid, totalCost, printPDF);
         viewLayout.setMargin(true);
         viewLayout.setSpacing(true);
         viewLayout.setComponentAlignment(billingLayer, Alignment.MIDDLE_CENTER);
-
-        printPDF = new Button("Print PDF");
-        printPDF.setWidth("80%");
     }
 
     private void showCost(int month, int year) {
+        viewLayout.removeComponent(employeeCostGrid);
+        viewLayout.removeComponent(matCostGrid);
+        viewLayout.removeComponent(totalCost);
+        viewLayout.removeComponent(printPDF);
+
     	createEmployeeGrid(month,year);
     	createMatGrid(month,year);
     	double total= ProjectController.getSumBillingEmployeeItems(billingList)+ProjectController.getSumCosts(costList);
     	totalCost = new Label("TotalCost: "+total+"[CHF]");
 
+        printPDF = new Button("Print PDF");
+        printPDF.setWidth("80%");
         printPDF.addClickListener(e -> {
             PDFCreater.createPdf(billingList, costList, total, month, year, project);
             PDFCreater.openPDF();
@@ -132,10 +135,11 @@ public class BillingView extends CustomComponent implements View {
         });
 
         //TODO adapt heigh of the grids
-    	viewLayout.addComponent(employeeCostGrid);
-    	viewLayout.addComponent(matCostGrid);
-    	viewLayout.addComponent(totalCost);
-    	viewLayout.addComponent(printPDF);
+        viewLayout.addComponent(employeeCostGrid);
+        viewLayout.addComponent(matCostGrid);
+        viewLayout.addComponent(totalCost);
+        viewLayout.addComponent(printPDF);
+
     	setCompositionRoot(viewLayout);
 	}
 
