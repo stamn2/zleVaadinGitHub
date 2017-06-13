@@ -88,7 +88,7 @@ public class PDFCreater {
 	            content.newLineAtOffset(100, 430);
 	            content.showText("Name: "+client.getCompanyName());
 	            content.newLine();
-	            content.showText("Address: "+client.getStreet()+" "+client.getPlz());
+	            content.showText("Address: "+client.getStreet()+", "+client.getPlz()+" "+client.getCity());
 	            content.newLine();
 	            content.showText("Email: "+ client.getEmail());
 	            content.newLine();
